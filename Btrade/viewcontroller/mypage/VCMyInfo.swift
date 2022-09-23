@@ -30,6 +30,8 @@ class VCMyInfo: VCBase {
     @IBOutlet weak var homeAddressText: UILabel!
     @IBOutlet weak var btnMasking: UIImageView!
     
+    @IBOutlet weak var worknmText2: UILabel!
+    @IBOutlet weak var worknmText1: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,7 +77,6 @@ class VCMyInfo: VCBase {
         func onResult(response: BaseResponse) {
             if let _ = response.request as? LogoutRequest{
                 vcMyInfo.appInfo.deleteCookie()
-                vcMyInfo.appInfo.getMemberInfo()?.update = true
                 vcMyInfo.stop()
             }
         }
@@ -88,7 +89,11 @@ class VCMyInfo: VCBase {
     @objc
     func goToNotice(sender:UITapGestureRecognizer){
         if(sender.view == leaveLayout){
-            
+            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "myinfoleavevc") as? VCBase else {
+                return
+            }
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true);
         }else if(sender.view == logoutLayout){
             DialogUtils().makeDialog(
             uiVC: self,
@@ -101,11 +106,11 @@ class VCMyInfo: VCBase {
                
             })
         }else if(sender.view == pwLayout){
-            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "myinfochangepassword1vc") as? VCBase else {
+            guard let mainvc = self.storyboard?.instantiateViewController(withIdentifier: "myinfochangepassword") as? UINavigationController else {
                 return
             }
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true);
+            mainvc.modalPresentationStyle = .fullScreen
+            self.present(mainvc, animated: true);
         }else if(sender.view == btnMasking){
             
         }else if(sender.view == optionLayout){
@@ -148,6 +153,12 @@ class VCMyInfo: VCBase {
             bankAccountText.text = bname + " | " + bNum
         }
         
+        if let name = appInfo.getMemberInfo()?.work_nm{
+            worknmText1.text = name
+            worknmText2.text = name
+        }
+        
+        
         if var addr = appInfo.getMemberInfo()?.mb_new_addr1{
             if let addr2 = appInfo.getMemberInfo()?.mb_new_addr2{
                 addr = addr + " " + addr2
@@ -155,17 +166,22 @@ class VCMyInfo: VCBase {
             homeAddressText.text = addr
         }
         
-        
-        let kyc = appInfo.getMemberInfo()?.aml_state ?? "N" == "cc"
-        if(kyc){
-            optionLayout.isHidden = false
-            myInfoLayout.isHidden = false
-            jobLayout.isHidden = false
+        if let kyc = appInfo.getMemberInfo()?.aml_state{
+            if(kyc == "cc"){
+                setHiddenLayout(true)
+            }else{
+                setHiddenLayout(false)
+            }
         }else{
-            optionLayout.isHidden = true
-            myInfoLayout.isHidden = true
-            jobLayout.isHidden = true
+            setHiddenLayout(false)
         }
+        
+    }
+    
+    fileprivate func setHiddenLayout(_ visible:Bool){
+        optionLayout.isHidden = visible
+        myInfoLayout.isHidden = !visible
+        jobLayout.isHidden = !visible
     }
     
     @objc func stop1(sender:UITapGestureRecognizer){

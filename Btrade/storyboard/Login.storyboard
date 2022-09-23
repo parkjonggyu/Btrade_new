@@ -80,7 +80,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" restorationIdentifier="editid" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="dd@dd.dd" borderStyle="line" placeholder="이메일 입력" minimumFontSize="17" background="text_field_inactive" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="c3c-ls-5Xq">
+                                    <textField opaque="NO" contentMode="scaleToFill" restorationIdentifier="editid" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="test20220817_4@mail.com" borderStyle="line" placeholder="이메일 입력" minimumFontSize="17" background="text_field_inactive" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="c3c-ls-5Xq">
                                         <rect key="frame" x="30" y="240" width="354" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="1Ei-0I-xi8"/>
@@ -97,7 +97,7 @@
                                         <color key="textColor" red="0.58039215690000001" green="0.59999999999999998" blue="0.6588235294" alpha="0.8980392157" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="354" placeholderIntrinsicHeight="38" restorationIdentifier="editpw" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="!@#4023qkr" borderStyle="line" placeholder="비밀번호 입력" minimumFontSize="17" background="text_field_inactive" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="wzo-Qt-zzE">
+                                    <textField opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="354" placeholderIntrinsicHeight="38" restorationIdentifier="editpw" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="test20220817@" borderStyle="line" placeholder="비밀번호 입력" minimumFontSize="17" background="text_field_inactive" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="wzo-Qt-zzE">
                                         <rect key="frame" x="30" y="295" width="354" height="45"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>

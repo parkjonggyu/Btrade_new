@@ -17,6 +17,8 @@ class VCMain: VCBaseTab {
     var tabThree:UIViewController?
     var tabFour:UIViewController?
     
+    var loadLogin = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
@@ -69,7 +71,10 @@ class VCMain: VCBaseTab {
             goKYC()
         }
         
-        
+        if(loadLogin){
+            loadLogin = false
+            var _ = self.startLogIn()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -110,18 +115,23 @@ class VCMain: VCBaseTab {
         
     }
     
+    fileprivate func startLogIn() -> Bool{
+        let sb = UIStoryboard.init(name:"Login", bundle: nil)
+        guard let mainvc = sb.instantiateViewController(withIdentifier: "loginvc") as? UINavigationController else {
+            return false
+        }
+        
+        mainvc.modalPresentationStyle = .fullScreen
+        self.present(mainvc, animated: true);
+        return true
+    }
+    
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if let index = tabBarController.viewControllers!.index(of: viewController){
             
             if(!appInfo.getIsLogin()){
                 if(index == 1 || index == 2){
-                    let sb = UIStoryboard.init(name:"Login", bundle: nil)
-                    guard let mainvc = sb.instantiateViewController(withIdentifier: "loginvc") as? UINavigationController else {
-                        return false
-                    }
-                    
-                    mainvc.modalPresentationStyle = .fullScreen
-                    self.present(mainvc, animated: true);
+                    if(self.startLogIn() == false){return false}
                     return false
                 }
             }else{

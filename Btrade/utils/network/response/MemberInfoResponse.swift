@@ -170,13 +170,19 @@ struct MemberInfoResponse{
         return nil
     }
     
-    func getIsUpdate() -> Bool{
-        let index = "update"
-        if let update = baseResponce.data[index] as? Bool{
-            return update
+    func getWork_nm() -> String?{
+        let index = "work_nm"
+        if let modelAndView = baseResponce.data["result"] as? NSDictionary{
+            if let code = modelAndView[index] as? String{
+                return code
+            }
+            if let c = modelAndView[index] as? Int64{
+                return String(c)
+            }
         }
-        return false
+        return nil
     }
+    
     
     func getObject() -> MemberInfo{
         let member:MemberInfo = MemberInfo()
@@ -201,6 +207,7 @@ class MemberInfo:Codable {
     var aml_state:String?
     var certify_otp:String?
     var certify_email:String?
+    var work_nm:String?
     
     func setData(res:MemberInfoResponse){
         id = res.getId();
@@ -214,6 +221,7 @@ class MemberInfo:Codable {
         aml_state = res.getAml_state()
         certify_otp = res.getCertify_otp()
         certify_email = res.getCertify_email()
+        work_nm = res.getWork_nm()
     }
 }
 

@@ -57,12 +57,6 @@ class APPInfo{
     
     func deleteCookie(){
         self.memberInfo = nil
-        guard let datas = HTTPCookieStorage.shared.cookies else {return}
-        for cookie in datas{
-            if cookie.name == "loginCookie"{
-                
-            }
-        }
     }
     
     var memberInfo:MemberInfo?
