@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Trade-->
+        <scene sceneID="VCZ-wC-ErD">
+            <objects>
+                <viewController storyboardIdentifier="tradevc" id="cye-7O-Hjq" customClass="VCTrade" customModule="Btrade" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Lp3-Pr-hGS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pjg-s6-0DR">
+                                <rect key="frame" x="361" y="54" width="36" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="7yO-ut-mKi"/>
+                                    <constraint firstAttribute="width" constant="36" id="ddv-XJ-9YQ"/>
+                                </constraints>
+                                <color key="tintColor" systemColor="systemGray2Color"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="trade_list_btn">
+                                    <color key="titleColor" systemColor="systemGray2Color"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration"/>
+                                </state>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="maintop_logo" translatesAutoresizingMaskIntoConstraints="NO" id="eke-cu-ip3">
+                                <rect key="frame" x="10" y="54" width="122" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="122" id="FAQ-qM-hOx"/>
+                                    <constraint firstAttribute="height" constant="36" id="soH-fU-WGr"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m8G-fQ-aek">
+                                <rect key="frame" x="315" y="54" width="36" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="36" id="Pta-u5-l7N"/>
+                                    <constraint firstAttribute="height" constant="36" id="bCX-K8-zVV"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="36" id="rf6-IL-CdD"/>
+                                </constraints>
+                                <color key="tintColor" systemColor="systemGray2Color"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="trade_search_btn">
+                                    <color key="titleColor" systemColor="systemGray2Color"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="14"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Sb2-GS-q2t"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Pjg-s6-0DR" firstAttribute="top" secondItem="m8G-fQ-aek" secondAttribute="top" id="13K-uQ-XAy"/>
+                            <constraint firstAttribute="trailing" secondItem="m8G-fQ-aek" secondAttribute="trailing" constant="63" id="I1T-XI-GBY"/>
+                            <constraint firstItem="m8G-fQ-aek" firstAttribute="top" secondItem="eke-cu-ip3" secondAttribute="top" id="JnP-eE-x4L"/>
+                            <constraint firstItem="eke-cu-ip3" firstAttribute="leading" secondItem="Sb2-GS-q2t" secondAttribute="leading" constant="10" id="LKq-2c-jME"/>
+                            <constraint firstItem="m8G-fQ-aek" firstAttribute="centerY" secondItem="eke-cu-ip3" secondAttribute="centerY" id="TTo-dr-syD"/>
+                            <constraint firstItem="eke-cu-ip3" firstAttribute="top" secondItem="Sb2-GS-q2t" secondAttribute="top" constant="10" id="oh9-eg-sSf"/>
+                            <constraint firstItem="Pjg-s6-0DR" firstAttribute="leading" secondItem="m8G-fQ-aek" secondAttribute="trailing" constant="10" id="vD1-sC-3NY"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="uEs-DO-3qM"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RdI-xi-hYe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-184.05797101449278" y="28.794642857142854"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="FOd-yA-Hii">
+            <objects>
+                <viewController id="iZQ-9g-A3I" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KIg-7Y-Pag">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="거래소11" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6y-yf-eKc">
+                                <rect key="frame" x="84" y="311" width="230" height="353"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="55"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="TXf-0f-JkR"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="gL2-6o-Qck"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VOA-9c-QTt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="640" y="24"/>
+        </scene>
+        <!--거래소-->
+        <scene sceneID="Snz-zZ-iZs">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="S74-Il-4wv" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="거래소" image="rectangle.and.pencil.and.ellipsis.rtl" catalog="system" largeContentSizeImage="square.and.arrow.up.circle.fill" id="5Z4-NH-Kzw">
+                        <color key="badgeColor" systemColor="quaternarySystemFillColor"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="thw-8F-cqq">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="cye-7O-Hjq" kind="relationship" relationship="rootViewController" id="PjU-iY-dPO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pgq-GD-Exf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1094.2028985507247" y="28.794642857142854"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="maintop_logo" width="304" height="96"/>
+        <image name="rectangle.and.pencil.and.ellipsis.rtl" catalog="system" width="128" height="92"/>
+        <image name="square.and.arrow.up.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="trade_list_btn" width="512" height="512"/>
+        <image name="trade_search_btn" width="512" height="512"/>
+        <systemColor name="quaternarySystemFillColor">
+            <color red="0.45490196078431372" green="0.45490196078431372" blue="0.50196078431372548" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
