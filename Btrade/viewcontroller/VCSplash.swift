@@ -43,7 +43,7 @@ class VCSplash: VCBase, FirebaseInterface {
    
     
     func versionCheckStart(){
-        ApiFactory(apiResult: VersionCheck(self), request: VersionCheckRequest()).netThread()
+        ApiFactory(apiResult: VersionCheck(self), request: VersionCheckRequest()).newThread()
     }
     
     class VersionCheck:ApiResult{
@@ -113,7 +113,7 @@ class VCSplash: VCBase, FirebaseInterface {
     }
     
     func getCoinList(){
-        ApiFactory(apiResult: CoinList(self), request: MarketListRequest()).netThread()
+        ApiFactory(apiResult: CoinList(self), request: MarketListRequest()).newThread()
     }
     
     class CoinList:ApiResult{

@@ -32,7 +32,7 @@ class VCBoardNotice: VCBase ,UITableViewDataSource, UITableViewDelegate, UISearc
     fileprivate func getData(){
         let request:BoardNoticeRequest = BoardNoticeRequest()
         request.searchValue = ""
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
         noticeList.dataSource = self
         noticeList.delegate = self
         noticeList.separatorInset.left = 0

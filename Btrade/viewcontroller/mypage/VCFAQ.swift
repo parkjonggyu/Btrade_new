@@ -79,7 +79,7 @@ class VCFAQ: VCBase , UISearchBarDelegate {
     fileprivate func getData(){
         let request:MypageFAQAllRequest = MypageFAQAllRequest()
         request.searchValue = ""
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     

@@ -9,15 +9,13 @@ import Foundation
 import Alamofire
 
 class MyInfoLeaveAssetRequest : BaseRequest{
-    var prev_passwd:String?
-    var passwd:String?
+    var os:String? = "ANDROID"
     
     init(){
-        super.init(HttpMethod.post, BuildConfig.SERVER_URL, "m/mypage/updatePassword.do")
+        super.init(HttpMethod.post, BuildConfig.SERVER_URL, "m/mypage/quitAccountInfoAsset.do")
     }
     
     override func setArg() {
-        if let _ = prev_passwd{arg["prev_passwd"] = prev_passwd!}
-        if let _ = passwd{arg["passwd"] = passwd!}
+        if let _ = os{arg["os"] = os!}
     }
 }

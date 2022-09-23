@@ -58,7 +58,7 @@ class VCOtpRegister: VCBase {
         
         codeEdit.delegate = self
         
-        ApiFactory(apiResult: OtpGenerate(self), request: OtpGenerateRequest()).netThread()
+        ApiFactory(apiResult: OtpGenerate(self), request: OtpGenerateRequest()).newThread()
     }
     
     class OtpGenerate:ApiResult{
@@ -109,7 +109,7 @@ class VCOtpRegister: VCBase {
         request.otp = codeEdit.text!
         request.mb_google_otp_key = qrcodeNum.text!
         request.mb_recovery_code = repareText.text!
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     override func onResult(response: BaseResponse) {

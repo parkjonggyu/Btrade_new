@@ -54,7 +54,7 @@ class VCQna: VCBase , SpinnerSelectorInterface, UITextViewDelegate{
         request.bq_category = bq_category
         request.bq_title = titleText.text!
         request.bq_contents = ConvertHtmlUtil.stringToHTMLString(bodyText.text!)
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     override func onResult(response: BaseResponse) {

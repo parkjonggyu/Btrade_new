@@ -27,7 +27,7 @@ class VCMyInfoLeave: VCBase {
     }
     
     @IBAction func onClicked(_ sender: Any) {
-        
+        ApiFactory(apiResult: self, request: MyInfoLeaveAssetRequest()).newThread()
     }
     
     override func onResult(response: BaseResponse) {

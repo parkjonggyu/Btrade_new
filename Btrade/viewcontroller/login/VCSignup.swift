@@ -40,7 +40,7 @@ class VCSignup: VCBase {
         request.join_id = mEditId.text!
         request.join_password = mEditPw.text!
         request.join_password_ok = mEditPwCf.text!
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
         
     override func onResult(response: BaseResponse) {

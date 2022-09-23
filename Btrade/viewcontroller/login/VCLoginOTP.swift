@@ -33,7 +33,7 @@ class VCLoginOTP: VCBase {
         request.login_id = mId
         request.login_password = mPw
         request.otp_number = mEditOTP.text!
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     override func onResult(response: BaseResponse) {

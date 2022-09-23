@@ -100,7 +100,7 @@ class VCInactiveEmail: VCBase, AuthTimerInterface{
         AUTH = true
         let request = InactiveEmailRequest()
         request.email = email
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     
@@ -110,7 +110,7 @@ class VCInactiveEmail: VCBase, AuthTimerInterface{
             let request = InactiveEmailConfirmRequest()
             request.mb_id = email
             request.token = mAuthText.text!
-            ApiFactory(apiResult: self, request: request).netThread()
+            ApiFactory(apiResult: self, request: request).newThread()
         }
     }
     

@@ -49,7 +49,7 @@ class VCQnaHistory: VCBase {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1)) {
             let request = MypageQNAHistoryRequest()
             request.page_no = String(pageNo)
-            ApiFactory(apiResult: self, request: request).netThread()
+            ApiFactory(apiResult: self, request: request).newThread()
         }
     }
     

@@ -27,7 +27,7 @@ class VCLogin: VCBase {
         let request = SignInRequest()
         request.login_id = id
         request.login_password = pw.toBase64()
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     

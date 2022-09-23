@@ -43,7 +43,7 @@ class VCMyInfoChangePassword1: VCBase {
         
         let request = MypageCheckPasswordRequest()
         request.prev_passwd = passwdText.text!.toBase64()
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
         
     }
     

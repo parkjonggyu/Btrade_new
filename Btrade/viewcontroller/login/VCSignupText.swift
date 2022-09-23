@@ -31,7 +31,7 @@ class VCSignupText:VCBase{
     func getData(){
         let request = TermsInfoRequest()
         request.bc_channel = DETAIL!
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     override func onResult(response: BaseResponse) {

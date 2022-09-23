@@ -200,7 +200,7 @@ class VCKyc3: VCBase, WebResult , SpinnerSelectorInterface{
         
         request.account_new_purpose_cd = mKyc["purpose"] as? String
         request.account_new_purpose_nm = mKyc["purpose_name"] as? String
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     override func onResult(response: BaseResponse) {

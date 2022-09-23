@@ -122,7 +122,7 @@ class VCMypage: VCBase {
         }
         
         
-        ApiFactory(apiResult: self, request: NoticeSampleRequest()).netThread()
+        ApiFactory(apiResult: self, request: NoticeSampleRequest()).newThread()
     }
     
     override func onResult(response: BaseResponse) {
@@ -203,7 +203,7 @@ class VCMypage: VCBase {
                 return
             }
             vc.refresh = {() in
-                ApiFactory(apiResult: self, request: MemberInfoRequest()).netThread()
+                ApiFactory(apiResult: self, request: MemberInfoRequest()).newThread()
             }
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true);

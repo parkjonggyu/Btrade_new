@@ -53,7 +53,7 @@ class VCSignupAuth: VCBase , AuthTimerInterface{
         var request = SignupAuthRequest()
         request.email = ID
         request.token = AUTH
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     override func onResult(response: BaseResponse) {

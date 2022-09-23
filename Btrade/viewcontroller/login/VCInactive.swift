@@ -26,14 +26,14 @@ class VCInactive: VCBase{
         let email:String = mEditId.text!
         let request:FindPasswordRequest = FindPasswordRequest()
         request.mb_id = email
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     func nextFind(){
         let email:String = mEditId.text!
         let request = InactiveRequest()
         request.mb_id = email
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     override func onResult(response: BaseResponse) {

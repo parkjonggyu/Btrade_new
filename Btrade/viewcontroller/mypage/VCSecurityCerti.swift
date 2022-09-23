@@ -67,7 +67,7 @@ class VCSecurityCerti: VCBase {
         
         checkLevel()
         
-        ApiFactory(apiResult: LoginHistory(self), request: LoginHistoryRequest()).netThread()
+        ApiFactory(apiResult: LoginHistory(self), request: LoginHistoryRequest()).newThread()
     }
     
     class LoginHistory:ApiResult{

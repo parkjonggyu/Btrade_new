@@ -42,7 +42,7 @@ class VCInactiveChangePW: VCBase{
         request.passwd = mEditPW.text?.toBase64()
         request.check_passwd = mEditPWCF.text?.toBase64()
         request.mb_idx = result
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
         
     }
     

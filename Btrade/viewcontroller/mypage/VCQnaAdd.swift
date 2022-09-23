@@ -53,7 +53,7 @@ class VCQnaAdd: VCBase , UITextViewDelegate{
         let request = MypageQNAAddRequest()
         request.bq_idx = bq_idx
         request.bq_contents = ConvertHtmlUtil.stringToHTMLString(bodyText.text!)
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     

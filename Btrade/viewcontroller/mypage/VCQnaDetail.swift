@@ -52,7 +52,7 @@ class VCQnaDetail: VCBase {
     fileprivate func getData(){
         let request = MypageQNADetailRequest()
         request.bq_idx = bq_idx
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
         
     }
     

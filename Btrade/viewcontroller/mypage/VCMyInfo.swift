@@ -66,7 +66,7 @@ class VCMyInfo: VCBase {
     }
     
     fileprivate func logout(){
-        ApiFactory(apiResult: MemberInfo1(self), request: LogoutRequest()).netThread()
+        ApiFactory(apiResult: MemberInfo1(self), request: LogoutRequest()).newThread()
     }
     
     class MemberInfo1:ApiResult{

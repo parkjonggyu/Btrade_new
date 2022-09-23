@@ -133,7 +133,7 @@ class VCKyc2_1: VCBase, CameraResult {
             }
             let request = Kyc2UploadRequest()
             request.setKyc2Data(mKyc)
-            ApiFactory(apiResult: self, request: request).netThread()
+            ApiFactory(apiResult: self, request: request).newThread()
         }
     }
     
@@ -175,7 +175,7 @@ class VCKyc2_1: VCBase, CameraResult {
             
             let request = Kyc2_1UploadRequest()
             request.idUploadfile = image
-            ApiFactory(apiResult: self, request: request).netThread()
+            ApiFactory(apiResult: self, request: request).newThread()
         }else{
             self.showErrorDialog("인증에 실패했습니다. 다시 실행해 주세요.")
         }

@@ -85,7 +85,7 @@ class VCMain: VCBaseTab {
     fileprivate func checkMemberInfo(){
         if(appInfo.getIsLogin()){
             if(appInfo.getMemberInfo() == nil || appInfo.getMemberInfo()!.update ?? false){
-                ApiFactory(apiResult: MemberInfo2(self), request: MemberInfoRequest()).netThread()
+                ApiFactory(apiResult: MemberInfo2(self), request: MemberInfoRequest()).newThread()
             }else{
                 (tabFour as? VCMypage)?.setMemberInfo(appInfo.getMemberInfo()!)
             }
@@ -148,7 +148,7 @@ class VCMain: VCBaseTab {
     
     func getAMLState(){
         let request = GetKYCStateRequest()
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     

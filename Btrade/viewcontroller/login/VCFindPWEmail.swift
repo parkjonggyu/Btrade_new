@@ -28,7 +28,7 @@ class VCFindPWEmail: VCBase{
         let request:FindPWSendEmailRequest = FindPWSendEmailRequest()
         request.mb_idx = result
         request.find_type = "2"
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     

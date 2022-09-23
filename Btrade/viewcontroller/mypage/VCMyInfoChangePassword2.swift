@@ -67,7 +67,7 @@ class VCMyInfoChangePassword2: VCBase {
         let request = UpdatePasswordRequest()
         request.prev_passwd = prePasswd!.toBase64()
         request.passwd = passwdText.text!.toBase64()
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
         
     }
     

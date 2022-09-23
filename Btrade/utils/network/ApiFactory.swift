@@ -16,7 +16,7 @@ class ApiFactory{
         self.request = request
     }
     
-    func netThread(){
+    func newThread(){
         if(request.getDomain() == BuildConfig.SERVER_URL || request.getDomain() == BuildConfig.SERVER_API_URL || request.getDomain() == BuildConfig.SERVER_PC_URL){
             request.setArg()
             vcLoadingStart()

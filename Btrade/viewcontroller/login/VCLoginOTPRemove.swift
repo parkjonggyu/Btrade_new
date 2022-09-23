@@ -30,7 +30,7 @@ class VCLoginOTPRemove: VCBase {
         if mEditOTP.text?.count != 6 {return}
         let request = SignInOTPRequest()
         request.otp_number = mEditOTP.text!
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     override func onResult(response: BaseResponse) {

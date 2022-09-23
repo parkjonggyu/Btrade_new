@@ -80,7 +80,7 @@ class VCKyc4: VCBase, SpinnerSelectorInterface{
         request.fnni_cd = mKyc["bankCode"] as? String
         mKyc["accountNum"] = accountNumEdit.text
         request.acct_no = accountNumEdit.text
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     override func onResult(response: BaseResponse) {

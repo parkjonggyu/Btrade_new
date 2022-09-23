@@ -28,7 +28,7 @@ class VCFindPW: VCBase{
         var email:String = mEditId.text!
         var request:FindPasswordRequest = FindPasswordRequest()
         request.mb_id = email
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     override func onResult(response: BaseResponse) {

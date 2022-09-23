@@ -45,7 +45,7 @@ class VCFindPWPhone: VCBase, AuthTimerInterface{
         AUTH = true
         let request = InactivePhoneRequest()
         request.mb_idx = result
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     @IBAction func onOkClicked(_ sender: Any) {
@@ -62,7 +62,7 @@ class VCFindPWPhone: VCBase, AuthTimerInterface{
         request.mb_idx = result
         request.code = mAuthEdit.text!
         request.idx = IDX
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     override func onResult(response: BaseResponse) {
@@ -122,7 +122,7 @@ class VCFindPWPhone: VCBase, AuthTimerInterface{
             let request:FindPWSendEmailRequest = FindPWSendEmailRequest()
             request.mb_idx = result
             request.find_type = "2"
-            ApiFactory(apiResult: self, request: request).netThread()
+            ApiFactory(apiResult: self, request: request).newThread()
         }
         showErrorDialog("사용할 수 없는 계정입니다.")
     }

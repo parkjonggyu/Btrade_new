@@ -62,7 +62,7 @@ class VCKyc4_1: VCBase, AuthTimerInterface{
         request.fnni_cd = mKyc["bankCode"] as? String
         request.bank_name = mKyc["bankName"] as? String
         request.acct_no = mKyc["accountNum"] as? String
-        ApiFactory(apiResult: self, request: request).netThread()
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
     override func onResult(response: BaseResponse) {
