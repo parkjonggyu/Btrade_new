@@ -158,6 +158,10 @@
 		1EBFC1D628DD6BF2005665EA /* UpdatePasswordResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1D528DD6BF2005665EA /* UpdatePasswordResponse.swift */; };
 		1EBFC1D828DDB265005665EA /* VCMyInfoLeave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1D728DDB265005665EA /* VCMyInfoLeave.swift */; };
 		1EBFC1DA28DDC42C005665EA /* MyInfoLeaveAssetRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1D928DDC42C005665EA /* MyInfoLeaveAssetRequest.swift */; };
+		1EBFC1DC28DDC6A5005665EA /* MyInfoLeaveAssetResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1DB28DDC6A5005665EA /* MyInfoLeaveAssetResponse.swift */; };
+		1EBFC1DE28DDC93E005665EA /* VCMyInfoLeaveAsset1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1DD28DDC93E005665EA /* VCMyInfoLeaveAsset1.swift */; };
+		1EBFC1E028DDC94B005665EA /* VCMyInfoLeaveAsset2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1DF28DDC94B005665EA /* VCMyInfoLeaveAsset2.swift */; };
+		1EBFC1E228E14AA6005665EA /* VCMyinfoQuitApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1E128E14AA6005665EA /* VCMyinfoQuitApplication.swift */; };
 		1ECE1CE728B49036005EF704 /* VCQnaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */; };
 		1ECE1CE928B494E1005EF704 /* MypageQNADetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */; };
 		1ECE1CEB28B49684005EF704 /* MypageQNADetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */; };
@@ -355,6 +359,10 @@
 		1EBFC1D528DD6BF2005665EA /* UpdatePasswordResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordResponse.swift; sourceTree = "<group>"; };
 		1EBFC1D728DDB265005665EA /* VCMyInfoLeave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCMyInfoLeave.swift; sourceTree = "<group>"; };
 		1EBFC1D928DDC42C005665EA /* MyInfoLeaveAssetRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoLeaveAssetRequest.swift; sourceTree = "<group>"; };
+		1EBFC1DB28DDC6A5005665EA /* MyInfoLeaveAssetResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoLeaveAssetResponse.swift; sourceTree = "<group>"; };
+		1EBFC1DD28DDC93E005665EA /* VCMyInfoLeaveAsset1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCMyInfoLeaveAsset1.swift; sourceTree = "<group>"; };
+		1EBFC1DF28DDC94B005665EA /* VCMyInfoLeaveAsset2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCMyInfoLeaveAsset2.swift; sourceTree = "<group>"; };
+		1EBFC1E128E14AA6005665EA /* VCMyinfoQuitApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCMyinfoQuitApplication.swift; sourceTree = "<group>"; };
 		1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCQnaDetail.swift; sourceTree = "<group>"; };
 		1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailRequest.swift; sourceTree = "<group>"; };
 		1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailResponse.swift; sourceTree = "<group>"; };
@@ -601,6 +609,9 @@
 				1ECE1CFA28B61DE1005EF704 /* VCOtpRegister.swift */,
 				1ECE1D0428B71ADE005EF704 /* VCMyInfo.swift */,
 				1EBFC1D728DDB265005665EA /* VCMyInfoLeave.swift */,
+				1EBFC1DD28DDC93E005665EA /* VCMyInfoLeaveAsset1.swift */,
+				1EBFC1DF28DDC94B005665EA /* VCMyInfoLeaveAsset2.swift */,
+				1EBFC1E128E14AA6005665EA /* VCMyinfoQuitApplication.swift */,
 			);
 			path = mypage;
 			sourceTree = "<group>";
@@ -734,6 +745,7 @@
 				1ECE1D0228B70A66005EF704 /* OtpRegisterResponse.swift */,
 				1E933F6A28DB161700ACD342 /* MypageCheckPasswordResponse.swift */,
 				1EBFC1D528DD6BF2005665EA /* UpdatePasswordResponse.swift */,
+				1EBFC1DB28DDC6A5005665EA /* MyInfoLeaveAssetResponse.swift */,
 				1E933F6E28DC546700ACD342 /* LogoutResponse.swift */,
 			);
 			path = response;
@@ -1050,6 +1062,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EBFC1E028DDC94B005665EA /* VCMyInfoLeaveAsset2.swift in Sources */,
 				1E2CFC97286E7BEF0057AD90 /* ProgressInterface.swift in Sources */,
 				1E2D6A82289A78A40018AC34 /* AccountConfirmResponse.swift in Sources */,
 				1E1345D228A12A3200FD46AC /* VCBoardNoticeDetail.swift in Sources */,
@@ -1113,6 +1126,7 @@
 				1E726A7B287D673400E32E19 /* TermsInfoRequest.swift in Sources */,
 				1E7F20B82884ED1700D4C182 /* InactiveEmailConfirmResponse.swift in Sources */,
 				1ECE1CF328B5A445005EF704 /* VCSecurityCerti.swift in Sources */,
+				1EBFC1DC28DDC6A5005665EA /* MyInfoLeaveAssetResponse.swift in Sources */,
 				1E7F20BA2884F17100D4C182 /* VCInactiveChangePW.swift in Sources */,
 				1E2D6A86289A830B0018AC34 /* KycAccountAuthResponse.swift in Sources */,
 				1ECE1CED28B4DE46005EF704 /* VCQnaAdd.swift in Sources */,
@@ -1130,6 +1144,7 @@
 				1E7F20B42884E45700D4C182 /* InactiveEmailResponse.swift in Sources */,
 				1E5346162891490D009EE763 /* VCKyc2Camera.swift in Sources */,
 				1E726A91287FB36B00E32E19 /* VCFindPW.swift in Sources */,
+				1EBFC1E228E14AA6005665EA /* VCMyinfoQuitApplication.swift in Sources */,
 				1E933F6F28DC546700ACD342 /* LogoutResponse.swift in Sources */,
 				1E726A73287BF88300E32E19 /* VCTrade.swift in Sources */,
 				1ECE1CFD28B63245005EF704 /* OtpGenerateRequest.swift in Sources */,
@@ -1182,6 +1197,7 @@
 				1E726AAD2881642100E32E19 /* InactiveResponse.swift in Sources */,
 				1E2CFC9F287279D90057AD90 /* ProgressPopup.swift in Sources */,
 				1E726AAB2881635300E32E19 /* InactiveRequest.swift in Sources */,
+				1EBFC1DE28DDC93E005665EA /* VCMyInfoLeaveAsset1.swift in Sources */,
 				1E726A89287E993400E32E19 /* AuthTimer.swift in Sources */,
 				1E3135852888F65E006F575C /* VCWeb.swift in Sources */,
 				1E726A83287E5F7B00E32E19 /* SignupResponse.swift in Sources */,

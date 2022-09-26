@@ -86,7 +86,7 @@ class VCBase: UIViewController , ApiResult, ProgressInterface{
     }
     
     func topMostController() -> UIViewController? {
-        guard let window = UIApplication.shared.keyWindow, let rootViewController = window.rootViewController else {
+        guard let window = UIApplication.shared.windows.first(where: {$0.isKeyWindow}), let rootViewController = window.rootViewController else {
             return nil
         }
 

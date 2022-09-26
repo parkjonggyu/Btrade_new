@@ -31,21 +31,27 @@ class VCMyInfoLeave: VCBase {
     }
     
     override func onResult(response: BaseResponse) {
-        if let _ = response.request as? MypageCheckPasswordRequest{
-            let data = MypageCheckPasswordResponse(baseResponce: response)
-            if let result = data.getStatus() {
-                if(result == "success"){
-                    guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "myinfochangepassword2vc") as? VCMyInfoChangePassword2 else {
+        if let _ = response.request as? MyInfoLeaveAssetRequest{
+            let data = MyInfoLeaveAssetResponse(baseResponce: response)
+            if let allow = data.getIsAllowed(){
+                if(allow == "true"){
+                    guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "myinfoleaveasset2") as? VCMyInfoLeaveAsset2 else {
                         return
                     }
-                    
+                    vc.totalAsset = data.getTotal_assets()
                     vc.modalPresentationStyle = .fullScreen
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    self.present(vc, animated: true);
+                    return;
+                }else{
+                    guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "myinfoleaveasset1") as? VCMyInfoLeaveAsset1 else {
+                        return
+                    }
+                    vc.totalAsset = data.getTotal_assets()
+                    vc.modalPresentationStyle = .fullScreen
+                    self.present(vc, animated: true);
                     return;
                 }
             }
-                
-            self.showErrorDialog("비밀번호가 올바르지 않습니다.")
         }
         
     }

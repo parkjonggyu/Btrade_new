@@ -158,13 +158,21 @@ class VCSplash: VCBase, FirebaseInterface {
                     i += 1
                 }
                 FirebaseDatabaseHelper.getInstance().removeObserve()
-                init3()
+                
+                
+                if(!aa){
+                    print("onDataChange : " )
+                    aa = true
+                    init3()
+                }
+                
             }
         }else{
             showErrorDialog();
         }
     }
  
+    var aa = false
     
     // MARK: - init3()
     func init3(){

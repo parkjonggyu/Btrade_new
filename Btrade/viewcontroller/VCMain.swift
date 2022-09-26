@@ -18,14 +18,19 @@ class VCMain: VCBaseTab {
     var tabFour:UIViewController?
     
     var loadLogin = false
+    var setNavData:String?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         
         let sbOne = UIStoryboard.init(name:"Trade", bundle: nil)
         tabOne = sbOne.instantiateViewController(withIdentifier: "tradevc")
@@ -63,7 +68,7 @@ class VCMain: VCBaseTab {
         let tabFourBarItem = UITabBarItem(title: "마이페이지", image: UIImage(named: "progress4"), tag: 3)
         
         tabFour!.tabBarItem = tabFourBarItem
-        self.tabBarController?.selectedIndex = 2;
+        
         self.viewControllers = [tabOne!, tabTwo!, tabThree!, tabFour!]
         
         if(appInfo.isKycVisible){
@@ -75,6 +80,19 @@ class VCMain: VCBaseTab {
             loadLogin = false
             var _ = self.startLogIn()
         }
+        
+        if let nav = setNavData{
+            setNavData = nil
+            if(nav == "tradevc"){
+                self.selectedIndex = 0
+            }else if(nav == "assetvc"){
+                self.selectedIndex = 1
+            }else if(nav == "financevc"){
+                self.selectedIndex = 2
+            }else if(nav == "mypagevc"){
+                self.selectedIndex = 3
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -84,7 +102,7 @@ class VCMain: VCBaseTab {
     
     fileprivate func checkMemberInfo(){
         if(appInfo.getIsLogin()){
-            if(appInfo.getMemberInfo() == nil || appInfo.getMemberInfo()!.update ?? false){
+            if(appInfo.getMemberInfo() == nil || appInfo.getMemberInfo()?.update ?? false){
                 ApiFactory(apiResult: MemberInfo2(self), request: MemberInfoRequest()).newThread()
             }else{
                 (tabFour as? VCMypage)?.setMemberInfo(appInfo.getMemberInfo()!)
@@ -109,10 +127,6 @@ class VCMain: VCBaseTab {
         func onError(e: AFError, method: String) {
             
         }
-    }
-    
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        
     }
     
     fileprivate func startLogIn() -> Bool{
@@ -164,6 +178,7 @@ class VCMain: VCBaseTab {
                     if let aml = data.getAMLState(){
                         if(aml == "c"){
                             self.showErrorDialog("고객확인제도 인증이 요청되어 관리자의 승인 중입니다.")
+                            return
                         }
                         if(aml == "N"){
                             DialogUtils().makeDialog(
@@ -181,10 +196,12 @@ class VCMain: VCBaseTab {
                             },
                             UIAlertAction(title: "다음에 하기", style: .destructive) { (action) in
                             })
+                            return
                         }
                         if(aml == "cc"){
                             self.KYC = true
-                            self.tabBarController?.selectedIndex = 2;
+                            self.selectedIndex = 2
+                            return
                         }
                     }
                     
