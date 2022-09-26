@@ -202,9 +202,6 @@ class VCMypage: VCBase {
             guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "securitycertivc") as? VCSecurityCerti else {
                 return
             }
-            vc.refresh = {() in
-                ApiFactory(apiResult: self, request: MemberInfoRequest()).newThread()
-            }
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true);
         }else if(sender.view == myInfoBtn){

@@ -47,6 +47,11 @@ class VCMyInfoLeaveAsset2: VCBase {
     }
     
     @IBAction func goQuit(_ sender: Any) {
-    
+        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "myinfoquitapplicationvc") as? VCMyinfoQuitApplication else {
+            return
+        }
+        vc.totalAsset = totalAsset
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true);
     }
 }

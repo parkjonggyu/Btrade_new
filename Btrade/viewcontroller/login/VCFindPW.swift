@@ -25,8 +25,8 @@ class VCFindPW: VCBase{
         if(!emailCheck(input:mEditId.text!)){
             return
         }
-        var email:String = mEditId.text!
-        var request:FindPasswordRequest = FindPasswordRequest()
+        let email:String = mEditId.text!
+        let request:FindPasswordRequest = FindPasswordRequest()
         request.mb_id = email
         ApiFactory(apiResult: self, request: request).newThread()
     }

@@ -54,7 +54,7 @@ class VCKyc4_1: VCBase, AuthTimerInterface{
             return
         }
         
-        var request = KycAccountAuthRequest()
+        let request = KycAccountAuthRequest()
         request.auth_code = authEdit.text!
         request.verify_tr_dt = mKyc["verify_tr_dt"] as? String
         request.verify_tr_no = mKyc["verify_tr_no"] as? String

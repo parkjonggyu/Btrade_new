@@ -16,6 +16,9 @@ class VCKycCom: VCBase{
     
     
     @IBAction func goBack(_ sender: Any) {
-        self.navigationController?.dismiss(animated: true)
+        if let _ = appInfo.memberInfo{
+            appInfo.memberInfo?.update = true
+        }
+        UIApplication.shared.windows.first(where: {$0.isKeyWindow})?.rootViewController?.dismiss(animated: true)
     }
 }

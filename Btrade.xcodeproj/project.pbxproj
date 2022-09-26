@@ -162,6 +162,10 @@
 		1EBFC1DE28DDC93E005665EA /* VCMyInfoLeaveAsset1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1DD28DDC93E005665EA /* VCMyInfoLeaveAsset1.swift */; };
 		1EBFC1E028DDC94B005665EA /* VCMyInfoLeaveAsset2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1DF28DDC94B005665EA /* VCMyInfoLeaveAsset2.swift */; };
 		1EBFC1E228E14AA6005665EA /* VCMyinfoQuitApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1E128E14AA6005665EA /* VCMyinfoQuitApplication.swift */; };
+		1EBFC1E428E17408005665EA /* MemberInfoNoMaskRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1E328E17408005665EA /* MemberInfoNoMaskRequest.swift */; };
+		1EBFC1E628E1745E005665EA /* MemberInfoNoMaskRespose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1E528E1745E005665EA /* MemberInfoNoMaskRespose.swift */; };
+		1EBFC1E828E19465005665EA /* MyInfoQuitRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1E728E19465005665EA /* MyInfoQuitRequest.swift */; };
+		1EBFC1EA28E195BA005665EA /* MyInfoQuitResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1E928E195BA005665EA /* MyInfoQuitResponse.swift */; };
 		1ECE1CE728B49036005EF704 /* VCQnaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */; };
 		1ECE1CE928B494E1005EF704 /* MypageQNADetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */; };
 		1ECE1CEB28B49684005EF704 /* MypageQNADetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */; };
@@ -363,6 +367,10 @@
 		1EBFC1DD28DDC93E005665EA /* VCMyInfoLeaveAsset1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCMyInfoLeaveAsset1.swift; sourceTree = "<group>"; };
 		1EBFC1DF28DDC94B005665EA /* VCMyInfoLeaveAsset2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCMyInfoLeaveAsset2.swift; sourceTree = "<group>"; };
 		1EBFC1E128E14AA6005665EA /* VCMyinfoQuitApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCMyinfoQuitApplication.swift; sourceTree = "<group>"; };
+		1EBFC1E328E17408005665EA /* MemberInfoNoMaskRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInfoNoMaskRequest.swift; sourceTree = "<group>"; };
+		1EBFC1E528E1745E005665EA /* MemberInfoNoMaskRespose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInfoNoMaskRespose.swift; sourceTree = "<group>"; };
+		1EBFC1E728E19465005665EA /* MyInfoQuitRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoQuitRequest.swift; sourceTree = "<group>"; };
+		1EBFC1E928E195BA005665EA /* MyInfoQuitResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoQuitResponse.swift; sourceTree = "<group>"; };
 		1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCQnaDetail.swift; sourceTree = "<group>"; };
 		1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailRequest.swift; sourceTree = "<group>"; };
 		1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailResponse.swift; sourceTree = "<group>"; };
@@ -690,6 +698,7 @@
 				1E2D6A7F289A77400018AC34 /* AccountConfirmRequest.swift */,
 				1E2D6A87289A833F0018AC34 /* KycAccountAuthRequest.swift */,
 				1E1345C728A0FEAA00FD46AC /* MemberInfoRequest.swift */,
+				1EBFC1E328E17408005665EA /* MemberInfoNoMaskRequest.swift */,
 				1E1345CD28A11D4F00FD46AC /* NoticeSampleRequest.swift */,
 				1E1345D528A4880600FD46AC /* BoardNoticeRequest.swift */,
 				1E1345DF28A6419C00FD46AC /* MypageFAQAllRequest.swift */,
@@ -704,6 +713,7 @@
 				1EBFC1D328DD6B4C005665EA /* UpdatePasswordRequest.swift */,
 				1EBFC1D928DDC42C005665EA /* MyInfoLeaveAssetRequest.swift */,
 				1E933F6C28DC46E900ACD342 /* LogoutRequest.swift */,
+				1EBFC1E728E19465005665EA /* MyInfoQuitRequest.swift */,
 			);
 			path = request;
 			sourceTree = "<group>";
@@ -733,6 +743,7 @@
 				1E2D6A81289A78A40018AC34 /* AccountConfirmResponse.swift */,
 				1E2D6A85289A830A0018AC34 /* KycAccountAuthResponse.swift */,
 				1E1345C928A0FF1800FD46AC /* MemberInfoResponse.swift */,
+				1EBFC1E528E1745E005665EA /* MemberInfoNoMaskRespose.swift */,
 				1E1345CF28A11DF200FD46AC /* NoticeSampleResponse.swift */,
 				1E1345D728A4890200FD46AC /* BoardNoticeResponse.swift */,
 				1E1345E128A6430900FD46AC /* MypageFAQAllResponse.swift */,
@@ -747,6 +758,7 @@
 				1EBFC1D528DD6BF2005665EA /* UpdatePasswordResponse.swift */,
 				1EBFC1DB28DDC6A5005665EA /* MyInfoLeaveAssetResponse.swift */,
 				1E933F6E28DC546700ACD342 /* LogoutResponse.swift */,
+				1EBFC1E928E195BA005665EA /* MyInfoQuitResponse.swift */,
 			);
 			path = response;
 			sourceTree = "<group>";
@@ -1116,6 +1128,7 @@
 				1E726A79287D64C200E32E19 /* VCSignupText.swift in Sources */,
 				1E2D6A88289A833F0018AC34 /* KycAccountAuthRequest.swift in Sources */,
 				1EF77E30289C954D00B7ABB3 /* VCMypage.swift in Sources */,
+				1EBFC1E428E17408005665EA /* MemberInfoNoMaskRequest.swift in Sources */,
 				1E1345CE28A11D4F00FD46AC /* NoticeSampleRequest.swift in Sources */,
 				1E726A9D287FF14500E32E19 /* FindPWSendEmailResponse.swift in Sources */,
 				1EB344AF2898F5E8004EE5EA /* SpinnerSelectorInterface.swift in Sources */,
@@ -1154,6 +1167,8 @@
 				1E726A9F2880065400E32E19 /* VCFindPWPhone.swift in Sources */,
 				1E97363328929CFD00F47EF9 /* Kyc2_1UploadRequest.swift in Sources */,
 				1E1345DA28A60D1000FD46AC /* VCFAQ.swift in Sources */,
+				1EBFC1E628E1745E005665EA /* MemberInfoNoMaskRespose.swift in Sources */,
+				1EBFC1E828E19465005665EA /* MyInfoQuitRequest.swift in Sources */,
 				1E726A85287E905F00E32E19 /* VCSignupAuth.swift in Sources */,
 				1E7F20BC2884F8E800D4C182 /* InactiveChangePwRequest.swift in Sources */,
 				1E2CFC7D286D7B610057AD90 /* VCSplash.swift in Sources */,
@@ -1184,6 +1199,7 @@
 				1E2CFC41286D782C0057AD90 /* AppDelegate.swift in Sources */,
 				1ECE1CFF28B6326E005EF704 /* OtpGenerateResponse.swift in Sources */,
 				1E31358B288FCA4E006F575C /* VCKyc2_1.swift in Sources */,
+				1EBFC1EA28E195BA005665EA /* MyInfoQuitResponse.swift in Sources */,
 				1E2CFC8A286D908D0057AD90 /* BaseRequest.swift in Sources */,
 				1E3135832888ECD5006F575C /* VCKyc1.swift in Sources */,
 				1E2CFC87286D8ED20057AD90 /* ApiResult.swift in Sources */,

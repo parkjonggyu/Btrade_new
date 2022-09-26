@@ -12,7 +12,6 @@ import Alamofire
 class VCSecurityCerti: VCBase {
     
     var allList:Array<SecurityCertiItem> = Array<SecurityCertiItem>()
-    var refresh:(() -> Void)?
     
     @IBOutlet weak var stepImage: UIImageView!
     
@@ -164,10 +163,6 @@ class VCSecurityCerti: VCBase {
     func goOTP(){
         guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "otpregistervc") as? VCOtpRegister else {
             return
-        }
-        vc.finish = {() -> Void in
-            self.stop()
-            if let r = self.refresh{r()}
         }
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true);

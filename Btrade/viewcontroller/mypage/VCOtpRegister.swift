@@ -10,7 +10,6 @@ import Alamofire
 
 
 class VCOtpRegister: VCBase {
-    var finish:(() -> Void)?
     
     @IBOutlet weak var goGoogleRound: UIView!
     @IBOutlet weak var googleCodeLayout: UIView!
@@ -118,8 +117,10 @@ class VCOtpRegister: VCBase {
             if let status = data.getState(){
                 if status == "OK"{
                     showErrorDialog("OTP 등록이 완료 되었습니다."){_ in
-                        self.stop()
-                        if let f = self.finish{f()}
+                        if let _ = self.appInfo.memberInfo{
+                            self.appInfo.memberInfo?.update = true
+                        }
+                        UIApplication.shared.windows.first(where: {$0.isKeyWindow})?.rootViewController?.dismiss(animated: true)
                     }
                     return
                 }

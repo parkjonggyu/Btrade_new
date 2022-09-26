@@ -89,9 +89,12 @@ class VCMyInfo: VCBase {
     @objc
     func goToNotice(sender:UITapGestureRecognizer){
         if(sender.view == leaveLayout){
-            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "myinfoleavevc") as? VCBase else {
+            
+            //guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "myinfoleavevc") as? VCBase else {
+            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "myinfoquitapplicationvc") as? VCMyinfoQuitApplication else {
                 return
             }
+            vc.totalAsset = "0";
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true);
         }else if(sender.view == logoutLayout){

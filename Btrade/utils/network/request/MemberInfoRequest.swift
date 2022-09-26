@@ -9,14 +9,14 @@ import Foundation
 import Alamofire
 
 class MemberInfoRequest : BaseRequest{
-    var auth_code:String?
+    var os:String? = "ANDROID"
     
     init(){
         super.init(HttpMethod.post, BuildConfig.SERVER_URL, "m/account/jsonMyInfo.do")
     }
     
     override func setArg() {
-        
+        arg["os"] = os ?? ""
     }
 }
 
