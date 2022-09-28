@@ -20,4 +20,12 @@ class FirebaseHoga{
             return nil
         }
     }
+    
+    func getHOGASUB() -> [String:Any]?{
+        if let data = data["HOGASUB"]{
+            return data as? [String : Any]
+        }else{
+            return nil
+        }
+    }
 }

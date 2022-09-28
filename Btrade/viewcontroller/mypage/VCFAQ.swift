@@ -5,7 +5,7 @@
 //  Created by 블록체인컴퍼니 on 2022/08/12.
 //
 
-import Foundation
+import UIKit
 import Alamofire
 import PagingKit
 import WebKit
@@ -128,7 +128,9 @@ extension VCFAQ: PagingMenuViewControllerDataSource {
     }
     
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
-        return 100
+        var width = CGFloat(viewController.view.frame.size.width)
+        width = width / CGFloat(dataSource.count)
+        return width
     }
     
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {

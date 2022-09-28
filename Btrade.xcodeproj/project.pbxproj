@@ -166,6 +166,13 @@
 		1EBFC1E628E1745E005665EA /* MemberInfoNoMaskRespose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1E528E1745E005665EA /* MemberInfoNoMaskRespose.swift */; };
 		1EBFC1E828E19465005665EA /* MyInfoQuitRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1E728E19465005665EA /* MyInfoQuitRequest.swift */; };
 		1EBFC1EA28E195BA005665EA /* MyInfoQuitResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1E928E195BA005665EA /* MyInfoQuitResponse.swift */; };
+		1EBFC1EE28E28921005665EA /* TradeMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EBFC1ED28E28921005665EA /* TradeMenuCell.xib */; };
+		1EBFC1F028E29601005665EA /* VCTradeBTC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1EF28E29601005665EA /* VCTradeBTC.swift */; };
+		1EBFC1F228E29647005665EA /* VCTradeFavorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1F128E29647005665EA /* VCTradeFavorites.swift */; };
+		1EBFC1F428E2965E005665EA /* VCTradePossession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1F328E2965E005665EA /* VCTradePossession.swift */; };
+		1EBFC1F628E2BA7B005665EA /* TradeCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1F528E2BA7A005665EA /* TradeCalc.swift */; };
+		1EBFC1F828E2BF55005665EA /* TradeCoinCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EBFC1F728E2BF55005665EA /* TradeCoinCell.xib */; };
+		1EBFC1FA28E2D750005665EA /* DoubleDecimalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1F928E2D750005665EA /* DoubleDecimalUtils.swift */; };
 		1ECE1CE728B49036005EF704 /* VCQnaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */; };
 		1ECE1CE928B494E1005EF704 /* MypageQNADetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */; };
 		1ECE1CEB28B49684005EF704 /* MypageQNADetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */; };
@@ -371,6 +378,13 @@
 		1EBFC1E528E1745E005665EA /* MemberInfoNoMaskRespose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInfoNoMaskRespose.swift; sourceTree = "<group>"; };
 		1EBFC1E728E19465005665EA /* MyInfoQuitRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoQuitRequest.swift; sourceTree = "<group>"; };
 		1EBFC1E928E195BA005665EA /* MyInfoQuitResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoQuitResponse.swift; sourceTree = "<group>"; };
+		1EBFC1ED28E28921005665EA /* TradeMenuCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TradeMenuCell.xib; sourceTree = "<group>"; };
+		1EBFC1EF28E29601005665EA /* VCTradeBTC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTradeBTC.swift; sourceTree = "<group>"; };
+		1EBFC1F128E29647005665EA /* VCTradeFavorites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTradeFavorites.swift; sourceTree = "<group>"; };
+		1EBFC1F328E2965E005665EA /* VCTradePossession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTradePossession.swift; sourceTree = "<group>"; };
+		1EBFC1F528E2BA7A005665EA /* TradeCalc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCalc.swift; sourceTree = "<group>"; };
+		1EBFC1F728E2BF55005665EA /* TradeCoinCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TradeCoinCell.xib; sourceTree = "<group>"; };
+		1EBFC1F928E2D750005665EA /* DoubleDecimalUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleDecimalUtils.swift; sourceTree = "<group>"; };
 		1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCQnaDetail.swift; sourceTree = "<group>"; };
 		1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailRequest.swift; sourceTree = "<group>"; };
 		1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailResponse.swift; sourceTree = "<group>"; };
@@ -538,6 +552,7 @@
 				1E2CFCAA2872990E0057AD90 /* VersionUtils.swift */,
 				1E1345F528B3660B00FD46AC /* ConvertHtmlUtil.swift */,
 				1E1345CB28A1037500FD46AC /* CoinUtils.swift */,
+				1EBFC1F928E2D750005665EA /* DoubleDecimalUtils.swift */,
 				1E726A86287E986D00E32E19 /* AuthTimerInterface.swift */,
 				1E726A88287E993400E32E19 /* AuthTimer.swift */,
 			);
@@ -628,6 +643,10 @@
 			isa = PBXGroup;
 			children = (
 				1E726A72287BF88300E32E19 /* VCTrade.swift */,
+				1EBFC1EF28E29601005665EA /* VCTradeBTC.swift */,
+				1EBFC1F128E29647005665EA /* VCTradeFavorites.swift */,
+				1EBFC1F328E2965E005665EA /* VCTradePossession.swift */,
+				1EBFC1F528E2BA7A005665EA /* TradeCalc.swift */,
 			);
 			path = trade;
 			sourceTree = "<group>";
@@ -791,6 +810,8 @@
 				1E1345E528AB11ED00FD46AC /* FAQCell.xib */,
 				1ECE1CF428B5ED8F005EF704 /* SecurityCertiCell.xib */,
 				1E1345EF28AD03B200FD46AC /* QNACell.xib */,
+				1EBFC1ED28E28921005665EA /* TradeMenuCell.xib */,
+				1EBFC1F728E2BF55005665EA /* TradeCoinCell.xib */,
 			);
 			path = xibs;
 			sourceTree = "<group>";
@@ -936,6 +957,8 @@
 				1E2CFCD228756FA10057AD90 /* Kyc.storyboard in Resources */,
 				1E2CFCD628756FBE0057AD90 /* Trade.storyboard in Resources */,
 				1E1345DE28A6145800FD46AC /* FAQFocusView.xib in Resources */,
+				1EBFC1F828E2BF55005665EA /* TradeCoinCell.xib in Resources */,
+				1EBFC1EE28E28921005665EA /* TradeMenuCell.xib in Resources */,
 				1ECE1CF528B5ED8F005EF704 /* SecurityCertiCell.xib in Resources */,
 				1E2CFC4D286D782E0057AD90 /* LaunchScreen.storyboard in Resources */,
 				1E2CFCD428756FAF0057AD90 /* Login.storyboard in Resources */,
@@ -1088,8 +1111,10 @@
 				1ECE1CE928B494E1005EF704 /* MypageQNADetailRequest.swift in Sources */,
 				1ECE1CFB28B61DE1005EF704 /* VCOtpRegister.swift in Sources */,
 				1E7F20CA2888DD8400D4C182 /* VCKycAress1_2.swift in Sources */,
+				1EBFC1FA28E2D750005665EA /* DoubleDecimalUtils.swift in Sources */,
 				1E1345D828A4890200FD46AC /* BoardNoticeResponse.swift in Sources */,
 				1E726AA52880EB2100E32E19 /* InactivePhoneConfirmRequest.swift in Sources */,
+				1EBFC1F228E29647005665EA /* VCTradeFavorites.swift in Sources */,
 				1E1345D428A486EE00FD46AC /* VCBoardNotice.swift in Sources */,
 				1E726AA32880E25200E32E19 /* InactivePhoneResponse.swift in Sources */,
 				1ECE1CF128B4E0E8005EF704 /* MypageQNAAddResponse.swift in Sources */,
@@ -1108,6 +1133,7 @@
 				1E726A7D287D67E700E32E19 /* TermsInfoResponse.swift in Sources */,
 				1E1345CA28A0FF1800FD46AC /* MemberInfoResponse.swift in Sources */,
 				1E2CFCE62876DD520057AD90 /* SignInResponse.swift in Sources */,
+				1EBFC1F428E2965E005665EA /* VCTradePossession.swift in Sources */,
 				1E2CFCB92872EBA90057AD90 /* CoinVo.swift in Sources */,
 				1E1345F428B363ED00FD46AC /* MypageQNARequest.swift in Sources */,
 				1E2CFCC52874008E0057AD90 /* FirebaseHoga.swift in Sources */,
@@ -1125,6 +1151,7 @@
 				1E726A8B287EA4A100E32E19 /* SignupAuthRequest.swift in Sources */,
 				1EBFC1D828DDB265005665EA /* VCMyInfoLeave.swift in Sources */,
 				1E7F20BE2884F91400D4C182 /* InactiveChangePwResponse.swift in Sources */,
+				1EBFC1F628E2BA7B005665EA /* TradeCalc.swift in Sources */,
 				1E726A79287D64C200E32E19 /* VCSignupText.swift in Sources */,
 				1E2D6A88289A833F0018AC34 /* KycAccountAuthRequest.swift in Sources */,
 				1EF77E30289C954D00B7ABB3 /* VCMypage.swift in Sources */,
@@ -1171,6 +1198,7 @@
 				1EBFC1E828E19465005665EA /* MyInfoQuitRequest.swift in Sources */,
 				1E726A85287E905F00E32E19 /* VCSignupAuth.swift in Sources */,
 				1E7F20BC2884F8E800D4C182 /* InactiveChangePwRequest.swift in Sources */,
+				1EBFC1F028E29601005665EA /* VCTradeBTC.swift in Sources */,
 				1E2CFC7D286D7B610057AD90 /* VCSplash.swift in Sources */,
 				1E9513502898A8E5008291A3 /* Kyc2UploadRequest.swift in Sources */,
 				1E933F6628DB036500ACD342 /* VCMyInfoChangePassword1.swift in Sources */,

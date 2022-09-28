@@ -12,7 +12,7 @@ class MemberInfoRequest : BaseRequest{
     var os:String? = "ANDROID"
     
     init(){
-        super.init(HttpMethod.post, BuildConfig.SERVER_URL, "m/account/jsonMyInfo.do")
+        super.init(HttpMethod.post, BuildConfig.SERVER_URL, "m/mypage/jsonMyInfo.do")
     }
     
     override func setArg() {
