@@ -12,26 +12,21 @@ class FirebaseDatabaseItem{
     var coinVo:CoinVo
     var mRef:DatabaseReference
     var LIMIT:Int = 100
-    var listener:FirebaseInterface?
+    var listener:CoinHogaEventListener?
     
     init(_ coinVo:CoinVo){
         self.coinVo = coinVo
         mRef = FirebaseDatabaseHelper.getInstance().mDatabase!
     }
     
-    func onHogaBTC(listener:FirebaseInterface){
+    func onHogaBTC(listener:CoinHogaEventListener){
         self.listener = listener
-        mRef.child("hoga/BTC/").observe(.value){(snapshot) in
-            let data = snapshot.value as? [String:AnyObject]
-            if data != nil {
-                APPInfo.getInstance().setFirebaseHoga(f: FirebaseHoga(data! as NSDictionary))
-                self.listener?.onDataChange(market: "ALL")
-            }
-        }
+        self.listener?.handler = mRef.child("hoga/BTC/").observe(.value, with: listener.onDataChange!)
+        
     }
     
     func onChart(listener:FirebaseInterface, INTERVAL:String) {
-        self.listener = listener
+        //self.listener = listener
         if(INTERVAL == "MIN" || INTERVAL == "3MIN" || INTERVAL == "5MIN"){
             LIMIT = 1
         }
@@ -48,7 +43,7 @@ class FirebaseDatabaseItem{
     }
     
     func onNextChart(listener:FirebaseInterface, INTERVAL:String, lastLoadedItem:String) {
-        self.listener = listener
+        //self.listener = listener
         if(INTERVAL == "MIN" || INTERVAL == "3MIN" || INTERVAL == "5MIN"){
             LIMIT = 1
         }

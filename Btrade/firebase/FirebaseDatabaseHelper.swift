@@ -12,9 +12,7 @@ class FirebaseDatabaseHelper:FirebaseInterface{
     
     static var mInstance : FirebaseDatabaseHelper?
     var mDatabase : DatabaseReference?
-    var listener : FirebaseInterface?
     var mMarkets = [String : FirebaseDatabaseItem]()
-    let lock = NSLock()
     
     static func getInstance() -> FirebaseDatabaseHelper{
         if mInstance == nil {
@@ -27,30 +25,21 @@ class FirebaseDatabaseHelper:FirebaseInterface{
         mDatabase = Database.database(url: BuildConfig.FIREBASE_URL).reference()
     }
     
-    func setMarkets(_ markets:Array<CoinVo>){
-        mMarkets = [String : FirebaseDatabaseItem]()
-        for coin in markets{
-            mMarkets[coin.coin_code] = FirebaseDatabaseItem(coin)
+    func onHogaBTC(_ hogaEventListener:CoinHogaEventListener, _ markets:Array<CoinVo>){
+        if(markets.count > 0){
+            FirebaseDatabaseItem(markets[0]).onHogaBTC(listener: hogaEventListener)
         }
     }
     
-    func onHogaBTC(_ listener:FirebaseInterface, _ markets:Array<CoinVo>){
-        self.setMarkets(markets)
-        self.listener = listener
-        lock.lock()
-        if(markets.count > 0){
-            FirebaseDatabaseItem(markets[0]).onHogaBTC(listener: listener)
-        }else{
-            listener.onDataChange(market: "ERROR")
+    func onCommon(_ firebaseKRWInterface:CoinKrwEventListener){
+        if let _ = mDatabase{
+            firebaseKRWInterface.setmRef(mDatabase!)
+            firebaseKRWInterface.handler = mDatabase?.child("hoga/KRW/BTC/HOGASUB/PRICE_NOW").observe(.value, with: firebaseKRWInterface.onDataChange)
         }
-            
-        lock.unlock()
     }
     
     func onChart(listener:FirebaseInterface, markets:Array<CoinVo>, INTERVAL:String, coinVo:CoinVo){
-        setMarkets(markets)
-        self.listener = listener
-        lock.lock()
+        
         for data in mMarkets{
             if let item = coinVo.lastLoadedItem{
                 data.value.onNextChart(listener:self, INTERVAL:INTERVAL, lastLoadedItem: item)
@@ -58,16 +47,23 @@ class FirebaseDatabaseHelper:FirebaseInterface{
                 data.value.onChart(listener:self, INTERVAL:INTERVAL)
             }
         }
-        lock.unlock()
     }
     
-    func removeObserve(){
-        mDatabase!.removeAllObservers()
+    func removeListener(hogaEventListener:CoinHogaEventListener){
+        if let _ = hogaEventListener.handler, let _ = hogaEventListener.mRef{
+            hogaEventListener.mRef?.removeObserver(withHandle: hogaEventListener.handler!)
+        }
+    }
+    
+    func removeListener(firebaseKRWInterface:CoinKrwEventListener){
+        if let mRef = firebaseKRWInterface.getmRef(), let handler = firebaseKRWInterface.handler{
+            mRef.removeObserver(withHandle: handler)
+        }
     }
     
     
     func onDataChange(market: String) {
-        self.listener?.onDataChange(market: market)
+        //self.listener?.onDataChange(market: market)
     }
     
     

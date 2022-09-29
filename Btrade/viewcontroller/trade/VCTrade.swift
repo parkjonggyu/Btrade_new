@@ -166,4 +166,5 @@ class TradeCoinCell: UITableViewCell{
     @IBOutlet weak var mTextPer: UILabel!
     @IBOutlet weak var mTextVol: UILabel!
     @IBOutlet weak var mTextVolKrw: UILabel!
+    @IBOutlet weak var mCandleImage: UIImageView!
 }

@@ -125,11 +125,10 @@ class VCSplash: VCBase, FirebaseInterface {
             let data = MarketListResponse(baseResponce: response)
             let coins : Array<MarketListResponse.Coin> = data.getData()
             vcSplash.appInfo.setCoinList(array: coins)
-            FirebaseDatabaseHelper.getInstance().onHogaBTC(vcSplash, vcSplash.appInfo.getCoinList())
+            vcSplash.appInfo.setBtcInterface(vcSplash)
         }
         
         func onError(e: AFError, method: String) {
-            FirebaseDatabaseHelper.getInstance().removeObserve()
             vcSplash.showErrorDialog()
         }
     }
@@ -137,7 +136,6 @@ class VCSplash: VCBase, FirebaseInterface {
     
     // MARK: - FirebaseInterface
     func onDataChange(market: String) {
-        FirebaseDatabaseHelper.getInstance().removeObserve()
         if(market == "ALL"){
             if let allhoga = APPInfo.getInstance().allFirebaseHoga {
                 var array = appInfo.getCoinList()
@@ -157,12 +155,12 @@ class VCSplash: VCBase, FirebaseInterface {
                     array.remove(at: index - i)
                     i += 1
                 }
-                FirebaseDatabaseHelper.getInstance().removeObserve()
                 
                 
                 if(!aa){
                     print("onDataChange : " )
                     aa = true
+                    appInfo.setBtcInterface(self)
                     init3()
                 }
                 

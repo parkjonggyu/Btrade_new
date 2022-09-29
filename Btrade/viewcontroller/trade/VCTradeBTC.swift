@@ -11,7 +11,7 @@ class VCTradeBTC: VCBase ,UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var mList: UITableView!
     
     var mArray:Array<CoinVo> = Array()
-    
+    var tradeCalc:TradeCalc = TradeCalc()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,6 +70,8 @@ class VCTradeBTC: VCBase ,UITableViewDataSource, UITableViewDelegate {
         
         let str_dif = String(format: "%.2f", dif_per)
         var double_dif = Double(str_dif) ?? 0
+        
+        tradeCalc.makeCandleImage(hogaSub: hogaSub, double_dif, item.kr_coin_name, cell.mCandleImage)
         
         if(double_dif > 0){
             cell.mTextPrice.textColor = .red

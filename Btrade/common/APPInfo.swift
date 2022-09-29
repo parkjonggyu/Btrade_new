@@ -6,16 +6,50 @@
 //
 
 import Foundation
+import FirebaseDatabase
 
-class APPInfo{
+class APPInfo:FirebaseInterface{
+    
+    
     static var appInfo : APPInfo? = nil;
     var isKycVisible:Bool = false;
     
-    var allFirebaseHoga:FirebaseHoga?
+    
     
     var COINLIST:Array<CoinVo> = Array<CoinVo>()
+    func getCoinList() -> Array<CoinVo>{return COINLIST}
+    func setCoinList(array:Array<MarketListResponse.Coin>){
+        COINLIST = Array<CoinVo>()
+        for data in array {
+            let item : CoinVo = CoinVo(coin: data);
+            COINLIST.append(item)
+        }
+        if let _ = coinHogaEventListener{
+            FirebaseDatabaseHelper.getInstance().removeListener(hogaEventListener: coinHogaEventListener!)
+            FirebaseDatabaseHelper.getInstance().onHogaBTC(coinHogaEventListener!, COINLIST)
+        }
+        if let _ = firebaseKRWInterface{
+            FirebaseDatabaseHelper.getInstance().removeListener(firebaseKRWInterface: firebaseKRWInterface!)
+            FirebaseDatabaseHelper.getInstance().onCommon(firebaseKRWInterface!)
+        }
+        
+        
+        
+    }
+    
+    
+    var krwValue:Decimal?
+    func setKrwValue(krw:Decimal){self.krwValue = krw}
+    func getKrwValue() -> Decimal?{return krwValue}
+    
+    
+    var coinHogaEventListener:CoinHogaEventListener?
+    var firebaseKRWInterface:CoinKrwEventListener?
+    
     init(){
-        setLoginCookies(cookies: HTTPCookieStorage.shared.cookies)
+        let _ = setLoginCookies(cookies: HTTPCookieStorage.shared.cookies)
+        coinHogaEventListener = CoinHogaEventListener(self, self)
+        firebaseKRWInterface = CoinKrwEventListener(self)
     }
     
     static func getInstance() -> APPInfo{
@@ -25,26 +59,25 @@ class APPInfo{
         return appInfo!
     }
     
-    func setCoinList(array:Array<MarketListResponse.Coin>){
-        COINLIST = Array<CoinVo>()
-        for data in array {
-            let item : CoinVo = CoinVo(coin: data);
-            COINLIST.append(item)
-        }    
+    
+    
+    var dataSnapshot:DataSnapshot?
+    func getDataSnapShot() -> DataSnapshot?{return dataSnapshot}
+    func setDataSnapShot(data:DataSnapshot){self.dataSnapshot = data}
+    
+    
+    var allFirebaseHoga:FirebaseHoga?
+    func setFirebaseHoga(f:FirebaseHoga){self.allFirebaseHoga = f}
+    func getFirebaseHoga() -> FirebaseHoga?{return self.allFirebaseHoga}
+    
+    var krwInterface:ValueEventListener?
+    func getKrwInterface() -> ValueEventListener?{return krwInterface}
+    func setKrwInterface(_ krw:ValueEventListener){
+        self.krwInterface = krw
+        if let data = dataSnapshot{self.krwInterface?.onDataChange(snapshot: data)}
     }
     
-    func getCoinList() -> Array<CoinVo>{
-        return COINLIST
-    }
-    
-    func setFirebaseHoga(f:FirebaseHoga){
-        self.allFirebaseHoga = f;
-    }
-    
-    func getIsLogin() -> Bool{
-        return setLoginCookies(cookies: HTTPCookieStorage.shared.cookies);
-    }
-    
+    func getIsLogin() -> Bool{return setLoginCookies(cookies: HTTPCookieStorage.shared.cookies)}
     func setLoginCookies(cookies:[HTTPCookie]?) -> Bool{
         guard let datas = cookies else {return false}
         for cookie in datas{
@@ -54,13 +87,11 @@ class APPInfo{
         }
         return false
     }
+    func deleteCookie(){self.memberInfo = nil}
     
-    func deleteCookie(){
-        self.memberInfo = nil
-    }
     
     var memberInfo:MemberInfo?
-    
+    func getMemberInfo() -> MemberInfo?{return memberInfo}
     func setMemberInfo(_ memberInfo:MemberInfoResponse){
         if let state = memberInfo.getState(){
             if(state == "401"){
@@ -68,11 +99,21 @@ class APPInfo{
                 return
             }
         }
-        
         self.memberInfo = memberInfo.getObject()
     }
     
-    func getMemberInfo() -> MemberInfo?{
-        return memberInfo
+    
+    var btcInterface:FirebaseInterface?
+    
+    func getBtcInterface() -> FirebaseInterface?{return btcInterface}
+    func setBtcInterface(_ btc:FirebaseInterface){
+        self.btcInterface = btc
+        if let _ = getFirebaseHoga(){self.btcInterface?.onDataChange(market: "ALL")}
+    }
+    
+    func onDataChange(market: String) {
+        if let _ = btcInterface{
+            btcInterface?.onDataChange(market:market)
+        }
     }
 }

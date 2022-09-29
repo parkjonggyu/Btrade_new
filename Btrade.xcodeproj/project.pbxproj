@@ -173,6 +173,9 @@
 		1EBFC1F628E2BA7B005665EA /* TradeCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1F528E2BA7A005665EA /* TradeCalc.swift */; };
 		1EBFC1F828E2BF55005665EA /* TradeCoinCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EBFC1F728E2BF55005665EA /* TradeCoinCell.xib */; };
 		1EBFC1FA28E2D750005665EA /* DoubleDecimalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1F928E2D750005665EA /* DoubleDecimalUtils.swift */; };
+		1EBFC1FC28E583BD005665EA /* CoinHogaEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1FB28E583BD005665EA /* CoinHogaEventListener.swift */; };
+		1EBFC1FE28E5965C005665EA /* CoinKrwEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1FD28E5965C005665EA /* CoinKrwEventListener.swift */; };
+		1EBFC20228E59C95005665EA /* ValueEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC20128E59C95005665EA /* ValueEventListener.swift */; };
 		1ECE1CE728B49036005EF704 /* VCQnaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */; };
 		1ECE1CE928B494E1005EF704 /* MypageQNADetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */; };
 		1ECE1CEB28B49684005EF704 /* MypageQNADetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */; };
@@ -385,6 +388,9 @@
 		1EBFC1F528E2BA7A005665EA /* TradeCalc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCalc.swift; sourceTree = "<group>"; };
 		1EBFC1F728E2BF55005665EA /* TradeCoinCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TradeCoinCell.xib; sourceTree = "<group>"; };
 		1EBFC1F928E2D750005665EA /* DoubleDecimalUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleDecimalUtils.swift; sourceTree = "<group>"; };
+		1EBFC1FB28E583BD005665EA /* CoinHogaEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinHogaEventListener.swift; sourceTree = "<group>"; };
+		1EBFC1FD28E5965C005665EA /* CoinKrwEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinKrwEventListener.swift; sourceTree = "<group>"; };
+		1EBFC20128E59C95005665EA /* ValueEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueEventListener.swift; sourceTree = "<group>"; };
 		1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCQnaDetail.swift; sourceTree = "<group>"; };
 		1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailRequest.swift; sourceTree = "<group>"; };
 		1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailResponse.swift; sourceTree = "<group>"; };
@@ -795,6 +801,9 @@
 		1E2CFCB72872EB940057AD90 /* vo */ = {
 			isa = PBXGroup;
 			children = (
+				1EBFC1FB28E583BD005665EA /* CoinHogaEventListener.swift */,
+				1EBFC1FD28E5965C005665EA /* CoinKrwEventListener.swift */,
+				1EBFC20128E59C95005665EA /* ValueEventListener.swift */,
 				1E2CFCB82872EBA90057AD90 /* CoinVo.swift */,
 				1E2CFCC42874008E0057AD90 /* FirebaseHoga.swift */,
 			);
@@ -1121,6 +1130,7 @@
 				1E2CFC45286D782C0057AD90 /* ViewController.swift in Sources */,
 				1E2CFCE42876D5700057AD90 /* SignInRequest.swift in Sources */,
 				1EB344AB2898F4FA004EE5EA /* VCKyc4.swift in Sources */,
+				1EBFC1FE28E5965C005665EA /* CoinKrwEventListener.swift in Sources */,
 				1ECE1D0128B7092A005EF704 /* OtpRegisterRequest.swift in Sources */,
 				1E2CFCBD2873CD580057AD90 /* FirebaseDatabaseHelper.swift in Sources */,
 				1E726A7F287E536800E32E19 /* VCSignup.swift in Sources */,
@@ -1131,6 +1141,7 @@
 				1E2D6A8A289A85B40018AC34 /* VCKycCom.swift in Sources */,
 				1E1345E028A6419C00FD46AC /* MypageFAQAllRequest.swift in Sources */,
 				1E726A7D287D67E700E32E19 /* TermsInfoResponse.swift in Sources */,
+				1EBFC1FC28E583BD005665EA /* CoinHogaEventListener.swift in Sources */,
 				1E1345CA28A0FF1800FD46AC /* MemberInfoResponse.swift in Sources */,
 				1E2CFCE62876DD520057AD90 /* SignInResponse.swift in Sources */,
 				1EBFC1F428E2965E005665EA /* VCTradePossession.swift in Sources */,
@@ -1180,6 +1191,7 @@
 				1E2CFCB22872B9C70057AD90 /* DialogUtils.swift in Sources */,
 				1EBFC1DA28DDC42C005665EA /* MyInfoLeaveAssetRequest.swift in Sources */,
 				1E313587288F685C006F575C /* VCKyc2.swift in Sources */,
+				1EBFC20228E59C95005665EA /* ValueEventListener.swift in Sources */,
 				1E7F20C428850E3700D4C182 /* GetKYCStateResponse.swift in Sources */,
 				1E7F20B42884E45700D4C182 /* InactiveEmailResponse.swift in Sources */,
 				1E5346162891490D009EE763 /* VCKyc2Camera.swift in Sources */,
