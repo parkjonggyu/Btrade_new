@@ -18,11 +18,11 @@ class CoinKrwEventListener{
     }
     
     var onDataChange: ((DataSnapshot) -> Void) = {snapshot in
-        let data = snapshot.value as? [String:AnyObject]
+        let data = snapshot.value
         if data != nil {
-            if let krw = data?["PRICE_NOW"] as? Double{
+            if let krw = data as? Int64{
                 APPInfo.getInstance().setDataSnapShot(data: snapshot)
-                APPInfo.getInstance().setKrwValue(krw: DoubleDecimalUtils.newInstance(krw))
+                APPInfo.getInstance().setKrwValue(krw: DoubleDecimalUtils.newInstance(String(krw)))
                 if let listener = APPInfo.getInstance().getKrwInterface(){
                     listener.onDataChange(snapshot: snapshot)
                 }

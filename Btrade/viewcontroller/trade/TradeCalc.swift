@@ -57,7 +57,7 @@ class TradeCalc{
         let centerImageSize = (bodyHigh_price - bodyLow_price) * rate
         let bottomImageSize = (bodyLow_price - low_price) * rate
         
-        print("======================== : " , name)
+        //print("======================== : " , name)
         
         //makeImage(top: 9, body: 0, bottom: 1, state: state, imageView: imageView)
         
@@ -109,7 +109,7 @@ class TradeCalc{
         context.addLine(to: CGPoint(x:Int((width / 2)), y:Int(bottomLine)))
         context.strokePath()
         
-        print("state : " , state)
+        //print("state : " , state)
         
         if(state == UIColor.gray){
             context.setLineWidth(1)
@@ -129,10 +129,10 @@ class TradeCalc{
                 y = y + (tempBody / 2)
             }
             
-            print("topLine : " , topLine)
-            print("bottomLine : " , bottomLine)
-            print("tempBody : " , tempBody)
-            print("y : " , y)
+            //print("topLine : " , topLine)
+            //print("bottomLine : " , bottomLine)
+            //print("tempBody : " , tempBody)
+            //print("y : " , y)
             
             context.setLineWidth(CGFloat(tempBody))
             context.setStrokeColor(state.cgColor)

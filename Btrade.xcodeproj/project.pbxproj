@@ -176,6 +176,8 @@
 		1EBFC1FC28E583BD005665EA /* CoinHogaEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1FB28E583BD005665EA /* CoinHogaEventListener.swift */; };
 		1EBFC1FE28E5965C005665EA /* CoinKrwEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC1FD28E5965C005665EA /* CoinKrwEventListener.swift */; };
 		1EBFC20228E59C95005665EA /* ValueEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC20128E59C95005665EA /* ValueEventListener.swift */; };
+		1EBFC20428E6E369005665EA /* MainRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC20328E6E368005665EA /* MainRequest.swift */; };
+		1EBFC20628E6E45D005665EA /* MainResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC20528E6E45D005665EA /* MainResponse.swift */; };
 		1ECE1CE728B49036005EF704 /* VCQnaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */; };
 		1ECE1CE928B494E1005EF704 /* MypageQNADetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */; };
 		1ECE1CEB28B49684005EF704 /* MypageQNADetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */; };
@@ -391,6 +393,8 @@
 		1EBFC1FB28E583BD005665EA /* CoinHogaEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinHogaEventListener.swift; sourceTree = "<group>"; };
 		1EBFC1FD28E5965C005665EA /* CoinKrwEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinKrwEventListener.swift; sourceTree = "<group>"; };
 		1EBFC20128E59C95005665EA /* ValueEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueEventListener.swift; sourceTree = "<group>"; };
+		1EBFC20328E6E368005665EA /* MainRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRequest.swift; sourceTree = "<group>"; };
+		1EBFC20528E6E45D005665EA /* MainResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainResponse.swift; sourceTree = "<group>"; };
 		1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCQnaDetail.swift; sourceTree = "<group>"; };
 		1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailRequest.swift; sourceTree = "<group>"; };
 		1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailResponse.swift; sourceTree = "<group>"; };
@@ -739,6 +743,7 @@
 				1EBFC1D928DDC42C005665EA /* MyInfoLeaveAssetRequest.swift */,
 				1E933F6C28DC46E900ACD342 /* LogoutRequest.swift */,
 				1EBFC1E728E19465005665EA /* MyInfoQuitRequest.swift */,
+				1EBFC20328E6E368005665EA /* MainRequest.swift */,
 			);
 			path = request;
 			sourceTree = "<group>";
@@ -784,6 +789,7 @@
 				1EBFC1DB28DDC6A5005665EA /* MyInfoLeaveAssetResponse.swift */,
 				1E933F6E28DC546700ACD342 /* LogoutResponse.swift */,
 				1EBFC1E928E195BA005665EA /* MyInfoQuitResponse.swift */,
+				1EBFC20528E6E45D005665EA /* MainResponse.swift */,
 			);
 			path = response;
 			sourceTree = "<group>";
@@ -1135,6 +1141,7 @@
 				1E2CFCBD2873CD580057AD90 /* FirebaseDatabaseHelper.swift in Sources */,
 				1E726A7F287E536800E32E19 /* VCSignup.swift in Sources */,
 				1ECE1D0528B71ADE005EF704 /* VCMyInfo.swift in Sources */,
+				1EBFC20628E6E45D005665EA /* MainResponse.swift in Sources */,
 				1E2CFCE028769BA10057AD90 /* VCLogin.swift in Sources */,
 				1E726A81287E5F5900E32E19 /* SignupRequest.swift in Sources */,
 				1E726A8D287EA59600E32E19 /* SignupAuthResponse.swift in Sources */,
@@ -1244,6 +1251,7 @@
 				1E3135832888ECD5006F575C /* VCKyc1.swift in Sources */,
 				1E2CFC87286D8ED20057AD90 /* ApiResult.swift in Sources */,
 				1E1345C828A0FEAA00FD46AC /* MemberInfoRequest.swift in Sources */,
+				1EBFC20428E6E369005665EA /* MainRequest.swift in Sources */,
 				1E2CFC8F286E72DF0057AD90 /* ServiceBtrade.swift in Sources */,
 				1E1345EE28ACB68200FD46AC /* MypageQNAHistoryResponse.swift in Sources */,
 				1E2CFC43286D782C0057AD90 /* SceneDelegate.swift in Sources */,

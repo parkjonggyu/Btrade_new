@@ -15,15 +15,15 @@ class VCTrade: VCBase {
         let vc = sb.instantiateViewController(withIdentifier: "tradebtcvc") as? VCTradeBTC
         return vc!
     }()
-    var viewService = {() -> VCFAQAll in
-           let vc = VCFAQAll()
-            vc.WHERE = 1
-            return vc
+    var vcFavorites = {() -> VCTradeFavorites in
+        let sb = UIStoryboard.init(name:"Trade", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "tradefavoritesvc") as? VCTradeFavorites
+        return vc!
     }()
-    var viewSecurity = {() -> VCFAQAll in
-           let vc = VCFAQAll()
-            vc.WHERE = 2
-            return vc
+    var vcPossession = {() -> VCTradePossession in
+        let sb = UIStoryboard.init(name:"Trade", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "tradepossessionvc") as? VCTradePossession
+        return vc!
     }()
     
     var allList:Array<TradeItem> = Array<TradeItem>()
@@ -34,25 +34,88 @@ class VCTrade: VCBase {
     
     @IBOutlet weak var searchBtn: UIButton!
     @IBOutlet weak var searchField: UITextField!
+    
+    var WHERE:Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        vcBtc.vcTrade = self;
         
-        dataSource = [(menuTitle: "BTC", vc: vcBtc), (menuTitle: "즐겨찾기", vc: viewService), (menuTitle: "보유코인", vc: viewSecurity)]
+        dataSource = [(menuTitle: "BTC", vc: vcBtc), (menuTitle: "즐겨찾기", vc: vcFavorites), (menuTitle: "보유코인", vc: vcPossession)]
         
-        
+        searchField.delegate = self
+        searchField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         
         menuViewController.register(nib: UINib(nibName: "TradeMenuCell", bundle: nil), forCellWithReuseIdentifier: "TradeMenuCell")
         menuViewController.registerFocusView(nib: UINib(nibName: "FAQFocusView", bundle: nil))
         
         menuViewController.reloadData()
         contentViewController.reloadData()
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         getData()
     }
     
     fileprivate func getData(){
-        vcBtc.setArrayList(appInfo.COINLIST)
+        if(appInfo.getIsLogin()){
+            ApiFactory(apiResult: Main(self), request: MainRequest()).newThread()
+        }
     }
     
+    class Main:ApiResult{
+        var vcTrade:VCTrade
+        init(_ vcTrade:VCTrade){self.vcTrade = vcTrade}
+        func onResult(response: BaseResponse) {
+            if let _ = response.request as? MainRequest{
+                let data = MainResponse(baseResponce: response)
+                if let result = data.getJsonList() {
+                    var a:NSArray?
+                    do{
+                        a = try JSONSerialization.jsonObject(with: Data(result.utf8), options: []) as? NSArray
+                    }catch{
+                        print(error.localizedDescription)
+                    }
+                    
+                    if let aa = a{
+                        for item in aa{
+                            if let dic = item as? NSDictionary{
+                                if let code = dic["coin_code"] as? String{
+                                    if let _ = vcTrade.appInfo.getCoinList(){
+                                        for coin in vcTrade.appInfo.getCoinList()!{
+                                            if(code.lowercased() == coin.coin_code.lowercased()){
+                                                coin.setCoinData(dic)
+                                                break
+                                            }
+                                        }
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                    
+                    return
+                }
+                
+            }
+        }
+        
+        func onError(e: AFError, method: String) {}
+    }
+    
+    @objc func textFieldDidChange(_ serder:Any?){
+        if(WHERE == 0){
+            vcBtc.searchStart(self.searchField?.text)
+        }else if(WHERE == 1){
+            vcFavorites.searchStart(self.searchField?.text)
+        }else if(WHERE == 2){
+            vcPossession.searchStart(self.searchField?.text)
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? PagingMenuViewController {
@@ -84,22 +147,54 @@ class VCTrade: VCBase {
         
     }
     
+    
+    let SEARCHSIZE = 150.0
     @IBAction func clickedSearch(_ sender: Any) {
-        let SIZE = 150.0
-        self.searchField.translatesAutoresizingMaskIntoConstraints = true
-        self.searchBtn.translatesAutoresizingMaskIntoConstraints = true
-        if(searchField.frame.size.width <= (SIZE / 2)){
-            searchBtn.frame.origin.x = searchBtn.frame.origin.x - SIZE
-            searchField.frame.origin.x = searchField.frame.origin.x - SIZE
-            searchField.frame.size.width = searchField.frame.size.width + SIZE
-            searchField.becomeFirstResponder()
+        if(searchField.frame.size.width <= (SEARCHSIZE / 2)){
+            searchVisible()
         }else{
-            searchBtn.frame.origin.x = searchBtn.frame.origin.x + SIZE
-            searchField.frame.origin.x = searchField.frame.origin.x + SIZE
-            searchField.frame.size.width = searchField.frame.size.width - SIZE
-            searchField.text = ""
+            searchInvisible()
+            if(WHERE == 0){
+                vcBtc.searchStart("")
+            }else if(WHERE == 1){
+                vcFavorites.searchStart("")
+            }else if(WHERE == 2){
+                vcPossession.searchStart("")
+            }
         }
     }
+    
+    func searchVisible(){
+        self.searchField.translatesAutoresizingMaskIntoConstraints = true
+        self.searchBtn.translatesAutoresizingMaskIntoConstraints = true
+        if(searchField.frame.size.width <= (SEARCHSIZE / 2)){
+            if(WHERE == 0){
+                vcBtc.initSort()
+            }else if(WHERE == 1){
+                vcFavorites.initSort()
+            }else if(WHERE == 2){
+                vcPossession.initSort()
+            }
+            
+            searchBtn.frame.origin.x = searchBtn.frame.origin.x - SEARCHSIZE
+            searchField.frame.origin.x = searchField.frame.origin.x - SEARCHSIZE
+            searchField.frame.size.width = searchField.frame.size.width + SEARCHSIZE
+            searchField.becomeFirstResponder()
+        }
+    }
+    
+    func searchInvisible(){
+        self.searchField.translatesAutoresizingMaskIntoConstraints = true
+        self.searchBtn.translatesAutoresizingMaskIntoConstraints = true
+        if(searchField.frame.size.width > (SEARCHSIZE / 2)){
+            searchBtn.frame.origin.x = searchBtn.frame.origin.x + SEARCHSIZE
+            searchField.frame.origin.x = searchField.frame.origin.x + SEARCHSIZE
+            searchField.frame.size.width = searchField.frame.size.width - SEARCHSIZE
+            searchField.text = ""
+            self.view.endEditing(true)
+        }
+    }
+    
 }
 
 extension VCTrade: PagingMenuViewControllerDataSource {
@@ -116,6 +211,7 @@ extension VCTrade: PagingMenuViewControllerDataSource {
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "TradeMenuCell", for: index) as! TradeMenuCell
         cell.titleText.text = dataSource[index].menuTitle
+        WHERE = index
         return cell
     }
 }
@@ -140,6 +236,16 @@ extension VCTrade: PagingContentViewControllerDelegate {
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
         menuViewController.scroll(index: index, percent: percent, animated: false)
     }
+}
+
+extension VCTrade: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if(textField == searchField){
+            if((textField.text! + string).count > 8 && string.count > 0){ return false }
+        }
+        return true
+    }
+    
 }
 
 class TradeMenuCell: PagingMenuViewCell {

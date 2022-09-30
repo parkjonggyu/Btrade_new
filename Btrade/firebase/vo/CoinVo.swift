@@ -17,6 +17,8 @@ class CoinVo{
     
     var isInit:Bool = false
     
+    var myCoinData:NSDictionary?
+    
     init(coin:MarketListResponse.Coin){
         self.coin_code = coin.coin_code
         self.en_coin_name = coin.en_coin_name
@@ -26,5 +28,9 @@ class CoinVo{
     
     func setFirebaseHoga(f:FirebaseHoga){
         self.firebaseHoga = f;
+    }
+    
+    func setCoinData(_ info:NSDictionary){
+        self.myCoinData = info
     }
 }

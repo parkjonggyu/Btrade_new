@@ -138,7 +138,7 @@ class VCSplash: VCBase, FirebaseInterface {
     func onDataChange(market: String) {
         if(market == "ALL"){
             if let allhoga = APPInfo.getInstance().allFirebaseHoga {
-                var array = appInfo.getCoinList()
+                var array = appInfo.getCoinList()!
                 var remove = [Int]()
                 var i = 0;
                 for coin in array{
@@ -160,7 +160,7 @@ class VCSplash: VCBase, FirebaseInterface {
                 if(!aa){
                     print("onDataChange : " )
                     aa = true
-                    appInfo.setBtcInterface(self)
+                    appInfo.setBtcInterface(nil)
                     init3()
                 }
                 

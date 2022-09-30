@@ -93,12 +93,12 @@
                                         <rect key="frame" x="0.0" y="29.5" width="580" height="41.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="API/BTC" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VPj-Z4-wMg">
-                                                <rect key="frame" x="0.0" y="0.0" width="315" height="12"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="315" height="14.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" red="0.63137254899999995" green="0.63137254899999995" blue="0.63137254899999995" alpha="0.8980392157" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="API/BTC" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JzI-ev-ZNM">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JzI-ev-ZNM">
                                                 <rect key="frame" x="315" y="0.0" width="100" height="12"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="100" id="rZe-M6-9Wv"/>
@@ -116,7 +116,7 @@
                                                 <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="116백만" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AXz-8g-Ctb">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AXz-8g-Ctb">
                                                 <rect key="frame" x="495" y="0.0" width="85" height="12"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="85" id="32o-hO-tVj"/>

@@ -17,7 +17,7 @@ class APPInfo:FirebaseInterface{
     
     
     var COINLIST:Array<CoinVo> = Array<CoinVo>()
-    func getCoinList() -> Array<CoinVo>{return COINLIST}
+    func getCoinList() -> Array<CoinVo>?{return COINLIST}
     func setCoinList(array:Array<MarketListResponse.Coin>){
         COINLIST = Array<CoinVo>()
         for data in array {
@@ -72,9 +72,11 @@ class APPInfo:FirebaseInterface{
     
     var krwInterface:ValueEventListener?
     func getKrwInterface() -> ValueEventListener?{return krwInterface}
-    func setKrwInterface(_ krw:ValueEventListener){
+    func setKrwInterface(_ krw:ValueEventListener?){
         self.krwInterface = krw
-        if let data = dataSnapshot{self.krwInterface?.onDataChange(snapshot: data)}
+        if let _ = self.krwInterface{
+            if let data = dataSnapshot{self.krwInterface?.onDataChange(snapshot: data)}
+        }
     }
     
     func getIsLogin() -> Bool{return setLoginCookies(cookies: HTTPCookieStorage.shared.cookies)}
@@ -106,9 +108,11 @@ class APPInfo:FirebaseInterface{
     var btcInterface:FirebaseInterface?
     
     func getBtcInterface() -> FirebaseInterface?{return btcInterface}
-    func setBtcInterface(_ btc:FirebaseInterface){
+    func setBtcInterface(_ btc:FirebaseInterface?){
         self.btcInterface = btc
-        if let _ = getFirebaseHoga(){self.btcInterface?.onDataChange(market: "ALL")}
+        if let _ = self.btcInterface{
+            if let _ = getFirebaseHoga(){self.btcInterface?.onDataChange(market: "ALL")}
+        }
     }
     
     func onDataChange(market: String) {
