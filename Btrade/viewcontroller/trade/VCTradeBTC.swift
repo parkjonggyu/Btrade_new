@@ -7,7 +7,7 @@
 import UIKit
 import FirebaseDatabase
 
-class VCTradeBTC: VCBase ,UITableViewDataSource, UITableViewDelegate , FirebaseInterface, ValueEventListener{
+class VCTradeBTC: VCBase ,UITableViewDataSource, UITableViewDelegate, FirebaseInterface, ValueEventListener {
     enum COINSORT{
         case NORMAL
         case UP
@@ -31,15 +31,16 @@ class VCTradeBTC: VCBase ,UITableViewDataSource, UITableViewDelegate , FirebaseI
     @IBOutlet weak var sort4Image: UIImageView!
     var sort4 = COINSORT.NORMAL
     
-    var calc = TradeCalc()
     @IBOutlet weak var mList: UITableView!
     
     var mArray:Array<CoinVo> = Array()
     var vcTrade:VCTrade?
     
-    var tradeCalc:TradeCalc = TradeCalc()
+    var tradeCalc:TradeCalc!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tradeCalc = TradeCalc(appInfo)
         
         sort1Text.isUserInteractionEnabled = true
         sort1Text.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goSort)))
@@ -73,15 +74,13 @@ class VCTradeBTC: VCBase ,UITableViewDataSource, UITableViewDelegate , FirebaseI
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        appInfo.setBtcInterface(self)
-        appInfo.setKrwInterface(self)
+        if(vcTrade != nil){vcTrade?.setInterface(self)}
         setArrayList(getCoinList())
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        appInfo.setBtcInterface(nil)
-        appInfo.setKrwInterface(nil)
+        if(vcTrade != nil){vcTrade?.setInterface(nil)}
     }
     
     
@@ -94,82 +93,19 @@ class VCTradeBTC: VCBase ,UITableViewDataSource, UITableViewDelegate , FirebaseI
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "tradecoincell", for: indexPath) as? TradeCoinCell else {
             return UITableViewCell()
         }
-        cell.selectionStyle = .none
         
-        let item = mArray[indexPath.row]
-        cell.mTextName.text = item.kr_coin_name
-        cell.mTextNameCode.text = item.coin_code + "/BTC"
-        
-        guard let hoga = item.firebaseHoga else{
-            return cell
-        }
-        
-        guard let hogaSub = hoga.getHOGASUB() else{
-            return cell
-        }
-        
-        
-        let now_price = DoubleDecimalUtils.newInstance(hogaSub["PRICE_NOW"] as? Double)
-        let prev_price = DoubleDecimalUtils.newInstance(hogaSub["CLOSING_PRICE"] as? Double)
-        let vol = DoubleDecimalUtils.newInstance(hogaSub["TODAY_TOTAL_COST"] as? Double)
-        
-        let dif_price = DoubleDecimalUtils.subtract(now_price, prev_price);
-        let dif_per = DoubleDecimalUtils.div(DoubleDecimalUtils.newInstance(dif_price), prev_price)
-        
-        let str_dif = String(format: "%.2f", dif_per)
-        let double_dif = Double(str_dif) ?? 0
-        
-        tradeCalc.makeCandleImage(hogaSub: hogaSub, double_dif, item.kr_coin_name, cell.mCandleImage)
-        
-        if(double_dif > 0){
-            cell.mTextPrice.textColor = .red
-            cell.mTextPer.textColor = .red
-        }else if (double_dif == 0){
-            cell.mTextPrice.textColor = .gray
-            cell.mTextPer.textColor = .gray
-        }else {
-            cell.mTextPrice.textColor = .blue
-            cell.mTextPer.textColor = .blue
-        }
-        cell.mTextVol.text = String(format: "%.3f", NSDecimalNumber(decimal: vol).doubleValue)
-        cell.mTextPrice.text = String(format: "%.8f", NSDecimalNumber(decimal: now_price).doubleValue)
-        cell.mTextPer.text = str_dif + "%"
-        
-        guard let _ = appInfo.krwValue else{
-            return cell
-        }
-        
-        let krwPrice = Int(DoubleDecimalUtils.mul(now_price, appInfo.krwValue!))
-        cell.mTextPriceKrw.text = CoinUtils.currency(krwPrice) + "KRW"
-        
-        
-        
-        cell.mTextVol.text = String(format: "%.3f", (vol as NSDecimalNumber).doubleValue)
-        
-        let div = 1000000.0
-        let price = DoubleDecimalUtils.mul(vol, appInfo.krwValue!) * (now_price as NSDecimalNumber).doubleValue
-        var s = DoubleDecimalUtils.setMaximumFractionDigits(price, scale: 0)
-        var million = "백만"
-        if(price >= div){
-            s = DoubleDecimalUtils.setMaximumFractionDigits(floor(price / div), scale: 0)
-        }else{
-            million = ""
-        }
-        
-        cell.mTextVolKrw.text = CoinUtils.currency(s) + million
-        
-        return cell
+        return tradeCalc.setCellData(cell: cell, item: mArray[indexPath.row])
     }
     
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "boardnoticedetailvc") as? VCBoardNoticeDetail else {
-//            return
-//        }
-//
-//        vc.modalPresentationStyle = .fullScreen
-//        self.present(vc, animated: true);
+        guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "tradedetailvc") as? VCCoinDetail else {
+            return
+        }
+        vc.coin = mArray[indexPath.row]
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true);
     }
     
     func onDataChange(market: String) {

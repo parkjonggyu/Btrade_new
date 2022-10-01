@@ -8,8 +8,28 @@
 import UIKit
 
 class TradeCalc{
+    enum StateColor{
+        case red
+        case blue
+        case gray
+        
+        func getColor() -> CGColor{
+            if(self == .red){
+                return UIColor(named: "HogaPriceRed")!.cgColor
+            }else if(self == .blue){
+                return UIColor(named: "HogaPriceBlue")!.cgColor
+            }
+            return UIColor(named: "HogaPriceGray")!.cgColor
+        }
+    }
+    
     
     let MaxSize:Double = 10
+    let appInfo:APPInfo!
+    
+    init(_ appInfo:APPInfo){
+        self.appInfo = appInfo
+    }
     
     func makeCandleImage(hogaSub:[String:Any],_ double_dif:Double, _ name:String,_ imageView:UIImageView){
         if(double_dif == 0 && (hogaSub["HIGH_PRICE_TODAY"] as? Double) ?? 0 == (hogaSub["LOW_PRICE_TODAY"] as? Double) ?? 0){
@@ -21,14 +41,14 @@ class TradeCalc{
         var low_price = hogaSub["LOW_PRICE_TODAY"] as? Double ?? 0
         var bodyHigh_price = hogaSub["CLOSING_PRICE"] as? Double ?? 0
         var bodyLow_price = hogaSub["PRICE_NOW"] as? Double ?? 0
-        var state = UIColor.gray
+        var state = StateColor.gray
         
         if(double_dif > 0){
-            state = UIColor.red
+            state = StateColor.red
             bodyHigh_price = hogaSub["PRICE_NOW"] as? Double ?? 0
             bodyLow_price = hogaSub["CLOSING_PRICE"] as? Double ?? 0
         }else{
-            state = UIColor.blue
+            state = StateColor.blue
             bodyHigh_price = hogaSub["CLOSING_PRICE"] as? Double ?? 0
             bodyLow_price = hogaSub["PRICE_NOW"] as? Double ?? 0
         }
@@ -68,8 +88,7 @@ class TradeCalc{
         makeImage(top: 0, body: 0, bottom: 0, state: .gray, imageView: imageView)
     }
     
-    fileprivate func makeImage(top:Float, body:Float, bottom:Float, state:UIColor, imageView:UIImageView){
-        
+    fileprivate func makeImage(top:Float, body:Float, bottom:Float, state:StateColor, imageView:UIImageView){
         UIGraphicsBeginImageContext(imageView.frame.size)
         let context = UIGraphicsGetCurrentContext()!
         let width = Float(imageView.frame.size.width)
@@ -82,7 +101,7 @@ class TradeCalc{
             //선굵기 설정
             context.setLineWidth(1)
             //선 칼라 설정
-            context.setStrokeColor(state.cgColor)
+            context.setStrokeColor(state.getColor())
             context.move(to: CGPoint(x:0, y:Int((height / 2))))
             context.addLine(to: CGPoint(x:Int((width)), y:Int((height / 2))))
             context.strokePath()
@@ -93,17 +112,17 @@ class TradeCalc{
         
         
         var topLine = top
-        if(state == UIColor.red){topLine = topLine + body}
+        if(state == StateColor.red){topLine = topLine + body}
         topLine = (height / 2) - ((topLine * rate) / 2)
             
         var bottomLine = bottom
-        if(state == UIColor.blue){bottomLine = bottomLine + body}
+        if(state == StateColor.blue){bottomLine = bottomLine + body}
         bottomLine = ((bottomLine * rate) / 2) + (height / 2)
         
         //선굵기 설정
         context.setLineWidth(1)
         //선 칼라 설정
-        context.setStrokeColor(state.cgColor)
+        context.setStrokeColor(state.getColor())
         //윗꼬리 , 아랫꼬리 그리기
         context.move(to: CGPoint(x:Int((width / 2)), y:Int(topLine)))
         context.addLine(to: CGPoint(x:Int((width / 2)), y:Int(bottomLine)))
@@ -111,9 +130,9 @@ class TradeCalc{
         
         //print("state : " , state)
         
-        if(state == UIColor.gray){
+        if(state == StateColor.gray){
             context.setLineWidth(1)
-            context.setStrokeColor(state.cgColor)
+            context.setStrokeColor(state.getColor())
             context.move(to: CGPoint(x:0, y:Int((height / 2))))
             context.addLine(to: CGPoint(x:Int((width)), y:Int((height / 2))))
             context.strokePath()
@@ -135,7 +154,7 @@ class TradeCalc{
             //print("y : " , y)
             
             context.setLineWidth(CGFloat(tempBody))
-            context.setStrokeColor(state.cgColor)
+            context.setStrokeColor(state.getColor())
             context.move(to: CGPoint(x:0, y:Int(y)))
             context.addLine(to: CGPoint(x:Int((width)), y:Int(y)))
             context.strokePath()
@@ -144,4 +163,73 @@ class TradeCalc{
         imageView.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
    }
+    
+    
+    func setCellData(cell:TradeCoinCell, item:CoinVo) -> TradeCoinCell{
+        
+        cell.selectionStyle = .none
+        
+        cell.mTextName.text = item.kr_coin_name
+        cell.mTextNameCode.text = item.coin_code + "/BTC"
+        
+        guard let hoga = item.firebaseHoga else{
+            return cell
+        }
+        
+        guard let hogaSub = hoga.getHOGASUB() else{
+            return cell
+        }
+        
+        
+        let now_price = DoubleDecimalUtils.newInstance(hogaSub["PRICE_NOW"] as? Double)
+        let prev_price = DoubleDecimalUtils.newInstance(hogaSub["CLOSING_PRICE"] as? Double)
+        let vol = DoubleDecimalUtils.newInstance(hogaSub["TODAY_TOTAL_COST"] as? Double)
+        
+        let dif_price = DoubleDecimalUtils.subtract(now_price, prev_price);
+        let dif_per = DoubleDecimalUtils.div(DoubleDecimalUtils.newInstance(dif_price), prev_price)
+        
+        let str_dif = String(format: "%.2f", dif_per)
+        let double_dif = Double(str_dif) ?? 0
+        
+        makeCandleImage(hogaSub: hogaSub, double_dif, item.kr_coin_name, cell.mCandleImage)
+        
+        if(double_dif > 0){
+            cell.mTextPrice.textColor = .red
+            cell.mTextPer.textColor = .red
+        }else if (double_dif == 0){
+            cell.mTextPrice.textColor = .gray
+            cell.mTextPer.textColor = .gray
+        }else {
+            cell.mTextPrice.textColor = .blue
+            cell.mTextPer.textColor = .blue
+        }
+        cell.mTextVol.text = String(format: "%.3f", NSDecimalNumber(decimal: vol).doubleValue)
+        cell.mTextPrice.text = String(format: "%.8f", NSDecimalNumber(decimal: now_price).doubleValue)
+        cell.mTextPer.text = str_dif + "%"
+        
+        guard let _ = appInfo.krwValue else{
+            return cell
+        }
+        
+        let krwPrice = Int(DoubleDecimalUtils.mul(now_price, appInfo.krwValue!))
+        cell.mTextPriceKrw.text = CoinUtils.currency(krwPrice) + "KRW"
+        
+        
+        
+        cell.mTextVol.text = String(format: "%.3f", (vol as NSDecimalNumber).doubleValue)
+        
+        let div = 1000000.0
+        let price = DoubleDecimalUtils.mul(vol, appInfo.krwValue!) * (now_price as NSDecimalNumber).doubleValue
+        var s = DoubleDecimalUtils.setMaximumFractionDigits(price, scale: 0)
+        var million = "백만"
+        if(price >= div){
+            s = DoubleDecimalUtils.setMaximumFractionDigits(floor(price / div), scale: 0)
+        }else{
+            million = ""
+        }
+        
+        cell.mTextVolKrw.text = CoinUtils.currency(s) + million
+        
+        return cell
+    }
 }

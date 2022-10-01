@@ -28,4 +28,12 @@ class FirebaseHoga{
             return nil
         }
     }
+    
+    func getHOGA() -> [String:Any]?{
+        if let data = data["HOGA"]{
+            return data as? [String : Any]
+        }else{
+            return nil
+        }
+    }
 }

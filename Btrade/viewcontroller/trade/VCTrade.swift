@@ -8,8 +8,9 @@
 import UIKit
 import Alamofire
 import PagingKit
+import FirebaseDatabase
 
-class VCTrade: VCBase {
+class VCTrade: VCBase , FirebaseInterface, ValueEventListener{
     var vcBtc = {() -> VCTradeBTC in
         let sb = UIStoryboard.init(name:"Trade", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "tradebtcvc") as? VCTradeBTC
@@ -35,11 +36,15 @@ class VCTrade: VCBase {
     @IBOutlet weak var searchBtn: UIButton!
     @IBOutlet weak var searchField: UITextField!
     
+    var firebaseInterface:VCBase?
+    
     var WHERE:Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         vcBtc.vcTrade = self;
+        vcFavorites.vcTrade = self;
+        vcPossession.vcTrade = self;
         
         dataSource = [(menuTitle: "BTC", vc: vcBtc), (menuTitle: "즐겨찾기", vc: vcFavorites), (menuTitle: "보유코인", vc: vcPossession)]
         
@@ -51,21 +56,44 @@ class VCTrade: VCBase {
         
         menuViewController.reloadData()
         contentViewController.reloadData()
-        
-        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        appInfo.setBtcInterface(nil)
+        appInfo.setKrwInterface(nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        appInfo.setBtcInterface(self)
+        appInfo.setKrwInterface(self)
         getData()
     }
     
+    func setInterface(_ firebaseInterface:VCBase?) {
+        self.firebaseInterface = firebaseInterface
+    }
+
+    
+    func onDataChange(market: String) {
+        if let sender = firebaseInterface as? FirebaseInterface{
+            sender.onDataChange(market: market)
+        }
+    }
+    
+    func onDataChange(snapshot: DataSnapshot) {
+        if let sender = firebaseInterface as? ValueEventListener{
+            sender.onDataChange(snapshot: snapshot)
+        }
+    }
+
     fileprivate func getData(){
         if(appInfo.getIsLogin()){
             ApiFactory(apiResult: Main(self), request: MainRequest()).newThread()
         }
     }
-    
+        
     class Main:ApiResult{
         var vcTrade:VCTrade
         init(_ vcTrade:VCTrade){self.vcTrade = vcTrade}
@@ -114,18 +142,6 @@ class VCTrade: VCBase {
             vcFavorites.searchStart(self.searchField?.text)
         }else if(WHERE == 2){
             vcPossession.searchStart(self.searchField?.text)
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? PagingMenuViewController {
-            menuViewController = vc
-            menuViewController.dataSource = self
-            menuViewController.delegate = self
-        } else if let vc = segue.destination as? PagingContentViewController {
-            contentViewController = vc
-            contentViewController.dataSource = self
-            contentViewController.delegate = self
         }
     }
     
@@ -197,7 +213,27 @@ class VCTrade: VCBase {
     
 }
 
-extension VCTrade: PagingMenuViewControllerDataSource {
+
+//MARK - PagingKit
+extension VCTrade{
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? PagingMenuViewController {
+            menuViewController = vc
+            menuViewController.dataSource = self
+            menuViewController.delegate = self
+        } else if let vc = segue.destination as? PagingContentViewController {
+            contentViewController = vc
+            contentViewController.dataSource = self
+            contentViewController.delegate = self
+        }
+    }
+}
+
+extension VCTrade: PagingMenuViewControllerDataSource, PagingMenuViewControllerDelegate {
+    func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
+        contentViewController.scroll(to: page, animated: true)
+    }
+    
     func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
         return dataSource.count
     }
@@ -216,13 +252,7 @@ extension VCTrade: PagingMenuViewControllerDataSource {
     }
 }
 
-extension VCTrade: PagingMenuViewControllerDelegate {
-    func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
-        contentViewController.scroll(to: page, animated: true)
-    }
-}
-
-extension VCTrade: PagingContentViewControllerDataSource {
+extension VCTrade:  PagingContentViewControllerDataSource, PagingContentViewControllerDelegate{
     func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
         return dataSource.count
     }
@@ -230,9 +260,6 @@ extension VCTrade: PagingContentViewControllerDataSource {
     func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController {
         return dataSource[index].vc
     }
-}
-
-extension VCTrade: PagingContentViewControllerDelegate {
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
         menuViewController.scroll(index: index, percent: percent, animated: false)
     }
@@ -247,6 +274,7 @@ extension VCTrade: UITextFieldDelegate {
     }
     
 }
+
 
 class TradeMenuCell: PagingMenuViewCell {
     @IBOutlet weak var titleText: UILabel!

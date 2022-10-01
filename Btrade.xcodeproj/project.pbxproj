@@ -178,6 +178,10 @@
 		1EBFC20228E59C95005665EA /* ValueEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC20128E59C95005665EA /* ValueEventListener.swift */; };
 		1EBFC20428E6E369005665EA /* MainRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC20328E6E368005665EA /* MainRequest.swift */; };
 		1EBFC20628E6E45D005665EA /* MainResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC20528E6E45D005665EA /* MainResponse.swift */; };
+		1EBFC20928E7DA81005665EA /* VCCoinDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC20828E7DA81005665EA /* VCCoinDetail.swift */; };
+		1EBFC21128E7F2E8005665EA /* DetailMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EBFC21028E7F2E8005665EA /* DetailMenuCell.xib */; };
+		1EBFC21328E7FC27005665EA /* VCCoinDetailOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC21228E7FC27005665EA /* VCCoinDetailOrder.swift */; };
+		1EBFC21528E8072F005665EA /* OrderHogaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EBFC21428E8072F005665EA /* OrderHogaCell.xib */; };
 		1ECE1CE728B49036005EF704 /* VCQnaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */; };
 		1ECE1CE928B494E1005EF704 /* MypageQNADetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */; };
 		1ECE1CEB28B49684005EF704 /* MypageQNADetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */; };
@@ -395,6 +399,10 @@
 		1EBFC20128E59C95005665EA /* ValueEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueEventListener.swift; sourceTree = "<group>"; };
 		1EBFC20328E6E368005665EA /* MainRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRequest.swift; sourceTree = "<group>"; };
 		1EBFC20528E6E45D005665EA /* MainResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainResponse.swift; sourceTree = "<group>"; };
+		1EBFC20828E7DA81005665EA /* VCCoinDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCCoinDetail.swift; sourceTree = "<group>"; };
+		1EBFC21028E7F2E8005665EA /* DetailMenuCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailMenuCell.xib; sourceTree = "<group>"; };
+		1EBFC21228E7FC27005665EA /* VCCoinDetailOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCCoinDetailOrder.swift; sourceTree = "<group>"; };
+		1EBFC21428E8072F005665EA /* OrderHogaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderHogaCell.xib; sourceTree = "<group>"; };
 		1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCQnaDetail.swift; sourceTree = "<group>"; };
 		1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailRequest.swift; sourceTree = "<group>"; };
 		1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailResponse.swift; sourceTree = "<group>"; };
@@ -652,6 +660,7 @@
 		1E2CFC7A286D7B160057AD90 /* trade */ = {
 			isa = PBXGroup;
 			children = (
+				1EBFC20728E7DA66005665EA /* detail */,
 				1E726A72287BF88300E32E19 /* VCTrade.swift */,
 				1EBFC1EF28E29601005665EA /* VCTradeBTC.swift */,
 				1EBFC1F128E29647005665EA /* VCTradeFavorites.swift */,
@@ -816,6 +825,63 @@
 			path = vo;
 			sourceTree = "<group>";
 		};
+		1EBFC20728E7DA66005665EA /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				1EBFC20B28E7DAC5005665EA /* chart */,
+				1EBFC20C28E7DADF005665EA /* hoga */,
+				1EBFC20D28E7DAE7005665EA /* info */,
+				1EBFC20E28E7DAF2005665EA /* order */,
+				1EBFC20F28E7DAFB005665EA /* popup */,
+				1EBFC20A28E7DAB0005665EA /* quote */,
+				1EBFC20828E7DA81005665EA /* VCCoinDetail.swift */,
+			);
+			path = detail;
+			sourceTree = "<group>";
+		};
+		1EBFC20A28E7DAB0005665EA /* quote */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = quote;
+			sourceTree = "<group>";
+		};
+		1EBFC20B28E7DAC5005665EA /* chart */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = chart;
+			sourceTree = "<group>";
+		};
+		1EBFC20C28E7DADF005665EA /* hoga */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = hoga;
+			sourceTree = "<group>";
+		};
+		1EBFC20D28E7DAE7005665EA /* info */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = info;
+			sourceTree = "<group>";
+		};
+		1EBFC20E28E7DAF2005665EA /* order */ = {
+			isa = PBXGroup;
+			children = (
+				1EBFC21228E7FC27005665EA /* VCCoinDetailOrder.swift */,
+			);
+			path = order;
+			sourceTree = "<group>";
+		};
+		1EBFC20F28E7DAFB005665EA /* popup */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = popup;
+			sourceTree = "<group>";
+		};
 		1EF77E31289C958000B7ABB3 /* xibs */ = {
 			isa = PBXGroup;
 			children = (
@@ -827,6 +893,8 @@
 				1E1345EF28AD03B200FD46AC /* QNACell.xib */,
 				1EBFC1ED28E28921005665EA /* TradeMenuCell.xib */,
 				1EBFC1F728E2BF55005665EA /* TradeCoinCell.xib */,
+				1EBFC21028E7F2E8005665EA /* DetailMenuCell.xib */,
+				1EBFC21428E8072F005665EA /* OrderHogaCell.xib */,
 			);
 			path = xibs;
 			sourceTree = "<group>";
@@ -968,6 +1036,7 @@
 				1E2CFCD828756FCA0057AD90 /* Webview.storyboard in Resources */,
 				1E2CFCC62875323D0057AD90 /* Main.storyboard in Resources */,
 				1E1345E628AB11ED00FD46AC /* FAQCell.xib in Resources */,
+				1EBFC21528E8072F005665EA /* OrderHogaCell.xib in Resources */,
 				1EF77E3D289CBAF600B7ABB3 /* EventsLayout.xib in Resources */,
 				1E2CFCD228756FA10057AD90 /* Kyc.storyboard in Resources */,
 				1E2CFCD628756FBE0057AD90 /* Trade.storyboard in Resources */,
@@ -984,6 +1053,7 @@
 				1E2CFCDA2875725A0057AD90 /* Mypage.storyboard in Resources */,
 				1E1345DC28A611DE00FD46AC /* FAQMenuCell.xib in Resources */,
 				1E2CFCBB2873B6E90057AD90 /* GoogleService-Info.plist in Resources */,
+				1EBFC21128E7F2E8005665EA /* DetailMenuCell.xib in Resources */,
 				1E2CFCCE28756F830057AD90 /* Asset.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1129,6 +1199,7 @@
 				1EBFC1FA28E2D750005665EA /* DoubleDecimalUtils.swift in Sources */,
 				1E1345D828A4890200FD46AC /* BoardNoticeResponse.swift in Sources */,
 				1E726AA52880EB2100E32E19 /* InactivePhoneConfirmRequest.swift in Sources */,
+				1EBFC21328E7FC27005665EA /* VCCoinDetailOrder.swift in Sources */,
 				1EBFC1F228E29647005665EA /* VCTradeFavorites.swift in Sources */,
 				1E1345D428A486EE00FD46AC /* VCBoardNotice.swift in Sources */,
 				1E726AA32880E25200E32E19 /* InactivePhoneResponse.swift in Sources */,
@@ -1184,6 +1255,7 @@
 				1E726A7B287D673400E32E19 /* TermsInfoRequest.swift in Sources */,
 				1E7F20B82884ED1700D4C182 /* InactiveEmailConfirmResponse.swift in Sources */,
 				1ECE1CF328B5A445005EF704 /* VCSecurityCerti.swift in Sources */,
+				1EBFC20928E7DA81005665EA /* VCCoinDetail.swift in Sources */,
 				1EBFC1DC28DDC6A5005665EA /* MyInfoLeaveAssetResponse.swift in Sources */,
 				1E7F20BA2884F17100D4C182 /* VCInactiveChangePW.swift in Sources */,
 				1E2D6A86289A830B0018AC34 /* KycAccountAuthResponse.swift in Sources */,
