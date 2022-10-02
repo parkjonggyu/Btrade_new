@@ -225,6 +225,15 @@ extension VCTrade{
             contentViewController = vc
             contentViewController.dataSource = self
             contentViewController.delegate = self
+            stopScroll()
+        }
+    }
+    
+    fileprivate func stopScroll(){
+        for view in self.contentViewController.view.subviews{
+            if let subView = view as? UIScrollView{
+                subView.isScrollEnabled = false
+            }
         }
     }
 }

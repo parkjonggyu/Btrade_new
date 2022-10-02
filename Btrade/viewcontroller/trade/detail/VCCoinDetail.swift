@@ -11,7 +11,8 @@ import PagingKit
 import FirebaseDatabase
 
 class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
-    var coin:CoinVo?
+    static var MARKETTYPE:String? = "BTC"
+    static var coin:CoinVo?
     var firebaseInterface:VCBase?
     
     @IBOutlet weak var backBtn: UIImageView!
@@ -53,7 +54,6 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
         super.viewDidLoad()
         vcCoinDetailOrder.vcDetail = self
         
-        
         dataSource = [(menuTitle: "주문", vc: vcCoinDetailOrder), (menuTitle: "호가", vc: vcFavorites), (menuTitle: "차트", vc: vcPossession), (menuTitle: "시세", vc: vcPossession)]
         
         backBtn.isUserInteractionEnabled = true
@@ -88,11 +88,11 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
     }
     
     fileprivate func setTitleData(){
-        if var _ = coin{
-            coinNameText.text = coin?.kr_coin_name
-            coinCodeText.text = coin?.coin_code ?? ""
-            coinCodeText.text = coinCodeText.text! + "/BTC"
-            guard let hoga = coin?.firebaseHoga else{return}
+        if var _ = VCCoinDetail.coin{
+            coinNameText.text = VCCoinDetail.coin?.kr_coin_name
+            coinCodeText.text = VCCoinDetail.coin?.coin_code ?? ""
+            coinCodeText.text = coinCodeText.text! + "/" + (VCCoinDetail.MARKETTYPE ?? "")
+            guard let hoga = VCCoinDetail.coin?.firebaseHoga else{return}
             guard let hogaSub = hoga.getHOGASUB() else{return}
             guard let _ = appInfo.krwValue else{return}
             
@@ -111,8 +111,11 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
             var color = UIColor.gray
             if(dif_price > 0){
                 color = .red
+                changePriceText.text = "+" + (changePriceText.text ?? "")
+                changePerText.text = "▴" + (changePerText.text ?? "")
             }else if(dif_price < 0){
                 color = .blue
+                changePerText.text = "▾" + (changePerText.text ?? "").replacingOccurrences(of: "-", with: "")
             }
             
             coinPriceText.textColor = color
@@ -149,12 +152,14 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
         if let sender = firebaseInterface as? FirebaseInterface{
             sender.onDataChange(market: market)
         }
+        setTitleData()
     }
     
     func onDataChange(snapshot: DataSnapshot) {
         if let sender = firebaseInterface as? ValueEventListener{
             sender.onDataChange(snapshot: snapshot)
         }
+        setTitleData()
     }
 }
 
@@ -170,6 +175,15 @@ extension VCCoinDetail{
             contentViewController = vc
             contentViewController.dataSource = self
             contentViewController.delegate = self
+            stopScroll()
+        }
+    }
+    
+    fileprivate func stopScroll(){
+        for view in self.contentViewController.view.subviews{
+            if let subView = view as? UIScrollView{
+                subView.isScrollEnabled = false
+            }
         }
     }
 }

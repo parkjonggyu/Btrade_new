@@ -103,7 +103,7 @@ class VCTradeBTC: VCBase ,UITableViewDataSource, UITableViewDelegate, FirebaseIn
         guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "tradedetailvc") as? VCCoinDetail else {
             return
         }
-        vc.coin = mArray[indexPath.row]
+        VCCoinDetail.coin = mArray[indexPath.row]
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true);
     }

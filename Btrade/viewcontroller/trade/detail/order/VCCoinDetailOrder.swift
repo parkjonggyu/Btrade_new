@@ -14,6 +14,7 @@ import FirebaseDatabase
 class VCCoinDetailOrder: VCBase{
     let HOGAMAX = 10
     var vcDetail:VCCoinDetail?
+    var vcCoinDetailOrderRight:VCCoinDetailOrderRight?
     
     @IBOutlet weak var hogaTableView: UITableView!
     
@@ -22,6 +23,8 @@ class VCCoinDetailOrder: VCBase{
     
     var mAmountBuy:Double = 0
     var mAmountSell:Double = 0
+    
+    var volumeAllSize:Double?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,9 +35,15 @@ class VCCoinDetailOrder: VCBase{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        vcDetail?.setInterface(self)
         setHogaLayout()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? VCCoinDetailOrderRight {
+            vcCoinDetailOrderRight = vc
+        }
+    }
 }
 
 
@@ -61,11 +70,11 @@ extension VCCoinDetailOrder{
         mArrayHogyBuy.removeAll();
         mAmountBuy = 0
         for idx in (1 ... HOGAMAX){
-            guard let _ = vcDetail?.coin?.firebaseHoga else{
+            guard let _ = VCCoinDetail.coin?.firebaseHoga else{
                 mArrayHogyBuy.append(nil)
                 continue
             }
-            guard let hoga = vcDetail?.coin?.firebaseHoga?.getHOGA() else{
+            guard let hoga = VCCoinDetail.coin?.firebaseHoga?.getHOGA() else{
                 mArrayHogyBuy.append(nil)
                 continue
             }
@@ -91,11 +100,11 @@ extension VCCoinDetailOrder{
         mArrayHogySell.removeAll();
         mAmountSell = 0
         for idx in (1 ... HOGAMAX).reversed(){
-            guard let _ = vcDetail?.coin?.firebaseHoga else{
+            guard let _ = VCCoinDetail.coin?.firebaseHoga else{
                 mArrayHogySell.append(nil)
                 continue
             }
-            guard let hoga = vcDetail?.coin?.firebaseHoga?.getHOGA() else{
+            guard let hoga = VCCoinDetail.coin?.firebaseHoga?.getHOGA() else{
                 mArrayHogySell.append(nil)
                 continue
             }
@@ -144,26 +153,26 @@ extension VCCoinDetailOrder{
             cell.volumeLayout.backgroundColor = UIColor(named: "HogaSellBack")
             cell.priceText.textColor = UIColor(named: "HogaPriceBlue")
             color = UIColor(named: "HogaSellBar")
-            per = DoubleDecimalUtils.div(amount, DoubleDecimalUtils.newInstance(mAmountSell))
+            per = DoubleDecimalUtils.div(amount, DoubleDecimalUtils.newInstance(mAmountSell)) / 100
         }else{
             cell.priceLayout.backgroundColor = UIColor(named: "HogaBuyBack")
             cell.volumeLayout.backgroundColor = UIColor(named: "HogaBuyBack")
             cell.priceText.textColor = UIColor(named: "HogaPriceRed")
             color = UIColor(named: "HogaBuyBar")
-            per = DoubleDecimalUtils.div(amount, DoubleDecimalUtils.newInstance(mAmountBuy))
+            per = DoubleDecimalUtils.div(amount, DoubleDecimalUtils.newInstance(mAmountBuy)) / 100
         }
         
         if(per < 0.01){per = 0.01}
         if(per > 1){per = 1}
-        
-        var size = cell.volumeLayout.frame.size.width * per
+        var size = (volumeAllSize ?? 10)  * per
         if(size < 1){size = 1}
+        if(size > cell.volumeLayout.frame.size.width){size = cell.volumeLayout.frame.size.width}
         
-        cell.volumeBar.translatesAutoresizingMaskIntoConstraints = false
-        cell.volumeBar.frame.size.width = size
+        
+        cell.volumeBarWidth.constant = size
+        cell.volumeLayout.layoutIfNeeded()
         cell.volumeBar.backgroundColor = color
         
-        print("size : " , size, " , " , per)
     }
 }
 
@@ -176,7 +185,7 @@ extension VCCoinDetailOrder: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "OrderHogaCell", for: indexPath) as? OrderHogaCell else {
             return UITableViewCell()
         }
-        
+        if(volumeAllSize == nil){volumeAllSize = cell.volumeLayout.frame.size.width}
         self.setHogaCell(cell, indexPath)
         
         
@@ -190,6 +199,23 @@ extension VCCoinDetailOrder: UITableViewDataSource, UITableViewDelegate {
 }
 
 
+extension VCCoinDetailOrder: FirebaseInterface, ValueEventListener{
+    func onDataChange(market: String) {
+        if let sender = vcCoinDetailOrderRight as? FirebaseInterface{
+            sender.onDataChange(market: market)
+        }
+        setHogaLayout();
+    }
+    
+    func onDataChange(snapshot: DataSnapshot) {
+        if let sender = vcCoinDetailOrderRight as? ValueEventListener{
+            sender.onDataChange(snapshot: snapshot)
+        }
+        setHogaLayout()
+    }
+}
+
+
 class OrderHogaCell:UITableViewCell{
     @IBOutlet weak var priceLayout: UIView!
     @IBOutlet weak var volumeLayout: UIView!
@@ -197,4 +223,5 @@ class OrderHogaCell:UITableViewCell{
     @IBOutlet weak var priceText: UILabel!
     @IBOutlet weak var priceKrwText: UILabel!
     @IBOutlet weak var volumeBar: UILabel!
+    @IBOutlet weak var volumeBarWidth: NSLayoutConstraint!
 }

@@ -79,8 +79,7 @@ class VCLogin: VCBase {
     }
     
     func goMain(){
-        appInfo.setLoginCookies(cookies: HTTPCookieStorage.shared.cookies)
-        self.navigationController?.dismiss(animated: true)
+        UIApplication.shared.windows.first(where: {$0.isKeyWindow})?.rootViewController?.dismiss(animated: true)
     }
     
     func goMainWithKYCPopup(){

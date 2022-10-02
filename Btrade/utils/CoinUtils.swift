@@ -30,6 +30,13 @@ class CoinUtils{
         }
     }
     
+    static func hogaPolicy(_ MARKETTYPE:String?,_ price:Double) ->Double{
+        if let market = MARKETTYPE {
+            if(market == "BTC"){return 0.00000001}
+        }
+        return 0.0
+    }
+    
     static func currency(_ i:Int) -> String{
         return currency(String(i), 3)
     }
@@ -65,7 +72,7 @@ class CoinUtils{
         
         result = number.substring(from: 0, to: nIndex)
         while(nIndex <= nMax){
-            result = result + "," + number.substring(from: nIndex, to: nIndex + 3 < len ? nIndex + 3 : len)
+            result = result + "," + number.substring(from: nIndex, to: nIndex + 3)
             nIndex = nIndex + cipher
         }
         
@@ -83,8 +90,8 @@ extension String{
             return ""
         }
         
-        var end = to + 1
-        if(end >= self.count){end = end - 1}
+        var end = to
+        if(end > self.count){end = self.count}
         
         let startInfdex = index(self.startIndex, offsetBy: from)
         let endIndex = index(self.startIndex, offsetBy: end)

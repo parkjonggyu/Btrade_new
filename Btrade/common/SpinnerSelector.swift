@@ -14,9 +14,9 @@ class SpinnerSelector{
     let interface:SpinnerSelectorInterface!
     let dropdown = DropDown()
     var itemList:[String]!
-    var textField: UITextField
+    var textField: AnchorView
     
-    init(_ interface:SpinnerSelectorInterface,_ textField: UITextField, _ array:Array<KycVo.SMAP>, _ WHERE:Int){
+    init(_ interface:SpinnerSelectorInterface,_ textField: AnchorView, _ array:Array<KycVo.SMAP>, _ WHERE:Int){
         self.WHERE = WHERE
         self.mArray = array
         self.interface = interface

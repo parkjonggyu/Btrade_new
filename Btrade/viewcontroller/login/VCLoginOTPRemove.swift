@@ -62,7 +62,6 @@ class VCLoginOTPRemove: VCBase {
     }
     
     func goMain(){
-        appInfo.setLoginCookies(cookies: HTTPCookieStorage.shared.cookies)
         self.navigationController?.dismiss(animated: true)
     }
     

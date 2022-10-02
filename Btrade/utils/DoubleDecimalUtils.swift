@@ -30,6 +30,10 @@ class DoubleDecimalUtils{
         return Decimal(0)
     }
     
+    static func add(_ a:Decimal, _ b:Decimal) -> Double{
+        return ((a + b) as NSDecimalNumber).doubleValue
+    }
+    
     static func subtract(_ a:Decimal, _ b:Decimal) -> Double{
         if((a as NSDecimalNumber).doubleValue == 0){return 0}
         return ((a - b) as NSDecimalNumber).doubleValue
@@ -45,12 +49,30 @@ class DoubleDecimalUtils{
         return ((a * b) as NSDecimalNumber).doubleValue
     }
     
+    static func mul(_ sss:String, _ b:Decimal) -> Double{
+        let a = newInstance(sss)
+        if((a as NSDecimalNumber).doubleValue == 0 || (b as NSDecimalNumber).doubleValue == 0){return 0}
+        return ((a * b) as NSDecimalNumber).doubleValue
+    }
+    
+    static func doubleValue(_ a:Decimal) -> Double?{
+        return (a as NSDecimalNumber).doubleValue
+    }
+    
     static func withoutExp(_ d:Double) -> String{
         return setMaximumFractionDigits(d,scale: 8)
     }
     
     static func withoutExp(_ d:Int) -> String{
         return setMaximumFractionDigits(Double(d) ,scale: 8)
+    }
+    
+    static func withoutExp(_ a:Decimal) -> String{
+        return setMaximumFractionDigits((a as NSDecimalNumber).doubleValue ,scale: 8)
+    }
+    
+    static func setMaximumFractionDigits(decimal:Decimal, scale:Int) -> String{
+        return setMaximumFractionDigits((decimal as NSDecimalNumber).doubleValue, scale:scale)
     }
     
     static func setMaximumFractionDigits(_ d:Double, scale:Int) -> String{

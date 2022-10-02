@@ -20,7 +20,6 @@ class VCFAQAll: VCBase {
     var tableView = UITableView()
     
     var viewList:Array<FaqItem>?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.translatesAutoresizingMaskIntoConstraints = false
