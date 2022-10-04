@@ -188,7 +188,7 @@ class TradeCalc{
         let dif_price = DoubleDecimalUtils.subtract(now_price, prev_price);
         let dif_per = DoubleDecimalUtils.div(DoubleDecimalUtils.newInstance(dif_price), prev_price)
         
-        let str_dif = String(format: "%.2f", dif_per)
+        var str_dif = String(format: "%.2f", dif_per)
         let double_dif = Double(str_dif) ?? 0
         
         makeCandleImage(hogaSub: hogaSub, double_dif, item.kr_coin_name, cell.mCandleImage)
@@ -199,12 +199,13 @@ class TradeCalc{
         }else if (double_dif == 0){
             cell.mTextPrice.textColor = .gray
             cell.mTextPer.textColor = .gray
+            str_dif = str_dif.replacingOccurrences(of: "-", with: "")
         }else {
             cell.mTextPrice.textColor = .blue
             cell.mTextPer.textColor = .blue
         }
         cell.mTextVol.text = String(format: "%.3f", NSDecimalNumber(decimal: vol).doubleValue)
-        cell.mTextPrice.text = String(format: "%.8f", NSDecimalNumber(decimal: now_price).doubleValue)
+        cell.mTextPrice.text = DoubleDecimalUtils.removeLastZero(String(format: "%.8f", NSDecimalNumber(decimal: now_price).doubleValue))
         cell.mTextPer.text = str_dif + "%"
         
         guard let _ = appInfo.krwValue else{

@@ -101,5 +101,9 @@ class DoubleDecimalUtils{
         }
         return String(format: formattedValue, d)
     }
+    
+    static func removeLastZero(_ s:String) -> String{
+        return NSDecimalNumber(decimal: newInstance(s)).stringValue
+    }
 }
 

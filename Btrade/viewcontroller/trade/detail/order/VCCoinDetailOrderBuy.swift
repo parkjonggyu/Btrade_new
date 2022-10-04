@@ -11,7 +11,7 @@ import Alamofire
 
 
 class VCCoinDetailOrderBuy: VCBase{
-    var available_market:Double = 0.0
+    var available_market_price:Double = 0.0
     
     @IBOutlet weak var priceBox: UIView!
     @IBOutlet weak var volumeBox: UIView!
@@ -36,6 +36,7 @@ class VCCoinDetailOrderBuy: VCBase{
         super.viewDidLoad()
         initDesign()
         
+        amountEditText.delegate = self
         volumSpinner.isUserInteractionEnabled = true
         volumSpinner.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(startDropDown)))
         pricePlusBtn.isUserInteractionEnabled = true
@@ -95,8 +96,7 @@ class VCCoinDetailOrderBuy: VCBase{
     
     @IBAction func nextBtnClicked(_ sender: Any) {
         if(appInfo.getIsLogin()){
-            nextBtn.setBackgroundImage(UIImage(named: "btn_back_red"), for: .normal)
-            nextBtn.setTitle("매수", for: .normal)
+            tradeEvent()
         }else{
             let sb = UIStoryboard.init(name:"Login", bundle: nil)
             guard let mainvc = sb.instantiateViewController(withIdentifier: "loginvc") as? UINavigationController else {
@@ -119,17 +119,17 @@ class VCCoinDetailOrderBuy: VCBase{
             let response = MarketBalanceResponse(baseResponce: response)
             if let account = response.getAccount(){
                 if(account == "false" || account == "no_session" || account == "no_coin"){
-                    available_market = 0.0
+                    available_market_price = 0.0
                     setInitValue()
                 }else{
                     do{
                         let a = try JSONSerialization.jsonObject(with: Data(account.utf8), options: []) as? NSDictionary
                         if let b = a?[VCCoinDetail.MARKETTYPE ?? "BTC"] as? NSDictionary{
                             if let value = b["trade_can"] as? Double{
-                                available_market = value
+                                available_market_price = value
                             }
                             if let value = b["trade_can"] as? Int64{
-                                available_market = Double(value)
+                                available_market_price = Double(value)
                             }
                             setFirebaseData()
                         }
@@ -149,6 +149,11 @@ class VCCoinDetailOrderBuy: VCBase{
 extension VCCoinDetailOrderBuy{
     @objc func textFieldDidChange(_ sender: UITextField?) {
         if(sender == priceEditText){
+            if let checkDot = checkDot(priceEditText.text){
+                amountEditText.text = checkDot
+                return
+            }
+            
             if let checkText = check8Length(priceEditText.text){
                 priceEditText.text = checkText
                 return
@@ -164,6 +169,11 @@ extension VCCoinDetailOrderBuy{
             volumSpinner.text = "가능 ▼"
             checkInputValue()
         }else if(sender == amountEditText){
+            if let checkDot = checkDot(amountEditText.text){
+                amountEditText.text = checkDot
+                return
+            }
+            
             if let checkText = check8Length(amountEditText.text){
                 amountEditText.text = checkText
                 return
@@ -188,7 +198,7 @@ extension VCCoinDetailOrderBuy{
             return nil
         }
         var temp = text?.components(separatedBy: ".")
-        if(temp?.count != 2){return nil}
+        if(temp?.count ?? 2 != 2){return nil}
         
         if((temp?[1].count)! > scale){
             if(temp?[0].count == 0){
@@ -203,8 +213,40 @@ extension VCCoinDetailOrderBuy{
         
         return nil
     }
+    
+    fileprivate func checkDot(_ text:String?) -> String?{
+        if(text == nil){return nil}
+        guard let _ = Decimal(string:text!) else {
+            return nil
+        }
+        var temp = text?.components(separatedBy: ".")
+        if(temp?.count ?? 0 <= 2){return nil}
+        
+        if(temp?[0].count == 0){
+            temp?[0] = "0"
+        }
+        
+        var result = (temp?[0] ?? "0") + "."
+        let size = temp?.count ?? 0
+        for idx in 1 ..< size{
+            result = result + (temp?[idx] ?? "")
+        }
+        return result
+    }
 }
-
+extension VCCoinDetailOrderBuy: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if let text = amountEditText.text{
+            if(text == "0"){amountEditText.text = ""}
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let text = amountEditText.text{
+            if(text == ""){amountEditText.text = "0"}
+        }
+    }
+}
 
 //MARK: - Spinner
 extension VCCoinDetailOrderBuy: SpinnerSelectorInterface{
@@ -212,7 +254,7 @@ extension VCCoinDetailOrderBuy: SpinnerSelectorInterface{
         volumSpinner.text = item.key
         if var per = Double(item.value){
             per = per / 100.0
-            let available = available_market * (1 - Double(Global.tradeFeeRate)!)
+            let available = available_market_price * (1 - Double(Global.tradeFeeRate)!)
             let price = DoubleDecimalUtils.newInstance(priceEditText.text)
             if let price1 = DoubleDecimalUtils.doubleValue(price){
                 amountEditText.text = DoubleDecimalUtils.setMaximumFractionDigits((available * per) / price1, scale: 8)
@@ -254,7 +296,7 @@ extension VCCoinDetailOrderBuy: FirebaseInterface, ValueEventListener{
 extension VCCoinDetailOrderBuy{
     fileprivate func setFirebaseData(){
         DispatchQueue.main.async{
-            let value = DoubleDecimalUtils.newInstance(self.available_market)
+            let value = DoubleDecimalUtils.newInstance(self.available_market_price)
             self.avalilabeText.text = DoubleDecimalUtils.setMaximumFractionDigits(decimal: value, scale: self.getScale())
             self.availableKrwText.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(DoubleDecimalUtils.mul(value, self.appInfo.krwValue!), scale: 0))
             
@@ -293,13 +335,15 @@ extension VCCoinDetailOrderBuy{
         let price = DoubleDecimalUtils.newInstance(priceEditText.text!)
         let amount = DoubleDecimalUtils.newInstance(amountEditText.text!)
         let totalVolum = DoubleDecimalUtils.mul(price, amount)
-        let tradeFee = ceil(DoubleDecimalUtils.mul(DoubleDecimalUtils.newInstance(totalVolum), DoubleDecimalUtils.newInstance(Global.tradeFeeRate)) * 100000000) / 100000000
-        let krwPrice = DoubleDecimalUtils.mul(DoubleDecimalUtils.newInstance(totalVolum), appInfo.krwValue!)
-        totalPriceText.text = CoinUtils.currency(DoubleDecimalUtils.withoutExp(totalVolum), 0);
-        feeText.text = CoinUtils.currency(DoubleDecimalUtils.withoutExp(tradeFee), 0);
-        totalPriceKrwText.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(krwPrice, scale: 0));
         
-        if(checkAmountOver(totalVolum + tradeFee, available_market)){
+        let tempFee = DoubleDecimalUtils.setMaximumFractionDigits(DoubleDecimalUtils.mul(DoubleDecimalUtils.newInstance(totalVolum), DoubleDecimalUtils.newInstance(Global.tradeFeeRate)), scale: 8)
+        let tradeFee = ceil((Double(tempFee) ?? 0) * 100000000) / 100000000
+        let krwPrice = DoubleDecimalUtils.mul(DoubleDecimalUtils.newInstance(totalVolum), appInfo.krwValue!)
+        totalPriceText.text = DoubleDecimalUtils.removeLastZero(CoinUtils.currency(DoubleDecimalUtils.withoutExp(totalVolum), 0))
+        feeText.text = DoubleDecimalUtils.removeLastZero(CoinUtils.currency(DoubleDecimalUtils.withoutExp(tradeFee), 0))
+        totalPriceKrwText.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(krwPrice, scale: 0))
+        
+        if(checkAmountOver(totalVolum + tradeFee, available_market_price)){
             totalPriceText.textColor = UIColor(named: "HogaPriceRed")
         }else{
             totalPriceText.textColor = UIColor(named: "C515151")
@@ -334,5 +378,96 @@ extension VCCoinDetailOrderBuy{
         volumSpinner.text = "가능 ▼"
         checkInputValue()
         print("")
+    }
+}
+
+
+//MARK: - tradeEvent
+extension VCCoinDetailOrderBuy{
+    
+    fileprivate func tradeEvent(){
+        if(calcWithPriceAndAmount() != nil){
+            showErrorDialog(calcWithPriceAndAmount()!)
+            return
+        }
+        if(checkAmount() != nil){
+            showErrorDialog(checkAmount()!)
+            return
+        }
+        
+        checkUser()
+    }
+    
+    fileprivate func checkAmount() -> String?{
+        let amountValue = DoubleDecimalUtils.newInstance(amountEditText.text)
+        let priceValue = DoubleDecimalUtils.newInstance(priceEditText.text)
+        let tempFee1 = DoubleDecimalUtils.setMaximumFractionDigits(DoubleDecimalUtils.mul(amountValue, DoubleDecimalUtils.newInstance(Global.tradeFeeRate)), scale: 8)
+        let tempFee2 = ceil((Double(tempFee1) ?? 0) * 100000000) / 100000000
+        let tradeFee =  DoubleDecimalUtils.newInstance(DoubleDecimalUtils.removeLastZero(CoinUtils.currency(DoubleDecimalUtils.withoutExp(tempFee2), 0)))
+        let totalVolume = DoubleDecimalUtils.mul(tradeFee + amountValue, priceValue)
+        if(totalVolume > Global.MAX_ORDER_VOLUME){
+            return "1회에 주문가능한 주문 총액을 초과 하였습니다."
+        }else if (totalVolume < Global.MIN_ORDER_VOLUME){
+            return "최소 거래금액은 " + String(Global.MIN_ORDER_VOLUME) + (VCCoinDetail.MARKETTYPE ?? "BTC") + " 이상입니다."
+        }
+        
+        if(checkAmountOver(totalVolume, available_market_price)){
+            return "주문 가능 수량이 부족합니다."
+        }
+        
+        if(totalVolume > Global.MAX_ORDER_COIN_BTC){
+            return "최대 거래금액은 10BTC 이하입니다."
+        }
+        
+        return nil
+    }
+    
+    fileprivate func checkUser(){
+        if let error = orderValidation(){
+            if(error != ""){
+                showErrorDialog(error)
+                return
+            }else{
+                return
+            }
+        }
+        
+        orderValidationExtrad()
+    }
+    
+    fileprivate func orderValidation() -> String?{
+        guard let _ = appInfo.getMemberInfo() else {
+            UIApplication.shared.windows.first(where: {$0.isKeyWindow})?.rootViewController?.dismiss(animated: true)
+            return ""
+        }
+        
+        let info = appInfo.getMemberInfo()!
+        if let aml = info.aml_state{
+            if aml == "N" || CoinUtils.getlevel(info) == 1 {
+                DialogUtils().makeDialog(
+                uiVC: self,
+                title: "고객확인제도",
+                message:"고객확인 인증 절차를 완료한 후, 모든 거래서비스, 입출금 이용이 가능합니다.",
+                UIAlertAction(title: "고객확인제도 인증", style: .default) { (action) in
+                    self.appInfo.isKycVisible = true
+                    UIApplication.shared.windows.first(where: {$0.isKeyWindow})?.rootViewController?.dismiss(animated: true)
+                },
+                UIAlertAction(title: "다음에 하기", style: .destructive) { (action) in
+                })
+                return ""
+            }
+            
+            if aml != "cc"{
+                return "고객확인 인증을 진행중입니다."
+            }
+            
+            return nil
+        }
+        
+        return "오류가 발생했습니다."
+    }
+    
+    fileprivate func orderValidationExtrad(){
+        
     }
 }
