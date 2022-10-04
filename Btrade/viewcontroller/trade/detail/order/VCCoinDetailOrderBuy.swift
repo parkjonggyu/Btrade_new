@@ -141,6 +141,60 @@ class VCCoinDetailOrderBuy: VCBase{
             }
             
         }
+        DispatchQueue.main.async{
+            if let _ = response.request as? OrderRequest{
+                let response = OrderResponse(baseResponce: response)
+                if let status = response.getStatus(){
+                    if(status == "201"){
+                        // 거래비밀번호 등록 팝업 - 삭제됨
+                        return
+                    }else if(status == "202"){
+                        // 거래비밀번호 등록 팝업 - 삭제됨
+                        return
+                    }else if(status == "203"){
+                        // 거래비밀번호 4회 틀림 찾기 팝업 - 삭제됨
+                        return
+                    }else if(status == "204"){
+                        // 거래비밀번호 저장 팝업 - 삭제됨
+                        return
+                    }else if(status == "205"){
+                        // 거래비밀번호 잠금 팝업 - 삭제됨
+                        return
+                    }else if(status == "206"){
+                        DialogUtils().makeDialog(
+                        uiVC: self,
+                        title: "고객확인제도",
+                        message:"고객확인 인증 절차를 완료한 후, 모든 거래서비스, 입출금 이용이 가능합니다.",
+                        UIAlertAction(title: "고객확인제도 인증", style: .default) { (action) in
+                            self.appInfo.isKycVisible = true
+                            UIApplication.shared.windows.first(where: {$0.isKeyWindow})?.rootViewController?.dismiss(animated: true)
+                        },
+                        UIAlertAction(title: "다음에 하기", style: .destructive) { (action) in
+                        })
+                        return
+                    }else if(status == "0001" || status == "0003" || status == "0006"){
+                        if let message = response.getMessage(){// 주문 수량, 주문 가격 , 최소 주문 수량 오류
+                            self.showErrorDialog(message)
+                        }
+                        return
+                    }else if(status == "9999"){// 마켓코드 미기입 오류
+                        if let message = response.getMessage(){
+                            self.showErrorDialog(message)
+                        }
+                        return
+                    }else if(status == "0009"){
+                        self.showErrorDialog("처리 진행중인 주문이 있습니다. 잠시 후 다시 시도해 주세요.")
+                        return
+                    }else if(status == "0000"){
+                        if let message = response.getMessage(){// 주문 정상 처리
+                            self.tradeOkPopup(message)
+                        }
+                        
+                        return
+                    }
+                }
+            }
+        }
     }
     
     override func onError(e: AFError, method: String) {}
@@ -473,7 +527,7 @@ extension VCCoinDetailOrderBuy{
         guard let vc = sb.instantiateViewController(withIdentifier: "TradeComfirmPopup") as? TradeComfirmPopup else {
             return
         }
-        vc.tradeBS = trd_type
+        vc.trd_type = trd_type
         vc.coinCode = VCCoinDetail.coin?.coin_code
         vc.coinKrName = VCCoinDetail.coin?.kr_coin_name
         vc.marketType = VCCoinDetail.MARKETTYPE
@@ -483,7 +537,7 @@ extension VCCoinDetailOrderBuy{
         let totalPrice = DoubleDecimalUtils.removeLastZero(DoubleDecimalUtils.newInstance(totalPriceText.text) + DoubleDecimalUtils.newInstance(feeText.text)) 
         vc.totalPrice = totalPrice
         vc.nextStep = {() -> Void in
-            
+            self.executeOrder()
         }
         vc.modalPresentationStyle = .overCurrentContext
         vc.modalTransitionStyle = .crossDissolve
@@ -491,18 +545,21 @@ extension VCCoinDetailOrderBuy{
     }
     
     fileprivate func executeOrder(){
-        var request = OrderRequest()
+        let request = OrderRequest()
         request.coin_code = VCCoinDetail.coin?.coin_code
         request.market_code = VCCoinDetail.MARKETTYPE
         request.trd_type = trd_type
-        
-        
-        
-        
-        
-        var tradepassword = "1111".toBase64()
+        request.tradePw = "1111".toBase64()
+        request.trade_pw_check = "N"
+        request.amtBuy = amountEditText.text
+        request.priceBuy = priceEditText.text
+        request.krw_price = NSDecimalNumber(decimal: appInfo.krwValue!).stringValue
+        ApiFactory(apiResult: self, request: request).newThread()
     }
     
+    fileprivate func tradeOkPopup(_ msg:String){
+        print(msg)
+    }
 }
 
 extension String {

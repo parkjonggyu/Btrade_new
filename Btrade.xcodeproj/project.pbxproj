@@ -192,6 +192,7 @@
 		1EBFC22528E98652005665EA /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC22428E98651005665EA /* Global.swift */; };
 		1EBFC22928EC2431005665EA /* TradeComfirmPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC22828EC2430005665EA /* TradeComfirmPopup.swift */; };
 		1EBFC22B28EC3B7A005665EA /* OrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC22A28EC3B79005665EA /* OrderRequest.swift */; };
+		1EBFC22D28EC3F03005665EA /* OrderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC22C28EC3F03005665EA /* OrderResponse.swift */; };
 		1ECE1CE728B49036005EF704 /* VCQnaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */; };
 		1ECE1CE928B494E1005EF704 /* MypageQNADetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */; };
 		1ECE1CEB28B49684005EF704 /* MypageQNADetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */; };
@@ -423,6 +424,7 @@
 		1EBFC22428E98651005665EA /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		1EBFC22828EC2430005665EA /* TradeComfirmPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TradeComfirmPopup.swift; path = Btrade/viewcontroller/trade/detail/TradeComfirmPopup.swift; sourceTree = SOURCE_ROOT; };
 		1EBFC22A28EC3B79005665EA /* OrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRequest.swift; sourceTree = "<group>"; };
+		1EBFC22C28EC3F03005665EA /* OrderResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderResponse.swift; sourceTree = "<group>"; };
 		1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCQnaDetail.swift; sourceTree = "<group>"; };
 		1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailRequest.swift; sourceTree = "<group>"; };
 		1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailResponse.swift; sourceTree = "<group>"; };
@@ -822,6 +824,7 @@
 				1EBFC1E928E195BA005665EA /* MyInfoQuitResponse.swift */,
 				1EBFC20528E6E45D005665EA /* MainResponse.swift */,
 				1EBFC22228E960EB005665EA /* MarketBalanceResponse.swift */,
+				1EBFC22C28EC3F03005665EA /* OrderResponse.swift */,
 			);
 			path = response;
 			sourceTree = "<group>";
@@ -1295,6 +1298,7 @@
 				1E2D6A86289A830B0018AC34 /* KycAccountAuthResponse.swift in Sources */,
 				1ECE1CED28B4DE46005EF704 /* VCQnaAdd.swift in Sources */,
 				1E2CFCAB2872990F0057AD90 /* VersionUtils.swift in Sources */,
+				1EBFC22D28EC3F03005665EA /* OrderResponse.swift in Sources */,
 				1E7F20B22884E13F00D4C182 /* InactiveEmailRequest.swift in Sources */,
 				1E726AA9288160B600E32E19 /* VCInactive.swift in Sources */,
 				1E2CFCDE2876589B0057AD90 /* VCMainHome.swift in Sources */,
