@@ -11,6 +11,7 @@ import Alamofire
 
 
 class VCCoinDetailOrderBuy: VCBase{
+    let trd_type = "B"
     var available_market_price:Double = 0.0
     
     @IBOutlet weak var priceBox: UIView!
@@ -468,6 +469,45 @@ extension VCCoinDetailOrderBuy{
     }
     
     fileprivate func orderValidationExtrad(){
+        let sb = UIStoryboard.init(name:"Popup", bundle: nil)
+        guard let vc = sb.instantiateViewController(withIdentifier: "TradeComfirmPopup") as? TradeComfirmPopup else {
+            return
+        }
+        vc.tradeBS = trd_type
+        vc.coinCode = VCCoinDetail.coin?.coin_code
+        vc.coinKrName = VCCoinDetail.coin?.kr_coin_name
+        vc.marketType = VCCoinDetail.MARKETTYPE
+        vc.volume = amountEditText.text
+        vc.price = priceEditText.text
+        vc.fee = feeText.text
+        let totalPrice = DoubleDecimalUtils.removeLastZero(DoubleDecimalUtils.newInstance(totalPriceText.text) + DoubleDecimalUtils.newInstance(feeText.text)) 
+        vc.totalPrice = totalPrice
+        vc.nextStep = {() -> Void in
+            
+        }
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalTransitionStyle = .crossDissolve
+        self.present(vc, animated: true);
+    }
+    
+    fileprivate func executeOrder(){
+        var request = OrderRequest()
+        request.coin_code = VCCoinDetail.coin?.coin_code
+        request.market_code = VCCoinDetail.MARKETTYPE
+        request.trd_type = trd_type
         
+        
+        
+        
+        
+        var tradepassword = "1111".toBase64()
+    }
+    
+}
+
+extension String {
+    fileprivate func toBase64() -> String {
+        return Data(self.utf8).base64EncodedString()
     }
 }
+

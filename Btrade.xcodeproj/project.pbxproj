@@ -191,6 +191,7 @@
 		1EBFC22328E960EB005665EA /* MarketBalanceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC22228E960EB005665EA /* MarketBalanceResponse.swift */; };
 		1EBFC22528E98652005665EA /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC22428E98651005665EA /* Global.swift */; };
 		1EBFC22928EC2431005665EA /* TradeComfirmPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC22828EC2430005665EA /* TradeComfirmPopup.swift */; };
+		1EBFC22B28EC3B7A005665EA /* OrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC22A28EC3B79005665EA /* OrderRequest.swift */; };
 		1ECE1CE728B49036005EF704 /* VCQnaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */; };
 		1ECE1CE928B494E1005EF704 /* MypageQNADetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */; };
 		1ECE1CEB28B49684005EF704 /* MypageQNADetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */; };
@@ -421,6 +422,7 @@
 		1EBFC22228E960EB005665EA /* MarketBalanceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketBalanceResponse.swift; sourceTree = "<group>"; };
 		1EBFC22428E98651005665EA /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		1EBFC22828EC2430005665EA /* TradeComfirmPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TradeComfirmPopup.swift; path = Btrade/viewcontroller/trade/detail/TradeComfirmPopup.swift; sourceTree = SOURCE_ROOT; };
+		1EBFC22A28EC3B79005665EA /* OrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRequest.swift; sourceTree = "<group>"; };
 		1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCQnaDetail.swift; sourceTree = "<group>"; };
 		1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailRequest.swift; sourceTree = "<group>"; };
 		1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailResponse.swift; sourceTree = "<group>"; };
@@ -772,6 +774,7 @@
 				1EBFC1E728E19465005665EA /* MyInfoQuitRequest.swift */,
 				1EBFC20328E6E368005665EA /* MainRequest.swift */,
 				1EBFC22028E95EB4005665EA /* MarketBalanceRequest.swift */,
+				1EBFC22A28EC3B79005665EA /* OrderRequest.swift */,
 			);
 			path = request;
 			sourceTree = "<group>";
@@ -1330,6 +1333,7 @@
 				1EBFC22528E98652005665EA /* Global.swift in Sources */,
 				1E7F20C82888D9B100D4C182 /* VCKycAgree1_1.swift in Sources */,
 				1E1345CC28A1037500FD46AC /* CoinUtils.swift in Sources */,
+				1EBFC22B28EC3B7A005665EA /* OrderRequest.swift in Sources */,
 				1E1345D628A4880600FD46AC /* BoardNoticeRequest.swift in Sources */,
 				1E1345F628B3660B00FD46AC /* ConvertHtmlUtil.swift in Sources */,
 				1E9513542898BF4B008291A3 /* VCKyc3.swift in Sources */,
