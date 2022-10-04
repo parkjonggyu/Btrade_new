@@ -333,5 +333,6 @@ extension VCCoinDetailOrderBuy{
         priceEditText.text = CoinUtils.currency(DoubleDecimalUtils.withoutExp(result), 0)
         volumSpinner.text = "가능 ▼"
         checkInputValue()
+        print("")
     }
 }
