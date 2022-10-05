@@ -59,6 +59,10 @@ class DoubleDecimalUtils{
         return (a as NSDecimalNumber).doubleValue
     }
     
+    static func doubleValue(_ a:Decimal?) -> Double?{
+        return NSDecimalNumber(decimal: a ?? newInstance("")).doubleValue
+    }
+    
     static func withoutExp(_ d:Double) -> String{
         return setMaximumFractionDigits(d,scale: 8)
     }

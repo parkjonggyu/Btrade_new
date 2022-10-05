@@ -288,6 +288,11 @@ extension VCCoinDetailOrderBuy{
         }
         return result
     }
+    
+    func setPrice(_ price:String){
+        priceEditText.text = DoubleDecimalUtils.setMaximumFractionDigits(NSDecimalNumber(decimal: DoubleDecimalUtils.newInstance(price)).doubleValue, scale: getScale())
+        checkInputValue()
+    }
 }
 extension VCCoinDetailOrderBuy: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -558,8 +563,41 @@ extension VCCoinDetailOrderBuy{
     }
     
     fileprivate func tradeOkPopup(_ msg:String){
-        print(msg)
+        let sb = UIStoryboard.init(name:"Popup", bundle: nil)
+        guard let vc = sb.instantiateViewController(withIdentifier: "TradeCompletePopup") as? TradeCompletePopup else {
+            return
+        }
+        vc.message = msg
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalTransitionStyle = .crossDissolve
+        self.present(vc, animated: true);
+        
+        changeValue()
     }
+    
+    fileprivate func changeValue(){
+        let available = DoubleDecimalUtils.newInstance(avalilabeText.text)
+        let totalPrice = DoubleDecimalUtils.newInstance(totalPriceText.text)
+        let feePrice = DoubleDecimalUtils.newInstance(feeText.text)
+        let result = available - (totalPrice + feePrice)
+        
+        available_market_price = DoubleDecimalUtils.doubleValue(result)!
+        let value = DoubleDecimalUtils.newInstance(self.available_market_price)
+        self.avalilabeText.text = DoubleDecimalUtils.setMaximumFractionDigits(decimal: value, scale: self.getScale())
+        
+        totalPriceText.text = "0"
+        totalPriceKrwText.text = "0"
+        feeText.text = "0"
+        amountEditText.text = "0"
+        priceEditText.text = "0"
+        volumSpinner.text = "가능 ▼"
+        if let hoga = VCCoinDetail.coin?.firebaseHoga?.getHOGA(){
+            let price = hoga["hoga_sell_1"] as? String
+            priceEditText.text = DoubleDecimalUtils.setMaximumFractionDigits(NSDecimalNumber(decimal: DoubleDecimalUtils.newInstance(price)).doubleValue, scale: getScale())
+        }
+        setFirebaseData()
+    }
+    
 }
 
 extension String {

@@ -70,11 +70,7 @@ extension VCCoinDetailOrder{
         mArrayHogyBuy.removeAll();
         mAmountBuy = 0
         for idx in (1 ... HOGAMAX){
-            guard let _ = VCCoinDetail.coin?.firebaseHoga else{
-                mArrayHogyBuy.append(nil)
-                continue
-            }
-            guard let hoga = VCCoinDetail.coin?.firebaseHoga?.getHOGA() else{
+            guard let hoga = appInfo.getFirebaseHoga()?.getHOGA(VCCoinDetail.coin?.coin_code ?? "") else{
                 mArrayHogyBuy.append(nil)
                 continue
             }
@@ -100,11 +96,7 @@ extension VCCoinDetailOrder{
         mArrayHogySell.removeAll();
         mAmountSell = 0
         for idx in (1 ... HOGAMAX).reversed(){
-            guard let _ = VCCoinDetail.coin?.firebaseHoga else{
-                mArrayHogySell.append(nil)
-                continue
-            }
-            guard let hoga = VCCoinDetail.coin?.firebaseHoga?.getHOGA() else{
+            guard let hoga = appInfo.getFirebaseHoga()?.getHOGA(VCCoinDetail.coin?.coin_code ?? "")  else{
                 mArrayHogySell.append(nil)
                 continue
             }
@@ -194,21 +186,25 @@ extension VCCoinDetailOrder: UITableViewDataSource, UITableViewDelegate {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if let hoga = getHogaCellData(indexPath.row){
+            if let price = hoga["price"] as? String{
+                vcCoinDetailOrderRight?.setPrice(price)
+            }
+        }
     }
 }
 
 
 extension VCCoinDetailOrder: FirebaseInterface, ValueEventListener{
     func onDataChange(market: String) {
-        if let sender = vcCoinDetailOrderRight as? FirebaseInterface{
+        if let sender = vcCoinDetailOrderRight{
             sender.onDataChange(market: market)
         }
         setHogaLayout();
     }
     
     func onDataChange(snapshot: DataSnapshot) {
-        if let sender = vcCoinDetailOrderRight as? ValueEventListener{
+        if let sender = vcCoinDetailOrderRight{
             sender.onDataChange(snapshot: snapshot)
         }
         setHogaLayout()

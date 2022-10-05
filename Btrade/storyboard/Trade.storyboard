@@ -2357,6 +2357,22 @@
                             <constraint firstItem="Jxy-0O-5ft" firstAttribute="leading" secondItem="tsq-mj-0G2" secondAttribute="leadingMargin" constant="5" id="zy7-2L-BIQ"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="amountEditText" destination="hLM-E9-38T" id="Ose-tK-glh"/>
+                        <outlet property="availableKrwText" destination="VtI-YG-wG9" id="8u5-Rr-rpm"/>
+                        <outlet property="avalilabeText" destination="kFN-6Q-b3n" id="hEm-3r-eWe"/>
+                        <outlet property="coinCodeText" destination="n3D-Uq-7un" id="v9K-PA-2hd"/>
+                        <outlet property="feeText" destination="z35-yN-dqe" id="c7e-cZ-T6a"/>
+                        <outlet property="nextBtn" destination="7F6-FZ-oYQ" id="bkJ-JE-WRw"/>
+                        <outlet property="priceBox" destination="Occ-rc-26I" id="JHd-XK-ZFf"/>
+                        <outlet property="priceEditText" destination="yWz-Vk-Amd" id="ZRa-am-VBT"/>
+                        <outlet property="priceMinusBtn" destination="r7f-Pt-nzc" id="y9w-tm-AjX"/>
+                        <outlet property="pricePlusBtn" destination="LzK-Nh-3cS" id="hzG-YK-obo"/>
+                        <outlet property="totalPriceKrwText" destination="u7O-1l-ghC" id="5DB-Jd-jiN"/>
+                        <outlet property="totalPriceText" destination="qGv-D8-kp5" id="6Ug-el-MAK"/>
+                        <outlet property="volumSpinner" destination="gXI-YH-tgf" id="fbf-l8-iJU"/>
+                        <outlet property="volumeBox" destination="1KM-91-2Qd" id="ioB-YC-Zki"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8yh-hj-4l4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
