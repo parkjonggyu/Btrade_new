@@ -15,12 +15,14 @@ class SpinnerSelector{
     let dropdown = DropDown()
     var itemList:[String]!
     var textField: AnchorView
+    var positionY:String?
     
-    init(_ interface:SpinnerSelectorInterface,_ textField: AnchorView, _ array:Array<KycVo.SMAP>, _ WHERE:Int){
+    init(_ interface:SpinnerSelectorInterface,_ textField: AnchorView, _ array:Array<KycVo.SMAP>, _ WHERE:Int, positionY:String? = "DOWN"){
         self.WHERE = WHERE
         self.mArray = array
         self.interface = interface
         self.textField = textField
+        self.positionY = positionY
     }
     
     func start(){
@@ -47,7 +49,12 @@ class SpinnerSelector{
         // dataSource로 ItemList를 연결
         dropdown.dataSource = itemList
         dropdown.anchorView = textField
-        dropdown.bottomOffset = CGPoint(x: 0, y:(dropdown.anchorView?.plainView.bounds.height)!)
+        if(positionY == "UP"){
+            dropdown.bottomOffset = CGPoint(x: 0, y:0)
+        }else{
+            dropdown.bottomOffset = CGPoint(x: 0, y:(dropdown.anchorView?.plainView.bounds.height)!)
+        }
+        
         
         // Item 선택 시 처리
         dropdown.selectionAction = { (index, item) in

@@ -110,6 +110,10 @@ class DoubleDecimalUtils{
         return NSDecimalNumber(decimal: s).stringValue
     }
     
+    static func removeLastZero(_ s:Double) -> String{
+        return NSDecimalNumber(decimal: newInstance(s)).stringValue
+    }
+    
     static func removeLastZero(_ s:String) -> String{
         return NSDecimalNumber(decimal: newInstance(s)).stringValue
     }

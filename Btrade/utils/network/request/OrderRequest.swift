@@ -22,6 +22,9 @@ class OrderRequest : BaseRequest{
     var amtCancel:String?
     var org_ord_no:String?
     
+    
+    var deleteIdx:Int?
+    
     init(){
         super.init(HttpMethod.post, BuildConfig.SERVER_URL, "trade/orderMarketPre.do")
     }

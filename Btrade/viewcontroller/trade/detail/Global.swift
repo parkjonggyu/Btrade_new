@@ -12,5 +12,5 @@ class Global{
     static var MAX_ORDER_VOLUME = 9999999.99999999
     static var MIN_ORDER_VOLUME = 0.0001
     static var MAX_ORDER_COIN_BTC = 10.0
-    static var tradeFeeRate = "0.003"
+    static var tradeFeeRate = "0.002"
 }

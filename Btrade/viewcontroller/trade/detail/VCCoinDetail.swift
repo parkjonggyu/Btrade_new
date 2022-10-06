@@ -39,9 +39,9 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
         let vc = sb.instantiateViewController(withIdentifier: "coindetailordervc") as? VCCoinDetailOrder
         return vc!
     }()
-    var vcFavorites = {() -> VCTradeFavorites in
+    var vcCoinDetailHoga = {() -> VCCoinDetailHoga in
         let sb = UIStoryboard.init(name:"Trade", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "tradefavoritesvc") as? VCTradeFavorites
+        let vc = sb.instantiateViewController(withIdentifier: "VCCoinDetailHoga") as? VCCoinDetailHoga
         return vc!
     }()
     var vcPossession = {() -> VCTradePossession in
@@ -53,8 +53,9 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
     override func viewDidLoad() {
         super.viewDidLoad()
         vcCoinDetailOrder.vcDetail = self
+        vcCoinDetailHoga.vcDetail = self
         
-        dataSource = [(menuTitle: "주문", vc: vcCoinDetailOrder), (menuTitle: "호가", vc: vcFavorites), (menuTitle: "차트", vc: vcPossession), (menuTitle: "시세", vc: vcPossession)]
+        dataSource = [(menuTitle: "주문", vc: vcCoinDetailOrder), (menuTitle: "호가", vc: vcCoinDetailHoga), (menuTitle: "차트", vc: vcPossession), (menuTitle: "시세", vc: vcPossession)]
         
         backBtn.isUserInteractionEnabled = true
         backBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onBtnClicked)))

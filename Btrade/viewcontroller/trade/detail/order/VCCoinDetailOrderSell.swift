@@ -316,13 +316,9 @@ extension VCCoinDetailOrderSell: SpinnerSelectorInterface{
         volumSpinner.text = item.key
         if var per = Double(item.value){
             per = per / 100.0
-            let available = available_market_price * (1 - Double(Global.tradeFeeRate)!)
-            let price = DoubleDecimalUtils.newInstance(priceEditText.text)
-            if let price1 = DoubleDecimalUtils.doubleValue(price){
-                amountEditText.text = DoubleDecimalUtils.setMaximumFractionDigits((available * per) / price1, scale: 8)
-                checkInputValue()
-                return;
-            }
+            amountEditText.text = DoubleDecimalUtils.setMaximumFractionDigits(available_market_price * per, scale: 8)
+            checkInputValue()
+            return;
         }
         volumSpinner.text = "가능 ▼"
     }
@@ -409,7 +405,7 @@ extension VCCoinDetailOrderSell{
         feeText.text = DoubleDecimalUtils.removeLastZero(CoinUtils.currency(DoubleDecimalUtils.withoutExp(tradeFee), 0))
         totalPriceKrwText.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(krwPrice, scale: 0))
         
-        if(checkAmountOver(totalVolum + tradeFee, available_market_price)){
+        if(checkAmountOver(DoubleDecimalUtils.doubleValue(amount)!, available_market_price)){
             totalPriceText.textColor = UIColor(named: "HogaPriceRed")
         }else{
             totalPriceText.textColor = UIColor(named: "C515151")
@@ -471,13 +467,13 @@ extension VCCoinDetailOrderSell{
         let tempFee2 = ceil((Double(tempFee1) ?? 0) * 100000000) / 100000000
         let tradeFee =  DoubleDecimalUtils.newInstance(DoubleDecimalUtils.removeLastZero(CoinUtils.currency(DoubleDecimalUtils.withoutExp(tempFee2), 0)))
         let totalVolume = DoubleDecimalUtils.mul(tradeFee + amountValue, priceValue)
-        if(totalVolume > Global.MAX_ORDER_VOLUME){
+        if(DoubleDecimalUtils.doubleValue(amountValue)!  > Global.MAX_ORDER_VOLUME){
             return "1회에 주문가능한 주문 총액을 초과 하였습니다."
-        }else if (totalVolume < Global.MIN_ORDER_VOLUME){
+        }else if (DoubleDecimalUtils.doubleValue(amountValue)! < Global.MIN_ORDER_VOLUME){
             return "최소 거래금액은 " + String(Global.MIN_ORDER_VOLUME) + (VCCoinDetail.MARKETTYPE ?? "BTC") + " 이상입니다."
         }
         
-        if(checkAmountOver(totalVolume, available_market_price)){
+        if(checkAmountOver(DoubleDecimalUtils.doubleValue(amountValue)!, available_market_price)){
             return "주문 가능 수량이 부족합니다."
         }
         
@@ -562,8 +558,8 @@ extension VCCoinDetailOrderSell{
         request.trd_type = trd_type
         request.tradePw = "1111".toBase64()
         request.trade_pw_check = "N"
-        request.amtBuy = amountEditText.text
-        request.priceBuy = priceEditText.text
+        request.amtSell = amountEditText.text
+        request.priceSell = priceEditText.text
         request.krw_price = NSDecimalNumber(decimal: appInfo.krwValue!).stringValue
         ApiFactory(apiResult: self, request: request).newThread()
     }
@@ -583,10 +579,9 @@ extension VCCoinDetailOrderSell{
     }
     
     fileprivate func changeValue(){
-        let available = DoubleDecimalUtils.newInstance(avalilabeText.text)
-        let totalPrice = DoubleDecimalUtils.newInstance(totalPriceText.text)
-        let feePrice = DoubleDecimalUtils.newInstance(feeText.text)
-        let result = available - (totalPrice + feePrice)
+        let available = DoubleDecimalUtils.newInstance(available_market_price)
+        let amount = DoubleDecimalUtils.newInstance(amountEditText.text)
+        let result = available - amount
         
         available_market_price = DoubleDecimalUtils.doubleValue(result)!
         let value = DoubleDecimalUtils.newInstance(self.available_market_price)
