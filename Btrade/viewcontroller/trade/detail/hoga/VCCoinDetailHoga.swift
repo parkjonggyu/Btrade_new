@@ -42,7 +42,7 @@ class VCCoinDetailHoga:VCBase{
     }
     
     fileprivate func setAllLayout(){
-        
+        hogaLayou()
     }
 }
 
