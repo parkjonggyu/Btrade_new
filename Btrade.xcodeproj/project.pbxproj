@@ -195,6 +195,10 @@
 		1EBFC22F28ED0191005665EA /* TradeCompletePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC22E28ED0191005665EA /* TradeCompletePopup.swift */; };
 		1EBFC23128ED0A51005665EA /* CoinBalanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC23028ED0A51005665EA /* CoinBalanceRequest.swift */; };
 		1EBFC23328ED0ACD005665EA /* CoinBalanceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC23228ED0ACD005665EA /* CoinBalanceResponse.swift */; };
+		1EBFC23528EE5CD4005665EA /* TradeHistoryRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC23428EE5CD3005665EA /* TradeHistoryRequest.swift */; };
+		1EBFC23728EE5DA0005665EA /* TradeHistoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC23628EE5DA0005665EA /* TradeHistoryResponse.swift */; };
+		1EBFC23928EE741E005665EA /* MyTradeHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1EBFC23828EE741E005665EA /* MyTradeHistoryCell.xib */; };
+		1EBFC23B28EEC3B3005665EA /* VCCoinDetailHoga.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBFC23A28EEC3B2005665EA /* VCCoinDetailHoga.swift */; };
 		1ECE1CE728B49036005EF704 /* VCQnaDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */; };
 		1ECE1CE928B494E1005EF704 /* MypageQNADetailRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */; };
 		1ECE1CEB28B49684005EF704 /* MypageQNADetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */; };
@@ -429,6 +433,10 @@
 		1EBFC22E28ED0191005665EA /* TradeCompletePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCompletePopup.swift; sourceTree = "<group>"; };
 		1EBFC23028ED0A51005665EA /* CoinBalanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinBalanceRequest.swift; sourceTree = "<group>"; };
 		1EBFC23228ED0ACD005665EA /* CoinBalanceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinBalanceResponse.swift; sourceTree = "<group>"; };
+		1EBFC23428EE5CD3005665EA /* TradeHistoryRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryRequest.swift; sourceTree = "<group>"; };
+		1EBFC23628EE5DA0005665EA /* TradeHistoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeHistoryResponse.swift; sourceTree = "<group>"; };
+		1EBFC23828EE741E005665EA /* MyTradeHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyTradeHistoryCell.xib; sourceTree = "<group>"; };
+		1EBFC23A28EEC3B2005665EA /* VCCoinDetailHoga.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCCoinDetailHoga.swift; sourceTree = "<group>"; };
 		1ECE1CE628B49036005EF704 /* VCQnaDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCQnaDetail.swift; sourceTree = "<group>"; };
 		1ECE1CE828B494E1005EF704 /* MypageQNADetailRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailRequest.swift; sourceTree = "<group>"; };
 		1ECE1CEA28B49684005EF704 /* MypageQNADetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageQNADetailResponse.swift; sourceTree = "<group>"; };
@@ -782,6 +790,7 @@
 				1EBFC22028E95EB4005665EA /* MarketBalanceRequest.swift */,
 				1EBFC22A28EC3B79005665EA /* OrderRequest.swift */,
 				1EBFC23028ED0A51005665EA /* CoinBalanceRequest.swift */,
+				1EBFC23428EE5CD3005665EA /* TradeHistoryRequest.swift */,
 			);
 			path = request;
 			sourceTree = "<group>";
@@ -831,6 +840,7 @@
 				1EBFC22228E960EB005665EA /* MarketBalanceResponse.swift */,
 				1EBFC22C28EC3F03005665EA /* OrderResponse.swift */,
 				1EBFC23228ED0ACD005665EA /* CoinBalanceResponse.swift */,
+				1EBFC23628EE5DA0005665EA /* TradeHistoryResponse.swift */,
 			);
 			path = response;
 			sourceTree = "<group>";
@@ -889,6 +899,7 @@
 		1EBFC20C28E7DADF005665EA /* hoga */ = {
 			isa = PBXGroup;
 			children = (
+				1EBFC23A28EEC3B2005665EA /* VCCoinDetailHoga.swift */,
 			);
 			path = hoga;
 			sourceTree = "<group>";
@@ -934,6 +945,7 @@
 				1EBFC1F728E2BF55005665EA /* TradeCoinCell.xib */,
 				1EBFC21028E7F2E8005665EA /* DetailMenuCell.xib */,
 				1EBFC21428E8072F005665EA /* OrderHogaCell.xib */,
+				1EBFC23828EE741E005665EA /* MyTradeHistoryCell.xib */,
 			);
 			path = xibs;
 			sourceTree = "<group>";
@@ -1088,6 +1100,7 @@
 				1E2CFC4A286D782E0057AD90 /* Assets.xcassets in Resources */,
 				1E2CFCDC287656A40057AD90 /* MainHome.storyboard in Resources */,
 				1E2CFCC8287543ED0057AD90 /* MainTab.storyboard in Resources */,
+				1EBFC23928EE741E005665EA /* MyTradeHistoryCell.xib in Resources */,
 				1E1345F028AD03B200FD46AC /* QNACell.xib in Resources */,
 				1E2CFCDA2875725A0057AD90 /* Mypage.storyboard in Resources */,
 				1E1345DC28A611DE00FD46AC /* FAQMenuCell.xib in Resources */,
@@ -1229,6 +1242,7 @@
 				1EB344A92898F499004EE5EA /* Kyc3UploadResponse.swift in Sources */,
 				1E726A77287D2F1600E32E19 /* VCSignupTerms.swift in Sources */,
 				1E7F20C62888D18500D4C182 /* VCKyc.swift in Sources */,
+				1EBFC23528EE5CD4005665EA /* TradeHistoryRequest.swift in Sources */,
 				1E726A71287BE65200E32E19 /* SignInOTPRequest.swift in Sources */,
 				1EBFC22328E960EB005665EA /* MarketBalanceResponse.swift in Sources */,
 				1E2CFCB42872DEA10057AD90 /* MarketListRequest.swift in Sources */,
@@ -1332,6 +1346,7 @@
 				1E726A9F2880065400E32E19 /* VCFindPWPhone.swift in Sources */,
 				1E97363328929CFD00F47EF9 /* Kyc2_1UploadRequest.swift in Sources */,
 				1E1345DA28A60D1000FD46AC /* VCFAQ.swift in Sources */,
+				1EBFC23B28EEC3B3005665EA /* VCCoinDetailHoga.swift in Sources */,
 				1EBFC1E628E1745E005665EA /* MemberInfoNoMaskRespose.swift in Sources */,
 				1EBFC1E828E19465005665EA /* MyInfoQuitRequest.swift in Sources */,
 				1E726A85287E905F00E32E19 /* VCSignupAuth.swift in Sources */,
@@ -1350,6 +1365,7 @@
 				1E9513542898BF4B008291A3 /* VCKyc3.swift in Sources */,
 				1EBFC22F28ED0191005665EA /* TradeCompletePopup.swift in Sources */,
 				1E2CFC8D286D9C150057AD90 /* BuildConfig.swift in Sources */,
+				1EBFC23728EE5DA0005665EA /* TradeHistoryResponse.swift in Sources */,
 				1E726AA12880E1E800E32E19 /* InactivePhoneRequest.swift in Sources */,
 				1E1345E428A6508100FD46AC /* VCFAQAll.swift in Sources */,
 				1EBFC1D428DD6B4C005665EA /* UpdatePasswordRequest.swift in Sources */,

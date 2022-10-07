@@ -64,12 +64,59 @@ extension VCCoinDetailHoga{
     fileprivate func hogaLayou(){
         initHogaBuyData()
         initHogaSellData()
-        setHogaBuyData()
+        hogaBuyData()
+        hogaSellData()
     }
     
-    fileprivate func setHogaBuyData(){
-        for idx in (1 ... HOGAMAX){
+    fileprivate func hogaBuyData(){
+        for idx in (0 ..< HOGAMAX){
+            let hoga = mArrayHogyBuy[idx]
             
+            let price = DoubleDecimalUtils.newInstance(hoga?["price"] as? String)
+            let amount = DoubleDecimalUtils.newInstance(hoga?["amount"] as? String)
+                
+            let krwPrice = Int(DoubleDecimalUtils.mul(price , appInfo.krwValue!))
+            
+            buyPriceKrwText[idx].text = CoinUtils.currency(krwPrice) + "KRW"
+            buyPriceText[idx].text = String(format: "%.8f", NSDecimalNumber(decimal: price).doubleValue)
+            buyVolumeText[idx].text = String(format: "%.8f", NSDecimalNumber(decimal: amount).doubleValue)
+            
+            var per = DoubleDecimalUtils.div(amount, DoubleDecimalUtils.newInstance(mAmountBuy)) / 100
+            
+            let volumeAllSize = buyPriceText[idx].frame.size.width
+            if(per < 0.03){per = 0.03}
+            if(per > 1){per = 1}
+            var size = volumeAllSize * per
+            if(size < 1){size = 1}
+            
+            
+            buyVolumeBar[idx].constant = size
+        }
+    }
+    
+    fileprivate func hogaSellData(){
+        for idx in (0 ..< HOGAMAX){
+            let hoga = mArrayHogySell[idx]
+            
+            let price = DoubleDecimalUtils.newInstance(hoga?["price"] as? String)
+            let amount = DoubleDecimalUtils.newInstance(hoga?["amount"] as? String)
+                
+            let krwPrice = Int(DoubleDecimalUtils.mul(price , appInfo.krwValue!))
+            
+            sellPriceKrwText[idx].text = CoinUtils.currency(krwPrice) + "KRW"
+            sellPriceText[idx].text = String(format: "%.8f", NSDecimalNumber(decimal: price).doubleValue)
+            sellVolumeText[idx].text = String(format: "%.8f", NSDecimalNumber(decimal: amount).doubleValue)
+            
+            var per = DoubleDecimalUtils.div(amount, DoubleDecimalUtils.newInstance(mAmountSell)) / 100
+            
+            let volumeAllSize = sellPriceText[idx].frame.size.width
+            if(per < 0.03){per = 0.03}
+            if(per > 1){per = 1}
+            var size = volumeAllSize  * per
+            if(size < 1){size = 1}
+            
+            
+            sellVolumeBar[idx].constant = size
         }
     }
     
