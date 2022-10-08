@@ -44,9 +44,15 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
         let vc = sb.instantiateViewController(withIdentifier: "VCCoinDetailHoga") as? VCCoinDetailHoga
         return vc!
     }()
-    var vcPossession = {() -> VCTradePossession in
+    var vcCoinDetailChart = {() -> VCCoinDetailChart in
         let sb = UIStoryboard.init(name:"Trade", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "tradepossessionvc") as? VCTradePossession
+        let vc = sb.instantiateViewController(withIdentifier: "VCCoinDetailChart") as? VCCoinDetailChart
+        return vc!
+    }()
+    
+    var vcCoinDetailQuote = {() -> VCCoinDetailQuote in
+        let sb = UIStoryboard.init(name:"Trade", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "VCCoinDetailQuote") as? VCCoinDetailQuote
         return vc!
     }()
     
@@ -54,8 +60,10 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
         super.viewDidLoad()
         vcCoinDetailOrder.vcDetail = self
         vcCoinDetailHoga.vcDetail = self
+        vcCoinDetailChart.vcDetail = self
+        vcCoinDetailQuote.vcDetail = self
         
-        dataSource = [(menuTitle: "주문", vc: vcCoinDetailOrder), (menuTitle: "호가", vc: vcCoinDetailHoga), (menuTitle: "차트", vc: vcPossession), (menuTitle: "시세", vc: vcPossession)]
+        dataSource = [(menuTitle: "주문", vc: vcCoinDetailOrder), (menuTitle: "호가", vc: vcCoinDetailHoga), (menuTitle: "차트", vc: vcCoinDetailChart), (menuTitle: "시세", vc: vcCoinDetailQuote)]
         
         backBtn.isUserInteractionEnabled = true
         backBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onBtnClicked)))
@@ -67,6 +75,8 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
         favoritesBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onBtnClicked)))
         coinNameText.isUserInteractionEnabled = true
         coinNameText.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onBtnClicked)))
+        coinCodeText.isUserInteractionEnabled = true
+        coinCodeText.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onBtnClicked)))
         coinListBtn.isUserInteractionEnabled = true
         coinListBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onBtnClicked)))
         
@@ -82,9 +92,9 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
         if(sender.view == backBtn || sender.view == backBtn1 || sender.view == backBtn2){
             stop()
         }else if(sender.view == favoritesBtn){
-            
-        }else if(sender.view == coinNameText || sender.view == coinListBtn){
-           
+            clickedSavorites()
+        }else if(sender.view == coinNameText || sender.view == coinListBtn || sender.view == coinCodeText){
+            showCoinList();
         }
     }
     
@@ -127,7 +137,7 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
     }
     
     fileprivate func stop(){
-        self.dismiss(animated: true)
+        UIApplication.shared.windows.first(where: {$0.isKeyWindow})?.rootViewController?.dismiss(animated: false)
     }
     
     
@@ -142,6 +152,7 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
         appInfo.setBtcInterface(self)
         appInfo.setKrwInterface(self)
         setTitleData()
+        setImage()
     }
     
     func setInterface(_ firebaseInterface:VCBase?) {
@@ -162,6 +173,34 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
         }
         setTitleData()
     }
+    
+    override func onResult(response: BaseResponse) {
+        if let _ = response.request as? StarCheckRequest{
+            let data = StarCheckResponse(baseResponce: response)
+            let attention = data.getAttentionCoin()
+            DispatchQueue.main.async{
+                if(!attention){
+                    var temp = [String:Any?]()
+                    temp["attention_coin_BTC"] = "Y"
+                    guard let _ = VCCoinDetail.coin?.myCoinData else{
+                        VCCoinDetail.coin?.setCoinData(temp as NSDictionary)
+                        self.setImage()
+                        return
+                    }
+                    VCCoinDetail.coin?.myCoinData?["attention_coin_BTC"] = "Y"
+                    self.setImage()
+                }else{
+                    VCCoinDetail.coin?.myCoinData?["attention_coin_BTC"] = nil
+                    self.setImage()
+                }
+            }
+        }
+    }
+    
+    override func onError(e: AFError, method: String) {
+        
+    }
+    
 }
 
 
@@ -227,3 +266,52 @@ extension VCCoinDetail: PagingContentViewControllerDataSource, PagingContentView
 class DetailMenuCell: PagingMenuViewCell {
     @IBOutlet weak var titleText: UILabel!
 }
+
+
+
+//MARK: - TradeCoinList
+extension VCCoinDetail{
+    fileprivate func showCoinList(){
+        let sb = UIStoryboard.init(name:"Popup", bundle: nil)
+        guard let vc = sb.instantiateViewController(withIdentifier: "TradeCoinList") as? TradeCoinList else {
+            return
+        }
+        vc.coin_code = VCCoinDetail.coin?.coin_code ?? ""
+        vc.detailDelegate = {[self] coinVo in
+            VCCoinDetail.coin = coinVo
+            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "tradedetailvc") as? VCCoinDetail else {
+                return
+            }
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: false)
+        }
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalTransitionStyle = .crossDissolve
+        self.present(vc, animated: true);
+    }
+}
+
+
+//MARK: - Favorites
+extension VCCoinDetail{
+    fileprivate func setImage(){
+        favoritesBtn.image = UIImage(named: "star_deactive")
+        if let _ = VCCoinDetail.coin?.myCoinData{
+            if let attention = VCCoinDetail.coin?.myCoinData?["attention_coin_BTC"] as? String{
+                if attention == "Y" {
+                    favoritesBtn.image = UIImage(named: "start_active")
+                }
+            }
+        }
+    }
+    
+    fileprivate func clickedSavorites(){
+        let request = StarCheckRequest()
+        request.coinType = VCCoinDetail.coin?.coin_code
+        request.market_type = VCCoinDetail.MARKETTYPE
+        ApiFactory(apiResult: self, request: request).newThread()
+    }
+    
+   
+}
+

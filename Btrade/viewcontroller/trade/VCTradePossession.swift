@@ -15,6 +15,7 @@ class VCTradePossession: VCBase  ,UITableViewDataSource, UITableViewDelegate , F
     }
     
     
+    @IBOutlet weak var sortLayout: UIStackView!
     @IBOutlet weak var sort1Text: UILabel!
     @IBOutlet weak var sort1Image: UIImageView!
     var sort1 = COINSORT.NORMAL
@@ -36,7 +37,7 @@ class VCTradePossession: VCBase  ,UITableViewDataSource, UITableViewDelegate , F
     @IBOutlet weak var cntZeroText: UILabel!
     
     var mArray:Array<CoinVo> = Array()
-    var vcTrade:VCTrade?
+    var vcTrade:TradeCoin?
     
     var tradeCalc:TradeCalc!
     override func viewDidLoad() {
@@ -73,17 +74,22 @@ class VCTradePossession: VCBase  ,UITableViewDataSource, UITableViewDelegate , F
         
         cntZeroText.layer.isHidden = true
         contentView.layer.isHidden = true
+        
+        
+        initSort()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if(vcTrade != nil){vcTrade?.setInterface(self)}
+        if(vcTrade != nil && vcTrade is TradeCoinList){sortLayout.isHidden = true}
         setArrayList(getCoinList())
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if(vcTrade != nil){vcTrade?.setInterface(nil)}
+        initSort()
     }
     
     
@@ -103,6 +109,13 @@ class VCTradePossession: VCBase  ,UITableViewDataSource, UITableViewDelegate , F
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if(vcTrade != nil && vcTrade is TradeCoinList){
+            if let vc = vcTrade as? TradeCoinList{
+                vc.selectedCoin(mArray[indexPath.row])
+                return
+            }
+            
+        }
         guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "tradedetailvc") as? VCCoinDetail else {
             return
         }

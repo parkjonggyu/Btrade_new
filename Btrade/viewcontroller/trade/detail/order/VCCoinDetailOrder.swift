@@ -23,6 +23,8 @@ class VCCoinDetailOrder: VCBase{
     
     var mAmountBuy:Double = 0
     var mAmountSell:Double = 0
+    var mAmountMaxBuy:Double = 0
+    var mAmountMaxSell:Double = 0
     
     var volumeAllSize:Double?
     
@@ -69,6 +71,7 @@ extension VCCoinDetailOrder{
     fileprivate func initHogaBuyData(){
         mArrayHogyBuy.removeAll();
         mAmountBuy = 0
+        mAmountMaxBuy = 0
         for idx in (1 ... HOGAMAX){
             guard let hoga = appInfo.getFirebaseHoga()?.getHOGA(VCCoinDetail.coin?.coin_code ?? "") else{
                 mArrayHogyBuy.append(nil)
@@ -84,6 +87,7 @@ extension VCCoinDetailOrder{
                 buy["amount"] = amount
                 let a = NSDecimalNumber(decimal: DoubleDecimalUtils.newInstance(amount as? String)).doubleValue
                 mAmountBuy = mAmountBuy + a
+                if(mAmountMaxBuy < a){mAmountMaxBuy = a}
             }else{
                 buy["amount"] = nil
             }
@@ -95,6 +99,7 @@ extension VCCoinDetailOrder{
     fileprivate func initHogaSellData(){
         mArrayHogySell.removeAll();
         mAmountSell = 0
+        mAmountMaxSell = 0
         for idx in (1 ... HOGAMAX).reversed(){
             guard let hoga = appInfo.getFirebaseHoga()?.getHOGA(VCCoinDetail.coin?.coin_code ?? "")  else{
                 mArrayHogySell.append(nil)
@@ -110,6 +115,7 @@ extension VCCoinDetailOrder{
                 sell["amount"] = amount
                 let a = NSDecimalNumber(decimal: DoubleDecimalUtils.newInstance(amount as? String)).doubleValue
                 mAmountSell = mAmountSell + a
+                if(mAmountMaxSell < a){mAmountMaxSell = a}
             }else{
                 sell["amount"] = nil
             }
@@ -145,20 +151,23 @@ extension VCCoinDetailOrder{
             cell.volumeLayout.backgroundColor = UIColor(named: "HogaSellBack")
             cell.priceText.textColor = UIColor(named: "HogaPriceBlue")
             color = UIColor(named: "HogaSellBar")
-            per = DoubleDecimalUtils.div(amount, DoubleDecimalUtils.newInstance(mAmountSell)) / 100
+            per = DoubleDecimalUtils.div(amount, DoubleDecimalUtils.newInstance(mAmountMaxSell)) / 100
+            if(per < 0.01 || mAmountMaxSell == 0){per = 0.01}
         }else{
             cell.priceLayout.backgroundColor = UIColor(named: "HogaBuyBack")
             cell.volumeLayout.backgroundColor = UIColor(named: "HogaBuyBack")
             cell.priceText.textColor = UIColor(named: "HogaPriceRed")
             color = UIColor(named: "HogaBuyBar")
-            per = DoubleDecimalUtils.div(amount, DoubleDecimalUtils.newInstance(mAmountBuy)) / 100
+            per = DoubleDecimalUtils.div(amount, DoubleDecimalUtils.newInstance(mAmountMaxBuy)) / 100
+            if(per < 0.01 || mAmountMaxBuy == 0){per = 0.01}
         }
         
-        if(per < 0.01){per = 0.01}
+        
         if(per > 1){per = 1}
-        var size = (volumeAllSize ?? 10)  * per
+        
+        var size = (hogaTableView.frame.size.width / 2.0) * per
         if(size < 1){size = 1}
-        if(size > cell.volumeLayout.frame.size.width){size = cell.volumeLayout.frame.size.width}
+        if(size > (hogaTableView.frame.size.width / 2.0) ){size = (hogaTableView.frame.size.width / 2.0)}
         
         
         cell.volumeBarWidth.constant = size

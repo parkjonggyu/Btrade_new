@@ -17,7 +17,7 @@ class CoinVo{
     
     var isInit:Bool = false
     
-    var myCoinData:NSDictionary?
+    var myCoinData:[String: Any]?
     
     init(coin:MarketListResponse.Coin){
         self.coin_code = coin.coin_code
@@ -31,6 +31,6 @@ class CoinVo{
     }
     
     func setCoinData(_ info:NSDictionary){
-        self.myCoinData = info
+        self.myCoinData = info as? [String: Any]
     }
 }

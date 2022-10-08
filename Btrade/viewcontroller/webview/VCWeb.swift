@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import UIKit
 import WebKit
+import UIKit
 
 class VCWeb:VCBase,  WKNavigationDelegate, WKScriptMessageHandler{
     

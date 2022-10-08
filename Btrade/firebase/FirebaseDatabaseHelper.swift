@@ -38,15 +38,17 @@ class FirebaseDatabaseHelper:FirebaseInterface{
         }
     }
     
-    func onChart(listener:FirebaseInterface, markets:Array<CoinVo>, INTERVAL:String, coinVo:CoinVo){
-        
-        for data in mMarkets{
-            if let item = coinVo.lastLoadedItem{
-                data.value.onNextChart(listener:self, INTERVAL:INTERVAL, lastLoadedItem: item)
-            }else{
-                data.value.onChart(listener:self, INTERVAL:INTERVAL)
+    func onChart(_ valueEventListener:ValueEventListener,_ query:String,_ market:String,_ coin:String){
+        mDatabase?.child("chart/" + query + "/" + market + "/" + coin).queryOrderedByKey().queryLimited(toLast: 300).getData(completion:  { error, snapshot in
+            guard error == nil else {
+              print(error!.localizedDescription)
+              return;
             }
-        }
+            if let s = snapshot{
+                valueEventListener.onDataChange(snapshot: s)
+                return
+            }
+          });
     }
     
     func removeListener(hogaEventListener:CoinHogaEventListener){
@@ -60,7 +62,6 @@ class FirebaseDatabaseHelper:FirebaseInterface{
             mRef.removeObserver(withHandle: handler)
         }
     }
-    
     
     func onDataChange(market: String) {
         //self.listener?.onDataChange(market: market)

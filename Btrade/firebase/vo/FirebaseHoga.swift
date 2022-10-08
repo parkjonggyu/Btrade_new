@@ -13,7 +13,7 @@ class FirebaseHoga{
         self.data = dictionary;
     }
     
-    func getHPGACONTRACT(_ coinCode:String) -> [String:Any]?{
+    func getCONTRACT(_ coinCode:String) -> [String:Any]?{
         if let coin = data[coinCode] as? [String : Any]{
             if let data = coin["HOGACONTRACT"]{
                 return data as? [String : Any]
@@ -22,7 +22,7 @@ class FirebaseHoga{
         return nil
     }
     
-    func getHPGACONTRACT() -> [String:Any]?{
+    func getCONTRACT() -> [String:Any]?{
         if let data = data["HOGACONTRACT"]{
             return data as? [String : Any]
         }

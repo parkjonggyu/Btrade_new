@@ -15,6 +15,7 @@ class VCTradeBTC: VCBase ,UITableViewDataSource, UITableViewDelegate, FirebaseIn
     }
     
     
+    @IBOutlet weak var sortLayout: UIStackView!
     @IBOutlet weak var sort1Text: UILabel!
     @IBOutlet weak var sort1Image: UIImageView!
     var sort1 = COINSORT.NORMAL
@@ -34,7 +35,7 @@ class VCTradeBTC: VCBase ,UITableViewDataSource, UITableViewDelegate, FirebaseIn
     @IBOutlet weak var mList: UITableView!
     
     var mArray:Array<CoinVo> = Array()
-    var vcTrade:VCTrade?
+    var vcTrade:TradeCoin?
     
     var tradeCalc:TradeCalc!
     override func viewDidLoad() {
@@ -70,17 +71,20 @@ class VCTradeBTC: VCBase ,UITableViewDataSource, UITableViewDelegate, FirebaseIn
         mList.separatorInset.left = 0
         
         
+        initSort()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if(vcTrade != nil){vcTrade?.setInterface(self)}
+        if(vcTrade != nil && vcTrade is TradeCoinList){sortLayout.isHidden = true}
         setArrayList(getCoinList())
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if(vcTrade != nil){vcTrade?.setInterface(nil)}
+        initSort()
     }
     
     
@@ -100,6 +104,13 @@ class VCTradeBTC: VCBase ,UITableViewDataSource, UITableViewDelegate, FirebaseIn
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if(vcTrade != nil && vcTrade is TradeCoinList){
+            if let vc = vcTrade as? TradeCoinList{
+                vc.selectedCoin(mArray[indexPath.row])
+                return
+            }
+            
+        }
         guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "tradedetailvc") as? VCCoinDetail else {
             return
         }

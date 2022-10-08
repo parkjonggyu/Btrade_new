@@ -17,46 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mnz-9V-Z2H">
-                                <rect key="frame" x="30" y="54" width="354" height="30"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" horizontalCompressionResistancePriority="749" text="비트레이드" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6H-dR-Hvb">
-                                        <rect key="frame" x="0.0" y="0.0" width="324" height="30"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
-                                        <color key="textColor" red="0.31764705882352939" green="0.31764705882352939" blue="0.31764705882352939" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dtg-PA-wjJ">
-                                        <rect key="frame" x="324" y="0.0" width="30" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="KiK-aE-p8J"/>
-                                            <constraint firstAttribute="width" constant="30" id="NUg-5Z-bsS"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Button" image="btn_gray_close"/>
-                                        <connections>
-                                            <action selector="closeClicked:" destination="J91-FS-ap5" eventType="touchUpInside" id="prC-HJ-Ywg"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="ZBr-oX-rVC"/>
-                                    <constraint firstItem="dtg-PA-wjJ" firstAttribute="leading" secondItem="D6H-dR-Hvb" secondAttribute="trailing" id="gKA-D6-waq"/>
-                                </constraints>
-                            </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vlO-9A-eI8">
-                                <rect key="frame" x="0.0" y="94" width="414" height="2"/>
-                                <color key="backgroundColor" red="0.83529411760000005" green="0.83529411760000005" blue="0.83529411760000005" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="2" id="6h5-hB-WW7"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="textColor" red="0.58039215690000001" green="0.59999999999999998" blue="0.6588235294" alpha="0.8980392157" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9I-wy-jCz">
-                                <rect key="frame" x="0.0" y="97" width="414" height="765"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -67,16 +29,10 @@
                         <viewLayoutGuide key="safeArea" id="jXn-Ck-nd9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="vlO-9A-eI8" firstAttribute="leading" secondItem="Ydm-SN-iVj" secondAttribute="leading" id="1xG-2n-HT5"/>
-                            <constraint firstItem="P9I-wy-jCz" firstAttribute="leading" secondItem="jXn-Ck-nd9" secondAttribute="leading" id="4P8-94-Phy"/>
-                            <constraint firstItem="jXn-Ck-nd9" firstAttribute="bottom" secondItem="P9I-wy-jCz" secondAttribute="bottom" id="7l1-xT-158"/>
-                            <constraint firstAttribute="trailing" secondItem="vlO-9A-eI8" secondAttribute="trailing" id="99H-n9-tgK"/>
-                            <constraint firstItem="P9I-wy-jCz" firstAttribute="trailing" secondItem="jXn-Ck-nd9" secondAttribute="trailing" id="B0C-SW-er1"/>
-                            <constraint firstItem="mnz-9V-Z2H" firstAttribute="leading" secondItem="jXn-Ck-nd9" secondAttribute="leading" constant="30" id="CyW-sb-2Uj"/>
-                            <constraint firstItem="mnz-9V-Z2H" firstAttribute="top" secondItem="jXn-Ck-nd9" secondAttribute="top" constant="10" id="HDp-yL-fXd"/>
-                            <constraint firstItem="vlO-9A-eI8" firstAttribute="top" secondItem="mnz-9V-Z2H" secondAttribute="bottom" constant="10" id="b8t-ba-1M4"/>
-                            <constraint firstItem="jXn-Ck-nd9" firstAttribute="trailing" secondItem="mnz-9V-Z2H" secondAttribute="trailing" constant="30" id="cFK-ca-UMc"/>
-                            <constraint firstItem="P9I-wy-jCz" firstAttribute="top" secondItem="vlO-9A-eI8" secondAttribute="bottom" constant="1" id="xYJ-iE-Ktc"/>
+                            <constraint firstItem="P9I-wy-jCz" firstAttribute="top" secondItem="jXn-Ck-nd9" secondAttribute="top" id="Bq3-UY-dkg"/>
+                            <constraint firstItem="P9I-wy-jCz" firstAttribute="bottom" secondItem="jXn-Ck-nd9" secondAttribute="bottom" id="E57-fw-ei2"/>
+                            <constraint firstItem="P9I-wy-jCz" firstAttribute="leading" secondItem="jXn-Ck-nd9" secondAttribute="leading" id="Mfx-ye-eII"/>
+                            <constraint firstItem="P9I-wy-jCz" firstAttribute="trailing" secondItem="jXn-Ck-nd9" secondAttribute="trailing" id="qIC-2r-biS"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="거래소" image="rectangle.and.pencil.and.ellipsis.rtl" catalog="system" largeContentSizeImage="square.and.arrow.up.circle.fill" id="zgB-n9-VAX">
@@ -92,7 +48,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="btn_gray_close" width="41" height="41"/>
         <image name="rectangle.and.pencil.and.ellipsis.rtl" catalog="system" width="128" height="92"/>
         <image name="square.and.arrow.up.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="quaternarySystemFillColor">

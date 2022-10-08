@@ -10,7 +10,7 @@ import Alamofire
 import PagingKit
 import FirebaseDatabase
 
-class VCTrade: VCBase , FirebaseInterface, ValueEventListener{
+class VCTrade: VCBase , FirebaseInterface, ValueEventListener, TradeCoin{
     var vcBtc = {() -> VCTradeBTC in
         let sb = UIStoryboard.init(name:"Trade", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "tradebtcvc") as? VCTradeBTC
@@ -38,8 +38,6 @@ class VCTrade: VCBase , FirebaseInterface, ValueEventListener{
     
     var firebaseInterface:VCBase?
     
-    var WHERE:Int = 0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         vcBtc.vcTrade = self;
@@ -56,6 +54,7 @@ class VCTrade: VCBase , FirebaseInterface, ValueEventListener{
         
         menuViewController.reloadData()
         contentViewController.reloadData()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -136,13 +135,9 @@ class VCTrade: VCBase , FirebaseInterface, ValueEventListener{
     }
     
     @objc func textFieldDidChange(_ serder:Any?){
-        if(WHERE == 0){
-            vcBtc.searchStart(self.searchField?.text)
-        }else if(WHERE == 1){
-            vcFavorites.searchStart(self.searchField?.text)
-        }else if(WHERE == 2){
-            vcPossession.searchStart(self.searchField?.text)
-        }
+        if(firebaseInterface != nil && firebaseInterface is VCTradeBTC){vcBtc.searchStart(self.searchField?.text)}
+        if(firebaseInterface != nil && firebaseInterface is VCTradeFavorites){vcFavorites.searchStart(self.searchField?.text)}
+        if(firebaseInterface != nil && firebaseInterface is VCTradePossession){vcPossession.searchStart(self.searchField?.text)}
     }
     
     override func onResult(response: BaseResponse) {
@@ -170,13 +165,10 @@ class VCTrade: VCBase , FirebaseInterface, ValueEventListener{
             searchVisible()
         }else{
             searchInvisible()
-            if(WHERE == 0){
-                vcBtc.searchStart("")
-            }else if(WHERE == 1){
-                vcFavorites.searchStart("")
-            }else if(WHERE == 2){
-                vcPossession.searchStart("")
-            }
+            if(firebaseInterface != nil && firebaseInterface is VCTradeBTC){vcBtc.searchStart("")}
+            if(firebaseInterface != nil && firebaseInterface is VCTradeFavorites){vcFavorites.searchStart("")}
+            if(firebaseInterface != nil && firebaseInterface is VCTradePossession){vcPossession.searchStart("")}
+        
         }
     }
     
@@ -184,13 +176,10 @@ class VCTrade: VCBase , FirebaseInterface, ValueEventListener{
         self.searchField.translatesAutoresizingMaskIntoConstraints = true
         self.searchBtn.translatesAutoresizingMaskIntoConstraints = true
         if(searchField.frame.size.width <= (SEARCHSIZE / 2)){
-            if(WHERE == 0){
-                vcBtc.initSort()
-            }else if(WHERE == 1){
-                vcFavorites.initSort()
-            }else if(WHERE == 2){
-                vcPossession.initSort()
-            }
+            if(firebaseInterface != nil && firebaseInterface is VCTradeBTC){vcBtc.initSort()}
+            if(firebaseInterface != nil && firebaseInterface is VCTradeFavorites){vcFavorites.initSort()}
+            if(firebaseInterface != nil && firebaseInterface is VCTradePossession){vcPossession.initSort()}
+            
             
             searchBtn.frame.origin.x = searchBtn.frame.origin.x - SEARCHSIZE
             searchField.frame.origin.x = searchField.frame.origin.x - SEARCHSIZE
@@ -241,6 +230,7 @@ extension VCTrade{
 extension VCTrade: PagingMenuViewControllerDataSource, PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
         contentViewController.scroll(to: page, animated: true)
+        self.searchInvisible()
     }
     
     func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
@@ -256,7 +246,6 @@ extension VCTrade: PagingMenuViewControllerDataSource, PagingMenuViewControllerD
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "TradeMenuCell", for: index) as! TradeMenuCell
         cell.titleText.text = dataSource[index].menuTitle
-        WHERE = index
         return cell
     }
 }
@@ -310,4 +299,9 @@ class TradeCoinCell: UITableViewCell{
     @IBOutlet weak var mTextVol: UILabel!
     @IBOutlet weak var mTextVolKrw: UILabel!
     @IBOutlet weak var mCandleImage: UIImageView!
+}
+
+protocol TradeCoin{
+    func setInterface(_ firebaseInterface:VCBase?)
+    func searchInvisible()
 }
