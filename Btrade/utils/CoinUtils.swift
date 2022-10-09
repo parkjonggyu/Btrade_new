@@ -55,7 +55,7 @@ class CoinUtils{
         
         if((DoubleDecimalUtils.newInstance(number) as NSDecimalNumber).doubleValue < 0){
             strSymbol = "-"
-            number = String(abs((DoubleDecimalUtils.newInstance(number) as NSDecimalNumber).doubleValue))
+            number = number.replacingOccurrences(of: "-", with: "")
         }
         
         cipher = cipher > 0 ? cipher : 3
@@ -81,6 +81,72 @@ class CoinUtils{
         }
         
         return strSymbol + result
+    }
+    
+    static func fCalcProfitDif(_ balance:Decimal, _ totalBuy:Decimal, feeString:String?) -> [String:Any]{
+        var fee:Decimal?
+        var dif:Decimal?
+        var reverse_fee:Decimal?
+        var dif_per:Decimal?
+        
+        if let f = feeString{
+            fee = DoubleDecimalUtils.newInstance(f)
+            reverse_fee = Decimal(1) - fee!
+            dif = balance - totalBuy
+            dif = dif! * reverse_fee!
+        }else{
+            dif = balance - totalBuy
+        }
+        
+        dif_per = totalBuy == Decimal.zero ? Decimal.zero : (dif! / totalBuy)
+        dif_per = dif_per! * Decimal(100)
+        
+        var rtn_dif_per_str:String?
+        var rtn_dif_per_num:Double?
+        var rtn_dif_str:String?
+        var rtn_dif_num:Double?
+        
+        if(dif_per! > Decimal.zero){
+            rtn_dif_per_str = "+" + fCommaNum(dif_per!, Decimal(0))
+            rtn_dif_per_num = NSDecimalNumber(decimal: dif_per!).doubleValue
+            rtn_dif_str = "+" + fCommaNum(dif!, Decimal(0))
+            rtn_dif_num = NSDecimalNumber(decimal: dif!).doubleValue
+        }else if(dif_per! < Decimal.zero){
+            rtn_dif_per_str = fCommaNum(dif_per!, Decimal(0))
+            rtn_dif_per_num = NSDecimalNumber(decimal: dif_per!).doubleValue
+            rtn_dif_str = fCommaNum(dif!, Decimal(0))
+            rtn_dif_num = NSDecimalNumber(decimal: dif!).doubleValue
+        }else{
+            rtn_dif_per_str = "0"
+            rtn_dif_per_num = 0
+            rtn_dif_str = "0"
+            rtn_dif_num = 0
+        }
+        
+        var data:[String:Any] = [String:Any]()
+        data["dif_per_str"] = rtn_dif_per_str
+        data["dif_per_num"] = rtn_dif_per_num!
+        data["dif_str"] = rtn_dif_str
+        data["dif_num"] = rtn_dif_num!
+        
+        return data
+    }
+    
+    static func fCommaNum(_ val:Decimal,_ num:Decimal) -> String{
+        if(val == Decimal.zero){return NSDecimalNumber(decimal: val).stringValue}
+        
+        var valDouble:Double = NSDecimalNumber(decimal: val).doubleValue
+        if(num == Decimal.zero){
+            valDouble = floor(NSDecimalNumber(decimal: val).doubleValue)
+        }else if(num > Decimal.zero){
+            let temp = (val * num) / num
+            valDouble = floor(NSDecimalNumber(decimal: temp).doubleValue)
+        }
+        
+        //let reg = "/(^[+-]?\\d+)(\\d{3})/;"
+        //let n = String(valDouble)
+        
+        return String(valDouble)
     }
 }
 

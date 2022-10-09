@@ -59,12 +59,14 @@ class VCTrade: VCBase , FirebaseInterface, ValueEventListener, TradeCoin{
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        print("VCTrade viewWillDisappear")
         appInfo.setBtcInterface(nil)
         appInfo.setKrwInterface(nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("VCTrade viewDidAppear")
         appInfo.setBtcInterface(self)
         appInfo.setKrwInterface(self)
         getData()
@@ -231,6 +233,18 @@ extension VCTrade: PagingMenuViewControllerDataSource, PagingMenuViewControllerD
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
         contentViewController.scroll(to: page, animated: true)
         self.searchInvisible()
+        
+        for idx in 0 ..< dataSource.count{  // 선택된 셀 폰트 변경
+            if let c = viewController.cellForItem(at:idx) as? TradeMenuCell{
+                if(idx == page){
+                    c.titleText.textColor = UIColor(named: "C515151")
+                    c.titleText.font = UIFont.boldSystemFont(ofSize: 16)
+                }else{
+                    c.titleText.textColor = UIColor(named: "CA1A1A1")
+                    c.titleText.font = UIFont.systemFont(ofSize: 16)
+                }
+            }
+        }
     }
     
     func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
@@ -246,6 +260,18 @@ extension VCTrade: PagingMenuViewControllerDataSource, PagingMenuViewControllerD
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "TradeMenuCell", for: index) as! TradeMenuCell
         cell.titleText.text = dataSource[index].menuTitle
+        
+        cell.titleText.text = dataSource[index].menuTitle
+        if(0 == index){
+            cell.titleText.textColor = UIColor(named: "C515151")
+            cell.titleText.font = UIFont.boldSystemFont(ofSize: 16)
+        }else{
+            cell.titleText.textColor = UIColor(named: "CA1A1A1")
+            cell.titleText.font = UIFont.systemFont(ofSize: 16)
+        }
+        
+        
+        
         return cell
     }
 }

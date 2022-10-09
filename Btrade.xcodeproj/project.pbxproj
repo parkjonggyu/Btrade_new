@@ -142,6 +142,13 @@
 		1E92DD7828F0237F005D6604 /* StarCheckResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E92DD7728F0237F005D6604 /* StarCheckResponse.swift */; };
 		1E92DD7A28F034B3005D6604 /* VCCoinDetailChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E92DD7928F034B3005D6604 /* VCCoinDetailChart.swift */; };
 		1E92DD7C28F11DAE005D6604 /* VCCoinDetailQuote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E92DD7B28F11DAE005D6604 /* VCCoinDetailQuote.swift */; };
+		1E92DD8028F241A7005D6604 /* VCAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E92DD7F28F241A7005D6604 /* VCAsset.swift */; };
+		1E92DD8228F242E4005D6604 /* AssetFocusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E92DD8128F242E4005D6604 /* AssetFocusView.xib */; };
+		1E92DD8428F2524C005D6604 /* VCAssetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E92DD8328F2524C005D6604 /* VCAssetStatus.swift */; };
+		1E92DD8628F2525C005D6604 /* VCAssetRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E92DD8528F2525C005D6604 /* VCAssetRecord.swift */; };
+		1E92DD8828F25794005D6604 /* AssetHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E92DD8728F25794005D6604 /* AssetHeaderView.xib */; };
+		1E92DD8A28F280AE005D6604 /* HoldingsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E92DD8928F280AE005D6604 /* HoldingsRequest.swift */; };
+		1E92DD8C28F2815E005D6604 /* HoldingsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E92DD8B28F2815E005D6604 /* HoldingsResponse.swift */; };
 		1E933F6628DB036500ACD342 /* VCMyInfoChangePassword1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E933F6528DB036500ACD342 /* VCMyInfoChangePassword1.swift */; };
 		1E933F6928DB158B00ACD342 /* MypageCheckPasswordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E933F6828DB158A00ACD342 /* MypageCheckPasswordRequest.swift */; };
 		1E933F6B28DB161700ACD342 /* MypageCheckPasswordResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E933F6A28DB161700ACD342 /* MypageCheckPasswordResponse.swift */; };
@@ -385,6 +392,13 @@
 		1E92DD7728F0237F005D6604 /* StarCheckResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarCheckResponse.swift; sourceTree = "<group>"; };
 		1E92DD7928F034B3005D6604 /* VCCoinDetailChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCCoinDetailChart.swift; sourceTree = "<group>"; };
 		1E92DD7B28F11DAE005D6604 /* VCCoinDetailQuote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCCoinDetailQuote.swift; sourceTree = "<group>"; };
+		1E92DD7F28F241A7005D6604 /* VCAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCAsset.swift; sourceTree = "<group>"; };
+		1E92DD8128F242E4005D6604 /* AssetFocusView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AssetFocusView.xib; sourceTree = "<group>"; };
+		1E92DD8328F2524C005D6604 /* VCAssetStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCAssetStatus.swift; sourceTree = "<group>"; };
+		1E92DD8528F2525C005D6604 /* VCAssetRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCAssetRecord.swift; sourceTree = "<group>"; };
+		1E92DD8728F25794005D6604 /* AssetHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AssetHeaderView.xib; sourceTree = "<group>"; };
+		1E92DD8928F280AE005D6604 /* HoldingsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoldingsRequest.swift; sourceTree = "<group>"; };
+		1E92DD8B28F2815E005D6604 /* HoldingsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoldingsResponse.swift; sourceTree = "<group>"; };
 		1E933F6528DB036500ACD342 /* VCMyInfoChangePassword1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCMyInfoChangePassword1.swift; sourceTree = "<group>"; };
 		1E933F6828DB158A00ACD342 /* MypageCheckPasswordRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageCheckPasswordRequest.swift; sourceTree = "<group>"; };
 		1E933F6A28DB161700ACD342 /* MypageCheckPasswordResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageCheckPasswordResponse.swift; sourceTree = "<group>"; };
@@ -624,6 +638,9 @@
 		1E2CFC75286D7AEA0057AD90 /* asset */ = {
 			isa = PBXGroup;
 			children = (
+				1E92DD7F28F241A7005D6604 /* VCAsset.swift */,
+				1E92DD8328F2524C005D6604 /* VCAssetStatus.swift */,
+				1E92DD8528F2525C005D6604 /* VCAssetRecord.swift */,
 			);
 			path = asset;
 			sourceTree = "<group>";
@@ -802,6 +819,7 @@
 				1EBFC23028ED0A51005665EA /* CoinBalanceRequest.swift */,
 				1EBFC23428EE5CD3005665EA /* TradeHistoryRequest.swift */,
 				1E92DD7528F022A6005D6604 /* StarCheckRequest.swift */,
+				1E92DD8928F280AE005D6604 /* HoldingsRequest.swift */,
 			);
 			path = request;
 			sourceTree = "<group>";
@@ -853,6 +871,7 @@
 				1EBFC23228ED0ACD005665EA /* CoinBalanceResponse.swift */,
 				1EBFC23628EE5DA0005665EA /* TradeHistoryResponse.swift */,
 				1E92DD7728F0237F005D6604 /* StarCheckResponse.swift */,
+				1E92DD8B28F2815E005D6604 /* HoldingsResponse.swift */,
 			);
 			path = response;
 			sourceTree = "<group>";
@@ -954,6 +973,8 @@
 				1E1345DB28A611DE00FD46AC /* FAQMenuCell.xib */,
 				1E1345DD28A6145800FD46AC /* FAQFocusView.xib */,
 				1E1345E528AB11ED00FD46AC /* FAQCell.xib */,
+				1E92DD8128F242E4005D6604 /* AssetFocusView.xib */,
+				1E92DD8728F25794005D6604 /* AssetHeaderView.xib */,
 				1ECE1CF428B5ED8F005EF704 /* SecurityCertiCell.xib */,
 				1E1345EF28AD03B200FD46AC /* QNACell.xib */,
 				1EBFC1ED28E28921005665EA /* TradeMenuCell.xib */,
@@ -1097,6 +1118,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E92DD8228F242E4005D6604 /* AssetFocusView.xib in Resources */,
 				1E2CFCB02872B38B0057AD90 /* Popup.storyboard in Resources */,
 				1E2CFCD028756F920057AD90 /* Finance.storyboard in Resources */,
 				1E2CFCD828756FCA0057AD90 /* Webview.storyboard in Resources */,
@@ -1119,6 +1141,7 @@
 				1E1345F028AD03B200FD46AC /* QNACell.xib in Resources */,
 				1E2CFCDA2875725A0057AD90 /* Mypage.storyboard in Resources */,
 				1E1345DC28A611DE00FD46AC /* FAQMenuCell.xib in Resources */,
+				1E92DD8828F25794005D6604 /* AssetHeaderView.xib in Resources */,
 				1E2CFCBB2873B6E90057AD90 /* GoogleService-Info.plist in Resources */,
 				1EBFC21128E7F2E8005665EA /* DetailMenuCell.xib in Resources */,
 				1E2CFCCE28756F830057AD90 /* Asset.storyboard in Resources */,
@@ -1271,6 +1294,7 @@
 				1EBFC23128ED0A51005665EA /* CoinBalanceRequest.swift in Sources */,
 				1E726AA52880EB2100E32E19 /* InactivePhoneConfirmRequest.swift in Sources */,
 				1EBFC21328E7FC27005665EA /* VCCoinDetailOrder.swift in Sources */,
+				1E92DD8628F2525C005D6604 /* VCAssetRecord.swift in Sources */,
 				1EBFC1F228E29647005665EA /* VCTradeFavorites.swift in Sources */,
 				1E1345D428A486EE00FD46AC /* VCBoardNotice.swift in Sources */,
 				1E726AA32880E25200E32E19 /* InactivePhoneResponse.swift in Sources */,
@@ -1292,6 +1316,7 @@
 				1E726A7D287D67E700E32E19 /* TermsInfoResponse.swift in Sources */,
 				1EBFC1FC28E583BD005665EA /* CoinHogaEventListener.swift in Sources */,
 				1E1345CA28A0FF1800FD46AC /* MemberInfoResponse.swift in Sources */,
+				1E92DD8028F241A7005D6604 /* VCAsset.swift in Sources */,
 				1E2CFCE62876DD520057AD90 /* SignInResponse.swift in Sources */,
 				1EBFC1F428E2965E005665EA /* VCTradePossession.swift in Sources */,
 				1E2CFCB92872EBA90057AD90 /* CoinVo.swift in Sources */,
@@ -1364,6 +1389,7 @@
 				1E726A9F2880065400E32E19 /* VCFindPWPhone.swift in Sources */,
 				1E97363328929CFD00F47EF9 /* Kyc2_1UploadRequest.swift in Sources */,
 				1E1345DA28A60D1000FD46AC /* VCFAQ.swift in Sources */,
+				1E92DD8C28F2815E005D6604 /* HoldingsResponse.swift in Sources */,
 				1E92DD7628F022A6005D6604 /* StarCheckRequest.swift in Sources */,
 				1EBFC23B28EEC3B3005665EA /* VCCoinDetailHoga.swift in Sources */,
 				1EBFC1E628E1745E005665EA /* MemberInfoNoMaskRespose.swift in Sources */,
@@ -1392,6 +1418,7 @@
 				1ECE1CEF28B4E0BD005EF704 /* MypageQNAAddRequest.swift in Sources */,
 				1E313589288F8D8E006F575C /* WebResult.swift in Sources */,
 				1EF77E3F289CBC0C00B7ABB3 /* EventsLayout.swift in Sources */,
+				1E92DD8A28F280AE005D6604 /* HoldingsRequest.swift in Sources */,
 				1E2CFCB62872E02E0057AD90 /* MarketListResponse.swift in Sources */,
 				1E1345D028A11DF200FD46AC /* NoticeSampleResponse.swift in Sources */,
 				1E1345EC28ACB57F00FD46AC /* MypageQNAHistoryRequest.swift in Sources */,
@@ -1407,6 +1434,7 @@
 				1EBFC1EA28E195BA005665EA /* MyInfoQuitResponse.swift in Sources */,
 				1E2CFC8A286D908D0057AD90 /* BaseRequest.swift in Sources */,
 				1E3135832888ECD5006F575C /* VCKyc1.swift in Sources */,
+				1E92DD8428F2524C005D6604 /* VCAssetStatus.swift in Sources */,
 				1E2CFC87286D8ED20057AD90 /* ApiResult.swift in Sources */,
 				1EBFC22928EC2431005665EA /* TradeComfirmPopup.swift in Sources */,
 				1E1345C828A0FEAA00FD46AC /* MemberInfoRequest.swift in Sources */,

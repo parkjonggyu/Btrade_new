@@ -39,7 +39,11 @@ class FirebaseDatabaseHelper:FirebaseInterface{
     }
     
     func onChart(_ valueEventListener:ValueEventListener,_ query:String,_ market:String,_ coin:String){
-        mDatabase?.child("chart/" + query + "/" + market + "/" + coin).queryOrderedByKey().queryLimited(toLast: 300).getData(completion:  { error, snapshot in
+        var limit:UInt = 100
+        if(query == "1H"){
+            limit = 30
+        }
+        mDatabase?.child("chart/" + query + "/" + market + "/" + coin).queryOrderedByKey().queryLimited(toLast: limit).getData(completion:  { error, snapshot in
             guard error == nil else {
               print(error!.localizedDescription)
               return;

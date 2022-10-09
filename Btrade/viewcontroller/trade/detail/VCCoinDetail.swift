@@ -86,6 +86,10 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
         
         menuViewController.reloadData()
         contentViewController.reloadData()
+        
+        
+        setTitleData()
+        setImage()
     }
     
     @objc func onBtnClicked(sender:UITapGestureRecognizer){
@@ -147,13 +151,14 @@ class VCCoinDetail: VCBase , FirebaseInterface, ValueEventListener{
         appInfo.setKrwInterface(nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         appInfo.setBtcInterface(self)
         appInfo.setKrwInterface(self)
         setTitleData()
         setImage()
     }
+    
     
     func setInterface(_ firebaseInterface:VCBase?) {
         self.firebaseInterface = firebaseInterface

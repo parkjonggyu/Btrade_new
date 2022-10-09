@@ -145,6 +145,7 @@ class VCMain: VCBaseTab {
             
             if(!appInfo.getIsLogin()){
                 if(index == 1 || index == 2){
+                    if let v = tabTwo as? VCAsset{v.statusUpdate = true}
                     if(self.startLogIn() == false){return false}
                     return false
                 }

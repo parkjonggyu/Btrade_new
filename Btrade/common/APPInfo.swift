@@ -18,6 +18,16 @@ class APPInfo:FirebaseInterface{
     
     var COINLIST:Array<CoinVo> = Array<CoinVo>()
     func getCoinList() -> Array<CoinVo>?{return COINLIST}
+    func getCoinList(_ coinCode:String) -> CoinVo?{
+        guard let _ = COINLIST ?? nil else{return nil}
+        
+        for coin in COINLIST{
+            if(coin.coin_code == coinCode){
+                return coin
+            }
+        }
+        return nil
+    }
     func setCoinList(array:Array<MarketListResponse.Coin>){
         COINLIST = Array<CoinVo>()
         for data in array {
@@ -32,9 +42,6 @@ class APPInfo:FirebaseInterface{
             FirebaseDatabaseHelper.getInstance().removeListener(firebaseKRWInterface: firebaseKRWInterface!)
             FirebaseDatabaseHelper.getInstance().onCommon(firebaseKRWInterface!)
         }
-        
-        
-        
     }
     
     
