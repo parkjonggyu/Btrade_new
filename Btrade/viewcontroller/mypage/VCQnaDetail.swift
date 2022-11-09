@@ -11,10 +11,9 @@ import WebKit
 
 
 class VCQnaDetail: VCBase {
-    var bq_idx = ""
-    var isHidden = true
-    var qna = Dictionary<String, Any>()
-    var list:Array<Dictionary<String, Any>>?
+    var vcQnaHistory:VCQnaHistory?
+    var qna:QnaItem?
+    var list:Array<[String:Any]>?
     @IBOutlet weak var bqContentText: WKWebView!
     @IBOutlet weak var dateText: UILabel!
     @IBOutlet weak var titleText: UILabel!
@@ -38,20 +37,20 @@ class VCQnaDetail: VCBase {
         qnaAddText.isUserInteractionEnabled = true
         qnaAddText.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goQnaAdd)))
      
-        if(bq_idx == ""){
-            stop()
-            return
-        }
-        if(isHidden){
+        
+        if(qna?.bq_confirm ?? "N" == "Y"){
             replyLayout.isHidden = true
         }
         
+        setData()
         getData()
     }
     
     fileprivate func getData(){
         let request = MypageQNADetailRequest()
-        request.bq_idx = bq_idx
+        if let idx = qna?.bq_idx{
+            request.bq_idx = String(idx)
+        }
         ApiFactory(apiResult: self, request: request).newThread()
         
     }
@@ -59,11 +58,8 @@ class VCQnaDetail: VCBase {
     override func onResult(response: BaseResponse) {
         if let _ = response.request as? MypageQNADetailRequest{
             let data = MypageQNADetailResponse(baseResponce: response)
-            if let d = data.getDetail(){
-                if let list = data.getList(){
-                    self.list = list
-                }
-                qna = d
+            if let list = data.getList(){
+                self.list = list
                 setData()
             }
         }
@@ -71,39 +67,29 @@ class VCQnaDetail: VCBase {
     
     fileprivate func setData(){
         DispatchQueue.main.async {
-            if let cate = self.qna["bq_category"] as? String{
+            if let cate = self.qna?.bq_category{
                 if(cate == "CA01"){self.cateText.text = "[보이스피싱 등 사고 접수 관련]"}
                 else if(cate == "CA02"){self.cateText.text = "[회원가입/탈퇴/로그인 등 계정 관련]"}
                 else if(cate == "CA03"){self.cateText.text = "[입출금 및 거래 관련]"}
                 else if(cate == "CA04"){self.cateText.text = "[레벨 및 정보 변경 관련]"}
                 else if(cate == "CA05"){self.cateText.text = "[홈페이지 관련 문의]"}
                 else if(cate == "CA06"){self.cateText.text = "[기타 문의]"}
+                else {self.cateText.text = ""}
             }
-            if let title = self.qna["bq_title"] as? String{
+            if let title = self.qna?.bq_title{
                 self.titleText.text = title
             }else{
                 self.titleText.text = ""
             }
-            if let date = self.qna["reg_date"] as? String{
+            if let date = self.qna?.reg_date{
                 self.dateText.text = date
             }else{
                 self.dateText.text = ""
             }
-            if let contents = self.qna["bq_contents"] as? String{
-                var html = contents
-                html = html.replacingOccurrences(of: " 14px", with: " 2.5rem")
-                html = html.replacingOccurrences(of: " 11pt", with: " 2.5rem")
-                html = html.replacingOccurrences(of: " 13.333px", with: " 2.5rem")
-                html = html.replacingOccurrences(of: "line-height:", with: "")
-                html = html.trimmingCharacters(in: .whitespaces)
-                html = "<div style=\"font-size: 2.5rem;\">" + html + "</div>"
-                self.bqContentText.loadHTMLString(html, baseURL: nil)
-                self.bqContentText.navigationDelegate = self;
-            }
-            
+                        
             if self.list != nil && self.list!.count > 0{
                 if let reply = self.list?[0]{
-                    if var html = reply["bqr_contents"] as? String{
+                    if var html = reply["content"] as? String{
                         self.replyLayout.isHidden = false
                         html = html.replacingOccurrences(of: " 14px", with: " 2.5rem")
                         html = html.replacingOccurrences(of: " 11pt", with: " 2.5rem")
@@ -115,7 +101,7 @@ class VCQnaDetail: VCBase {
                         self.answerContents.navigationDelegate = self;
                     }
                     
-                    if let date = self.qna["mod_date"] as? String{
+                    if let date = reply["reg_date"] as? String{
                         self.answerDate.text = date
                     }
                 }else{
@@ -136,7 +122,11 @@ class VCQnaDetail: VCBase {
     
     @objc func goQnaAdd(sender:UITapGestureRecognizer){
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "qnaaddvc") as? VCQnaAdd{
-            vc.bq_idx = bq_idx
+            if let idx = qna?.bq_idx{
+                vc.bq_idx = String(idx)
+            }else{
+                return
+            }
             self.navigationController?.pushViewController(vc, animated: true)
             return
         }

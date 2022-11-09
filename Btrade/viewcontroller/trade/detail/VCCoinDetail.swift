@@ -242,7 +242,13 @@ extension VCCoinDetail: PagingMenuViewControllerDataSource, PagingMenuViewContro
     }
     
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
-        var width = CGFloat(viewController.view.frame.size.width)
+        let device = DeviceUtils().getSizeByHeight()
+        var addHeight:CGFloat = 0
+        if device == .iPhone8 || device == .iPhoneMini{
+            addHeight = 40
+        }
+        
+        var width = CGFloat(viewController.view.frame.size.width) - addHeight
         width = width / CGFloat(dataSource.count)
         return width
     }

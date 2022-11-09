@@ -2,23 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>신분증을 인증하기 위해 필요한 권한입니다.</string>
-	<key>CFBundleExecutable</key>
-	<string></string>
-	<key>CFBundleIdentifier</key>
-	<string></string>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>ko_KR</string>
-	<key>NSCameraUsageDescription</key>
-	<string>신분증 촬영을 위해 권한이 필요합니다.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict/>
@@ -26,7 +9,13 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>itms-apps</string>
+        <string>cydia</string>
 	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

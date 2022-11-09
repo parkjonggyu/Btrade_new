@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" restorationIdentifier="CSDepositFooterView" id="NFC-4V-VVF" customClass="CSDepositFooterView" customModule="Btrade" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="112"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0I7-Z1-DNg">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="112"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="uGI-kb-vge">
+                            <rect key="frame" x="15" y="15" width="384" height="91"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="입금 대기 안내" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RBi-vW-GBS">
+                                    <rect key="frame" x="0.0" y="0.0" width="384" height="17"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                    <color key="textColor" red="0.85490196080000003" green="0.45882352939999999" blue="0.41176470590000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xPV-lc-R8u">
+                                    <rect key="frame" x="0.0" y="17" width="384" height="10"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="10" id="Exg-9e-J0p"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="◆ 고객 확인이 되지 않은 입금 요청은 자산에 바로 반영되지 않으며, 고객 확인을 통해 자산 반영 또는 반환됩니다." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6tm-qR-rlE">
+                                    <rect key="frame" x="0.0" y="27" width="384" height="29"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" name="C707070"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ea0-mM-Bzy">
+                                    <rect key="frame" x="0.0" y="56" width="384" height="3"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="3" id="HIx-lU-cbt"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="◆ 입금 대기가 발생할 경우 관리자가 순차적으로 별도 안내를 드리며, 문의사항은 고객센터로 연락해 주십시오." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UF8-Jr-h0I">
+                                    <rect key="frame" x="0.0" y="59" width="384" height="29"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" name="C707070"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y96-HI-jTJ">
+                                    <rect key="frame" x="0.0" y="88" width="384" height="3"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="3" id="5Nu-Fp-0Rf"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="uGI-kb-vge" firstAttribute="leading" secondItem="0I7-Z1-DNg" secondAttribute="leading" constant="15" id="HmH-jH-QqI"/>
+                        <constraint firstAttribute="trailing" secondItem="uGI-kb-vge" secondAttribute="trailing" constant="15" id="XU7-AO-5Ai"/>
+                        <constraint firstItem="uGI-kb-vge" firstAttribute="top" secondItem="0I7-Z1-DNg" secondAttribute="top" constant="15" id="hbk-El-6Br"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="Sec-JU-XPn"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="0I7-Z1-DNg" firstAttribute="top" secondItem="NFC-4V-VVF" secondAttribute="top" id="GCH-Bo-ub0"/>
+                <constraint firstItem="0I7-Z1-DNg" firstAttribute="leading" secondItem="NFC-4V-VVF" secondAttribute="leading" id="X3Z-Kw-bHo"/>
+                <constraint firstAttribute="trailing" secondItem="0I7-Z1-DNg" secondAttribute="trailing" id="oB3-2C-PuM"/>
+                <constraint firstAttribute="bottom" secondItem="0I7-Z1-DNg" secondAttribute="bottom" id="vv2-ji-Mpz"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="100.00000000000001" y="-222.99107142857142"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="C707070">
+            <color red="0.43900001049041748" green="0.43900001049041748" blue="0.43900001049041748" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

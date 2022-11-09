@@ -51,6 +51,7 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
     - PromisesObjC (~> 2.1)
+  - FSCalendar (2.8.4)
   - GoogleAppMeasurement (9.2.0):
     - GoogleAppMeasurement/AdIdSupport (= 9.2.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
@@ -115,6 +116,7 @@ DEPENDENCIES:
   - DropDown
   - Firebase/Analytics
   - Firebase/Database
+  - FSCalendar
   - ImageSlideshow (~> 1.9.0)
   - ImageSlideshow/Alamofire
   - PagingKit
@@ -132,6 +134,7 @@ SPEC REPOS:
     - FirebaseCoreInternal
     - FirebaseDatabase
     - FirebaseInstallations
+    - FSCalendar
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
@@ -153,6 +156,7 @@ SPEC CHECKSUMS:
   FirebaseCoreInternal: cb966328b6985dbd6f535e1461291063e1c4a00f
   FirebaseDatabase: 0a888e4bcaa8edc43701597daab336201fb47cc9
   FirebaseInstallations: 21186f0ca7849f90f4a3219fa31a5eca2e30f113
+  FSCalendar: 2d1d0d9398f12d439f55c1fe0f01525b151b8260
   GoogleAppMeasurement: 7a33224321f975d58c166657260526775d9c6b1a
   GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
@@ -163,6 +167,6 @@ SPEC CHECKSUMS:
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: cf2fc14beccc3c369d008f4193b7c0d741a8f3a0
+PODFILE CHECKSUM: 9229cc13d42469701cd0aafadae33ce6cce6045d
 
 COCOAPODS: 1.11.3

@@ -23,6 +23,8 @@ class VCSignupAuth: VCBase , AuthTimerInterface{
     override func viewDidLoad() {
         super.viewDidLoad()
         mAuthText.delegate = self
+        mAuthText.background = UIImage(named: "text_field_inactive.png")
+        mAuthText.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         if ID == nil || PW == nil{
             goBack()
             return
@@ -105,7 +107,7 @@ class VCSignupAuth: VCBase , AuthTimerInterface{
             uiVC: self,
             title: "알림",
             message:"인증 시간이 자났습니다. 다시 시도하세요.",
-            UIAlertAction(title: "확인", style: .default) { (action) in
+            BtradeAlertAction(title: "확인", style: .default) { (action) in
                 self.goBack()
             })
     }
@@ -113,13 +115,14 @@ class VCSignupAuth: VCBase , AuthTimerInterface{
 
 
 extension VCSignupAuth: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let id = textField.restorationIdentifier{
-            if(id == "signupauth"){
-                if((textField.text! + string).count > 6 && string.count > 0){ return false }
+    @objc func textFieldDidChange(_ sender: UITextField?) {
+        if(sender == mAuthText){
+            let scale = 6
+            if mAuthText.text?.count ?? 0 > scale{
+                mAuthText.text = (mAuthText.text?.substring(from: 0, to: scale) ?? "")
             }
+            
         }
-        return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

@@ -35,4 +35,30 @@ struct GetKYCStateResponse{
         }
         return nil
     }
+    
+    func getMsg() -> String?{
+        let index = "msg"
+        if let modelAndView = baseResponce.data["data"] as? NSDictionary{
+            if let code = modelAndView[index] as? String{
+                return code
+            }
+            if let c = modelAndView[index] as? Int64{
+                return String(c)
+            }
+        }
+        return nil
+    }
+    
+    func getResult_cd() -> String{
+        let index = "result_cd"
+        if let modelAndView = baseResponce.data["data"] as? NSDictionary{
+            if let code = modelAndView[index] as? String{
+                return code
+            }
+            if let c = modelAndView[index] as? Int64{
+                return String(c)
+            }
+        }
+        return "N"
+    }
 }

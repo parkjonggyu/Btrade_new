@@ -39,6 +39,7 @@ class VCQnaHistory: VCBase {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if(refresh){
+            refresh = false
             pageNo = 0
             mArray = Array<QnaItem>()
             getData(pageNo)
@@ -63,6 +64,7 @@ class VCQnaHistory: VCBase {
                     mArray.append(temp)
                 }
             }
+            
             setList(data)
         }
     }
@@ -141,6 +143,9 @@ extension VCQnaHistory: UITableViewDataSource, UITableViewDelegate {
             if item.bq_confirm == "Y"{
                 cell.answered.text = "답변완료"
                 cell.answered.textColor = hexStringToUIColor(hex: "#0068B7")
+            }else if item.bq_confirm == "R"{
+                cell.answered.text = "반려"
+                cell.answered.textColor = hexStringToUIColor(hex: "#0068B7")
             }else{
                 cell.answered.text = "답변대기"
                 cell.answered.textColor = hexStringToUIColor(hex: "#515151")
@@ -157,12 +162,8 @@ extension VCQnaHistory: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "qnadetailvc") as? VCQnaDetail{
-            vc.bq_idx = String(mArray[indexPath.row].bq_idx)
-            if mArray[indexPath.row].bq_confirm == "Y"{
-                vc.isHidden = false
-            }else{
-                vc.isHidden = true
-            }
+            vc.qna = mArray[indexPath.row]
+            vc.vcQnaHistory = self
             self.navigationController?.pushViewController(vc, animated: true)
             return
         }

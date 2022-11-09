@@ -12,18 +12,30 @@ class VCLogin: VCBase {
 
     @IBOutlet weak var mEditId: UITextField!
     @IBOutlet weak var mEditPw: UITextField!
-    @IBOutlet weak var errormsg: UILabel!
+    @IBOutlet weak var mEditIdLayout: UIView!
+    @IBOutlet weak var mEditPwLayout: UIView!
+    
+    @IBOutlet weak var errormsgId: UILabel!
+    @IBOutlet weak var errormsgPw: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        mEditId.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        mEditPw.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         mEditId.delegate = self
         mEditPw.delegate = self
+        mEditId.background = UIImage(named: "text_field_inactive.png")
+        mEditPw.background = UIImage(named: "text_field_inactive.png")
+
     }
     
     @IBAction func loginStart(_ sender: Any) {
         let id = mEditId.text!
         let pw = mEditPw.text!
-        let errordata = errormsg.text!
-        if(id.count == 0 || pw.count == 0 || errordata.count > 0){return}
+        let errordata1 = errormsgId.text!
+        let errordata2 = errormsgPw.text!
+        if(id.count == 0 || pw.count == 0 || errordata1.count > 0 || errordata2.count > 0){return}
         let request = SignInRequest()
         request.login_id = id
         request.login_password = pw.toBase64()
@@ -33,7 +45,7 @@ class VCLogin: VCBase {
     
     @IBAction func goToSignup(_ sender: Any) {
         let pushVC = self.storyboard?.instantiateViewController(withIdentifier: "signuptermsvc")
-        
+
         self.navigationController?.pushViewController(pushVC!, animated: true)
     }
     
@@ -87,11 +99,11 @@ class VCLogin: VCBase {
         uiVC: self,
         title: "고객확인제도",
         message:"고객확인 인증 절차를 완료한 후, 모든 거래서비스, 입출금 이용이 가능합니다.",
-        UIAlertAction(title: "고객확인제도 인증", style: .default) { (action) in
+        BtradeAlertAction(title: "고객확인제도 인증", style: .default) { (action) in
             self.appInfo.isKycVisible = true
             self.goMain()
         },
-        UIAlertAction(title: "다음에 하기", style: .destructive) { (action) in
+        BtradeAlertAction(title: "다음에 하기", style: .destructive) { (action) in
             self.goMain()
         })
     }
@@ -100,8 +112,9 @@ class VCLogin: VCBase {
         let pushVC = self.storyboard?.instantiateViewController(withIdentifier: "loginotpvc") as! VCLoginOTP
         let id = mEditId.text!
         let pw = mEditPw.text!
-        let errordata = errormsg.text!
-        if(id.count == 0 || pw.count == 0 || errordata.count > 0){return}
+        let errordata1 = errormsgId.text!
+        let errordata2 = errormsgPw.text!
+        if(id.count == 0 || pw.count == 0 || errordata1.count > 0 || errordata2.count > 0){return}
         pushVC.mId = id
         pushVC.mPw = pw.toBase64()
         self.navigationController?.pushViewController(pushVC, animated: true)
@@ -120,36 +133,49 @@ class VCLogin: VCBase {
 }
 
 extension VCLogin: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let id = textField.restorationIdentifier{
-            if(id == "editid"){
-                if(emailCheck(input:(textField.text! + string))){
-                    errormsg.text = ""
-                }else{
-                    errormsg.text = "아이디(이메일) 형식이 올바르지 않습니다."
-                }
-                if((textField.text! + string).count > 40 && string.count > 0){ return false }
-            }else if(id == "editpw"){
-                if(passwordCheck(input:(textField.text! + string))){
-                    errormsg.text = ""
-                }else{
-                    errormsg.text = "패스워드 형식이 올바르지 않습니다."
-                }
-                if((textField.text! + string).count > 15 && string.count > 0){ return false }
+    @objc func textFieldDidChange(_ sender: UITextField?) {
+        if(sender == mEditId){
+            if(emailCheck(input:(mEditId.text!))){
+                errormsgId.text = ""
+            }else{
+                errormsgId.text = "아이디(이메일) 형식이 올바르지 않습니다."
+            }
+            let scale = 40
+            if mEditId.text?.count ?? 0 > scale{
+                mEditId.text = (mEditId.text?.substring(from: 0, to: scale) ?? "")
+            }
+            
+        }else if(sender == mEditPw){
+            if(passwordCheck(input:(mEditPw.text!))){
+                errormsgPw.text = ""
+            }else{
+                errormsgPw.text = "패스워드 형식이 올바르지 않습니다."
+            }
+            let scale = 20
+            if mEditPw.text?.count ?? 0 > scale{
+                mEditPw.text = (mEditPw.text?.substring(from: 0, to: scale) ?? "")
             }
         }
-        return true
     }
     
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if let _ = textField.restorationIdentifier{
-            textField.background = UIImage(named: "text_field_active.png")
+        if textField == mEditId{
+            mEditId.background = UIImage(named: "text_field_active.png")
+            //mEditIdLayout.backgroundColor = UIColor(named: "CTextActive")
+        }else{
+            mEditPw.background = UIImage(named: "text_field_active.png")
+           //mEditPwLayout.backgroundColor = UIColor(named: "CTextActive")
         }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if let _ = textField.restorationIdentifier{
-            textField.background = UIImage(named: "text_field_inactive.png")
+        if textField == mEditId{
+            mEditId.background = UIImage(named: "text_field_inactive.png")
+            //mEditIdLayout.backgroundColor = UIColor(named: "CTextDeActive")
+        }else{
+            mEditPw.background = UIImage(named: "text_field_inactive.png")
+            //mEditPwLayout.backgroundColor = UIColor(named: "CTextDeActive")
         }
     }
     

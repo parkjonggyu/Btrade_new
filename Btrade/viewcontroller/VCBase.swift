@@ -54,16 +54,16 @@ class VCBase: UIViewController , ApiResult, ProgressInterface{
         DialogUtils().makeDialog(
             uiVC: self,
             message: msg,
-            UIAlertAction(title: "확 인", style: .default) { (action) in
+            BtradeAlertAction(title: "확 인", style: .default) { (action) in
                 
             })
     }
     
-    func showErrorDialog(_ msg : String = "네트워크에 접속할 수 없습니다. 네트워크 연결 상태를 확인해 주세요", action:@escaping ((UIAlertAction) -> Void)){
+    func showErrorDialog(_ msg : String = "네트워크에 접속할 수 없습니다. 네트워크 연결 상태를 확인해 주세요", action:@escaping ((BtradeAlertAction) -> Void)){
         DialogUtils().makeDialog(
             uiVC: self,
             message: msg,
-            UIAlertAction(title: "확 인", style: .default, handler: action))
+            BtradeAlertAction(title: "확 인", style: .default, handler: action))
     }
     
     class Popup{
@@ -104,7 +104,7 @@ class VCBase: UIViewController , ApiResult, ProgressInterface{
     }
     
     func showToast(_ message : String, font: UIFont = UIFont.systemFont(ofSize: 14.0)) {
-        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-100, width: 150, height: 35))
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 150, y: self.view.frame.size.height-100, width: 300, height: 35))
         toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         toastLabel.textColor = UIColor.white
         toastLabel.font = font

@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import UIKit
 
 class VCMyInfoChangePassword1: VCBase {
     
@@ -19,6 +20,8 @@ class VCMyInfoChangePassword1: VCBase {
         super.viewDidLoad()
         
         passwdText.delegate = self
+        passwdText.background = UIImage(named: "text_field_inactive.png")
+        passwdText.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         backBtn.isUserInteractionEnabled = true
         backBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.stop1)))
         errorText.text = "";
@@ -36,7 +39,7 @@ class VCMyInfoChangePassword1: VCBase {
     @IBAction func onClicked(_ sender: Any) {
         if let error = checkInput1(input:(passwdText.text!)){
             errorText.text = error
-            nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
+            //nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
             return
         }
         errorText.text = ""
@@ -45,16 +48,6 @@ class VCMyInfoChangePassword1: VCBase {
         request.prev_passwd = passwdText.text!.toBase64()
         ApiFactory(apiResult: self, request: request).newThread()
         
-    }
-    
-    fileprivate func checkInput1(input:String) -> String? {
-        if(input == ""){return "비밀번호를 입력해 주세요"}
-        let pattern = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z[0-9]$@$!%*#?&]{7,15}"
-        let regex = try? NSRegularExpression(pattern: pattern)
-        if let _ = regex?.firstMatch(in: input, options: [], range: NSRange(location: 0, length: input.count)) {
-            return nil
-        }
-        return "영문 대/소문자+숫자+특수문자+8자 이상."
     }
     
     override func onResult(response: BaseResponse) {
@@ -83,19 +76,29 @@ class VCMyInfoChangePassword1: VCBase {
 }
 
 extension VCMyInfoChangePassword1: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if(textField == passwdText){
-            print(" : " + string)
-            if let error = checkInput1(input:(textField.text! + string)){
+    @objc func textFieldDidChange(_ sender: UITextField?) {
+        if(sender == passwdText){
+            let scale = 15
+            if passwdText.text?.count ?? 0 > scale{
+                passwdText.text = (passwdText.text?.substring(from: 0, to: scale) ?? "")
+            }
+            if let error = checkInput1(input:(passwdText.text!)){
                 errorText.text = error
-                nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
-                return true;
+                //nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
+                return;
             }
             errorText.text = ""
-            nextBtn.setBackgroundImage(UIImage(named: "btn_blue_inactive"), for: .normal)
-            if((textField.text! + string).count > 15 && string.count > 0){ return false }
         }
-        return true
+    }
+    
+    fileprivate func checkInput1(input:String) -> String? {
+        if(input == ""){return "비밀번호를 입력해 주세요"}
+        let pattern = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z[0-9]$@$!%*#?&]{7,15}"
+        let regex = try? NSRegularExpression(pattern: pattern)
+        if let _ = regex?.firstMatch(in: input, options: [], range: NSRange(location: 0, length: input.count)) {
+            return nil
+        }
+        return "영문 대/소문자+숫자+특수문자+8자 이상."
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

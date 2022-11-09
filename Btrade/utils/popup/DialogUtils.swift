@@ -9,27 +9,39 @@ import Foundation
 import UIKit
 
 class DialogUtils{
+    
+    
     // Alert Dialog 생성
-    func makeDialog(uiVC:UIViewController, title: String = "알 림", message: String, _ alertOkBtn : UIAlertAction? = nil) {
-
-        // alert : 가운데에서 출력되는 Dialog. 취소/동의 같이 2개 이하를 선택할 경우 사용. 간단명료 해야함.
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        if let action = alertOkBtn{
-            alert.addAction(action)
-        }else{
-            alert.addAction(UIAlertAction(title: "확 인", style: .default))
+    func makeDialog(uiVC:UIViewController, title: String = "알 림", message: String, _ alertOkBtn : BtradeAlertAction? = nil) {
+        let sb = UIStoryboard.init(name:"Popup", bundle: nil)
+        guard let vc = sb.instantiateViewController(withIdentifier: "CustomPopup") as? CustomPopup else {
+            return
         }
-        uiVC.present(alert, animated: true, completion: nil)
+        vc.popupTitle = title
+        vc.popupMessage = message
+        vc.okBtn = alertOkBtn
+        if alertOkBtn == nil{
+            vc.okBtn = BtradeAlertAction(title: "확 인", style: .default)
+        }
+        vc.btnStatus = "one"
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalTransitionStyle = .crossDissolve
+        uiVC.present(vc, animated: true);
+        
     }
     
-    func makeDialog(uiVC:UIViewController, title: String, message: String, _ alertOkBtn : UIAlertAction, _ alertCancelBtn : UIAlertAction) {
-
-        // alert : 가운데에서 출력되는 Dialog. 취소/동의 같이 2개 이하를 선택할 경우 사용. 간단명료 해야함.
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        alert.addAction(alertOkBtn)
-        alert.addAction(alertCancelBtn)
-        uiVC.present(alert, animated: true, completion: nil)
+    func makeDialog(uiVC:UIViewController, title: String, message: String, _ alertOkBtn : BtradeAlertAction, _ alertCancelBtn : BtradeAlertAction) {
+       let sb = UIStoryboard.init(name:"Popup", bundle: nil)
+        guard let vc = sb.instantiateViewController(withIdentifier: "CustomPopup") as? CustomPopup else {
+            return
+        }
+        vc.popupTitle = title
+        vc.popupMessage = message
+        vc.okBtn = alertOkBtn
+        vc.cancelBtn = alertCancelBtn
+        vc.btnStatus = "two"
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalTransitionStyle = .crossDissolve
+        uiVC.present(vc, animated: true);
     }
 }

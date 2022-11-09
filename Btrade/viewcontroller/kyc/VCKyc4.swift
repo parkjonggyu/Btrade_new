@@ -8,44 +8,37 @@
 import Alamofire
 import UIKit
 
-class VCKyc4: VCBase, SpinnerSelectorInterface{
+class VCKyc4: VCBase{
     
-    var mKyc:Dictionary<String, Any>!
+    var mKyc:Dictionary<String, Any> = Dictionary<String, Any>()
     
-    @IBOutlet weak var bankSelect: UITextField!
+    
     @IBOutlet weak var accountNumEdit: UITextField!
+    @IBOutlet weak var bankSelect: UIView!
+    @IBOutlet weak var bankEdit: UITextField!
+    @IBOutlet weak var backBtn: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         accountNumEdit.delegate = self
-        if(mKyc == nil){
+        accountNumEdit.background = UIImage(named: "text_field_inactive.png")
+        bankEdit.isUserInteractionEnabled = false
+        
+        
+        bankSelect.isUserInteractionEnabled = true
+        bankSelect.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onClicked)))
+        backBtn.isUserInteractionEnabled = true
+        backBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onClicked)))
+    }
+    
+    @objc func onClicked(sender:UITapGestureRecognizer){
+        if sender.view == backBtn {
             stop()
-            return;
+        }else if sender.view == bankSelect {
+            startDropDown()
         }
-        
-        
-        bankSelect.delegate = self
-        setRightIcon(bankSelect)
     }
-    
-    fileprivate func setRightIcon(_ textField:UITextField){
-        let width: CGFloat = 10
-        let height: CGFloat = 6
-        let image = UIImage(named: "text_field_bottom_arrow.png");
-        let padding: CGFloat = 8
-        let outerView = UIView(frame: CGRect(x: 0, y: 0, width: padding * 2 + width, height: height))
-        let imageView = UIImageView(frame: CGRect(x: padding, y: 0, width: width, height: height))
-        imageView.image = image
-        outerView.addSubview(imageView)
-        textField.rightView = outerView // Or rightView = outerView
-        textField.rightViewMode = .always
-    }
-    
-    @IBAction func goBack(_ sender: Any) {
-        stop()
-    }
-    
     fileprivate func stop(){
         self.navigationController?.dismiss(animated: true)
     }
@@ -116,14 +109,10 @@ class VCKyc4: VCBase, SpinnerSelectorInterface{
         
     }
     
-    func onSelect(_ item:KycVo.SMAP,_ CATE: Int) {
+    func onSelect(_ item:KycVo.SMAP) {
         mKyc["bankCode"] = item.value
         mKyc["bankName"] = item.key
-        bankSelect.text = item.key
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(event)
+        bankEdit.text = item.key
     }
 }
 
@@ -139,32 +128,31 @@ extension VCKyc4: UITextFieldDelegate {
                         return true
                     }
                 }
-                guard textField.text!.count < 25 else { return false }
+                guard textField.text!.count < 40 else { return false }
             }
         }
         return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if let id = textField.restorationIdentifier{
-            if(id == "bankselect"){
-                startDropDown(textField, KycVo().makeBank(), 1)
-                return
-            }
-            
-            textField.background = UIImage(named: "text_field_active.png")
-        }
+        textField.background = UIImage(named: "text_field_active.png")
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if let _ = textField.restorationIdentifier{
-            textField.background = UIImage(named: "text_field_inactive.png")
-        }
+        textField.background = UIImage(named: "text_field_inactive.png")
     }
     
-    fileprivate func startDropDown(_ textField: UITextField,_ array:Array<KycVo.SMAP>,_ WHERE:Int){
-        textField.endEditing(true)
-        SpinnerSelector(self, textField, array, WHERE).start()
+    fileprivate func startDropDown(){
+        let sb = UIStoryboard.init(name:"Popup", bundle: nil)
+        guard let vc = sb.instantiateViewController(withIdentifier: "PopupBank") as? PopupBank else {
+            return
+        }
+        vc.delegate = {[weak self] smap in
+            self?.onSelect(smap)
+        }
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.modalTransitionStyle = .crossDissolve
+        self.present(vc, animated: true);
     }
 }
 

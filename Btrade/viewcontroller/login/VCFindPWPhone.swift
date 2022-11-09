@@ -38,6 +38,8 @@ class VCFindPWPhone: VCBase, AuthTimerInterface{
             return
         }
         mAuthEdit.delegate = self
+        mAuthEdit.background = UIImage(named: "text_field_inactive.png")
+        mAuthEdit.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
     
     @IBAction func onAuthClicked(_ sender: UIButton) {
@@ -158,7 +160,7 @@ class VCFindPWPhone: VCBase, AuthTimerInterface{
             uiVC: self,
             title: "임시 비밀번호",
             message:"임시 비밀번호가 이메일로 발송 되었습니다",
-            UIAlertAction(title: "확인", style: .default) { (action) in
+            BtradeAlertAction(title: "확인", style: .default) { (action) in
                 self.prePage()
             })
     }
@@ -179,7 +181,7 @@ class VCFindPWPhone: VCBase, AuthTimerInterface{
             uiVC: self,
             title: "알림",
             message:"인증 시간이 자났습니다. 다시 시도하세요.",
-            UIAlertAction(title: "확인", style: .default) { (action) in
+            BtradeAlertAction(title: "확인", style: .default) { (action) in
                 self.prePage()
             })
     }
@@ -187,23 +189,27 @@ class VCFindPWPhone: VCBase, AuthTimerInterface{
 
 
 extension VCFindPWPhone: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    
+    @objc func textFieldDidChange(_ sender: UITextField?) {
         if !AUTH {
             errormsg.text = "인증요청을 진행해 주세요."
-            return false;
+            return;
         }
-        if let id = textField.restorationIdentifier{
-            if(id == "phoneauth"){
-                if(authLengthCheck(input:(textField.text! + string))){
-                    errormsg.text = ""
-                }else{
-                    errormsg.text = "인증번호 4자리를 입력하세요."
-                }
-                if((textField.text! + string).count > 4 && string.count > 0){ return false }
+        
+        if(sender == mAuthEdit){
+            let scale = 4
+            if mAuthEdit.text?.count ?? 0 > scale{
+                mAuthEdit.text = (mAuthEdit.text?.substring(from: 0, to: scale) ?? "")
+            }
+            if(authLengthCheck(input:(mAuthEdit.text!))){
+                errormsg.text = ""
+            }else{
+                errormsg.text = "인증번호 4자리를 입력하세요."
             }
         }
-        return true
     }
+    
+    
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if let _ = textField.restorationIdentifier{

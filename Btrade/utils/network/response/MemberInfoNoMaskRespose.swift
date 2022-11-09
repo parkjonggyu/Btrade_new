@@ -31,5 +31,10 @@ struct MemberInfoNoMaskRespose{
         return nil
     }
     
-    
+    func getNoMaskData() -> [String:Any]?{
+        if let data = baseResponce.data["result"] as? [String:Any]{
+            return data
+        }
+        return nil
+    }
 }

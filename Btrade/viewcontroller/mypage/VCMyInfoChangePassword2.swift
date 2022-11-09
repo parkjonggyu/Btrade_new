@@ -23,6 +23,11 @@ class VCMyInfoChangePassword2: VCBase {
         
         passwdText.delegate = self
         passwdText2.delegate = self
+        passwdText.background = UIImage(named: "text_field_inactive.png")
+        passwdText2.background = UIImage(named: "text_field_inactive.png")
+        passwdText.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        passwdText2.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        
         backBtn.isUserInteractionEnabled = true
         backBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.stop1)))
         errorText.text = "";
@@ -46,14 +51,14 @@ class VCMyInfoChangePassword2: VCBase {
     @IBAction func onClicked(_ sender: Any) {
         if let error = checkInput1(input:(passwdText.text!)){
             errorText.text = error
-            nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
+            //nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
             return
         }
         errorText.text = ""
         
         if(passwdText.text! != passwdText2.text!){
             errorText2.text = "비밀번호가 다릅니다."
-            nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
+            //nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
             return
         }
         
@@ -100,7 +105,7 @@ class VCMyInfoChangePassword2: VCBase {
             uiVC: self,
             title: "비밀번호 변경",
             message:"비밀번호 변경이 완료되었습니다. 변경된 비밀번호로 재로그인해 주세요.",
-            UIAlertAction(title: "확인", style: .default) { (action) in
+            BtradeAlertAction(title: "확인", style: .default) { (action) in
                 self.appInfo.deleteCookie()
                 if let vc = UIApplication.shared.keyWindow?.rootViewController as? VCMain{
                     vc.loadLogin = true
@@ -117,47 +122,49 @@ class VCMyInfoChangePassword2: VCBase {
 }
 
 extension VCMyInfoChangePassword2: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if(textField == passwdText){
-            if((textField.text! + string).count > 15 && string.count > 0){ return false }
-            
-            if let error = checkInput1(input:(textField.text! + string)){
-                errorText.text = error
-                nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
-                return true;
+    
+    @objc func textFieldDidChange(_ sender: UITextField?) {
+        if(sender == passwdText){
+            let scale = 15
+            if passwdText.text?.count ?? 0 > scale{
+                passwdText.text = (passwdText.text?.substring(from: 0, to: scale) ?? "")
             }
-            
-            errorText.text = ""
-            
-            if let error = checkInput2(input: passwdText2.text!){
-                errorText2.text = error
-                nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
-                return true
-            }
-            
-            
-            nextBtn.setBackgroundImage(UIImage(named: "btn_blue_inactive"), for: .normal)
-            
-        }else if(textField == passwdText2){
-            if((textField.text! + string).count > 15 && string.count > 0){ return false }
-            
             if let error = checkInput1(input:(passwdText.text!)){
                 errorText.text = error
-                nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
-                return true
+                //nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
+                return
             }
-            
-            if(passwdText.text! != passwdText2.text! + string){
-                errorText2.text = "비밀번호가 다릅니다."
-                nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
-                return true
+            errorText.text = ""
+            if let error = checkInput2(input: passwdText2.text!){
+                errorText2.text = error
+                //nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
+                return
             }
-            errorText2.text = ""
-            nextBtn.setBackgroundImage(UIImage(named: "btn_blue_inactive"), for: .normal)
-            
+            //nextBtn.setBackgroundImage(UIImage(named: "btn_blue_inactive"), for: .normal)
         }
         
-        return true
+        if(sender == passwdText2){
+            let scale = 15
+            if passwdText2.text?.count ?? 0 > scale{
+                passwdText2.text = (passwdText2.text?.substring(from: 0, to: scale) ?? "")
+            }
+            if let error = checkInput1(input:(passwdText.text!)){
+                errorText.text = error
+                //nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
+                return
+            }
+            errorText.text = ""
+            
+            if(passwdText.text! != passwdText2.text!){
+                errorText2.text = "비밀번호가 다릅니다."
+                //nextBtn.setBackgroundImage(UIImage(named: "btn_all_active"), for: .normal)
+                return
+            }
+            errorText2.text = ""
+            //nextBtn.setBackgroundImage(UIImage(named: "btn_blue_inactive"), for: .normal)
+        }
+        
+        
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

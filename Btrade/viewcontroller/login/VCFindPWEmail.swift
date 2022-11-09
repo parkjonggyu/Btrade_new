@@ -56,7 +56,7 @@ class VCFindPWEmail: VCBase{
             uiVC: self,
             title: "임시 비밀번호",
             message:"임시 비밀번호가 발송 되었습니다",
-            UIAlertAction(title: "확인", style: .default) { (action) in
+            BtradeAlertAction(title: "확인", style: .default) { (action) in
                 self.prePage()
             })
     }

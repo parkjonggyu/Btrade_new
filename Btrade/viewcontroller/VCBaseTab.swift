@@ -52,16 +52,16 @@ class VCBaseTab: UITabBarController, UITabBarControllerDelegate , ApiResult, Pro
         DialogUtils().makeDialog(
             uiVC: self,
             message: msg,
-            UIAlertAction(title: "확 인", style: .default) { (action) in
+            BtradeAlertAction(title: "확 인", style: .default) { (action) in
                 
             })
     }
     
-    func showErrorDialog(_ msg : String = "네트워크에 접속할 수 없습니다. 네트워크 연결 상태를 확인해 주세요", action:@escaping ((UIAlertAction) -> Void)){
+    func showErrorDialog(_ msg : String = "네트워크에 접속할 수 없습니다. 네트워크 연결 상태를 확인해 주세요", action:@escaping ((BtradeAlertAction) -> Void)){
         DialogUtils().makeDialog(
             uiVC: self,
             message: msg,
-            UIAlertAction(title: "확 인", style: .default, handler: action))
+            BtradeAlertAction(title: "확 인", style: .default, handler: action))
     }
     
     class Popup{

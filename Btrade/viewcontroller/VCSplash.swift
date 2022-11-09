@@ -36,11 +36,20 @@ class VCSplash: VCBase, FirebaseInterface {
     }
     
     fileprivate func init1(){
-        
+        if(checkRoot()){return}
         versionCheckStart()
     }
     
-   
+    fileprivate func checkRoot() -> Bool{
+        let jailBreak = JailBreak.init()
+        if jailBreak.hasJailbreak() == true {
+            DispatchQueue.main.async{
+                self.showErrorDialog("루트권한을 가진 디바이스에서는 실행할 수 없습니다.")
+            }
+            return true
+        }
+        return false
+    }
     
     func versionCheckStart(){
         ApiFactory(apiResult: VersionCheck(self), request: VersionCheckRequest()).newThread()
@@ -78,7 +87,7 @@ class VCSplash: VCBase, FirebaseInterface {
                     uiVC: self,
                     title: "업데이트",
                     message:"새로운 업데이트가 있습니다. 최신 버전으로 업데이트 해 주세요",
-                    UIAlertAction(title: "업데이트", style: .default) { (action) in
+                    BtradeAlertAction(title: "업데이트", style: .default) { (action) in
                         self.openAppStore(appId)
                     })
             }else {
@@ -86,10 +95,10 @@ class VCSplash: VCBase, FirebaseInterface {
                 uiVC: self,
                 title: "업데이트",
                 message:"새로운 업데이트가 있습니다. 최신 버전으로 업데이트 하시겠습니까?",
-                UIAlertAction(title: "업데이트", style: .default) { (action) in
+                BtradeAlertAction(title: "업데이트", style: .default) { (action) in
                     self.openAppStore(appId)
                 },
-                UIAlertAction(title: "다음에 하기", style: .destructive) { (action) in
+                BtradeAlertAction(title: "다음에 하기", style: .destructive) { (action) in
                     self.init2();
                 })
             }
@@ -192,6 +201,49 @@ class VCSplash: VCBase, FirebaseInterface {
         delegate.window?.rootViewController = mainvc
     }
 }
+class JailBreak: NSObject {
+    func hasJailbreak() -> Bool {
+            
+            guard let cydiaUrlScheme = NSURL(string: "cydia://package/com.example.package") else { return false }
+            if UIApplication.shared.canOpenURL(cydiaUrlScheme as URL) {
+                return true
+            }
+            #if arch(i386) || arch(x86_64)
+            return false
+            #endif
+            
+            let fileManager = FileManager.default
+            if fileManager.fileExists(atPath: "/Applications/Cydia.app") ||
+                fileManager.fileExists(atPath: "/Library/MobileSubstrate/MobileSubstrate.dylib") ||
+                fileManager.fileExists(atPath: "/bin/bash") ||
+                fileManager.fileExists(atPath: "/usr/sbin/sshd") ||
+                fileManager.fileExists(atPath: "/etc/apt") ||
+                fileManager.fileExists(atPath: "/usr/bin/ssh") ||
+                fileManager.fileExists(atPath: "/private/var/lib/apt") {
+                return true
+            }
+            if canOpen(path: "/Applications/Cydia.app") ||
+                canOpen(path: "/Library/MobileSubstrate/MobileSubstrate.dylib") ||
+                canOpen(path: "/bin/bash") ||
+                canOpen(path: "/usr/sbin/sshd") ||
+                canOpen(path: "/etc/apt") ||
+                canOpen(path: "/usr/bin/ssh") {
+                return true
+            }
+            let path = "/private/" + NSUUID().uuidString
+            do {
+                try "anyString".write(toFile: path, atomically: true, encoding: String.Encoding.utf8)
+                try fileManager.removeItem(atPath: path)
+                return true
+            } catch {
+                return false
+            }
+        }
+        func canOpen(path: String) -> Bool {
+            let file = fopen(path, "r")
+            guard file != nil else { return false }
+            fclose(file)
+            return true
+        }
 
-
-
+}

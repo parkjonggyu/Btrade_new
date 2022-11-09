@@ -10,15 +10,11 @@ import UIKit
 
 class VCKyc1: VCBase, WebResult {
     
-    
-    
-    @IBOutlet weak var subTitle: UILabel!
-    @IBOutlet weak var mPhoneText: UITextField!
-    
     @IBOutlet weak var mInsertBtn: UIButton!
     var UUID:String?
     var name:String?
     var birthday:String?
+    var phone:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +23,6 @@ class VCKyc1: VCBase, WebResult {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if(UUID == nil){
-            subTitle.layer.isHidden = true
-            mPhoneText.layer.isHidden = true
         }
     }
     
@@ -39,8 +33,6 @@ class VCKyc1: VCBase, WebResult {
     @IBAction func nextBtn(_ sender: Any) {
         if(UUID == nil){
             startPhoneAuth()
-        }else{
-            nextStep()
         }
     }
     
@@ -51,25 +43,25 @@ class VCKyc1: VCBase, WebResult {
         }
         vc.page = BuildConfig.SERVER_URL + "m/kycauth/kycAuth.do?os=ANDROID"
         vc.smsDelegate = self
+        vc.titleString = "비트레이드 - 휴대전화 본인인증" 
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true);
     }
     
     func result(_ map: Dictionary<String, Any>) {
-        subTitle.layer.isHidden = false
-        mPhoneText.layer.isHidden = false
-        mPhoneText.text = map["phone_no"] as? String
+        phone = map["phone_no"] as? String
         UUID = map["uuid"] as? String
         name = map["full_name"] as? String
         birthday = map["birthday"] as? String
-        mInsertBtn.setTitle("다음단계", for: .normal)
+        nextStep()
     }
     
     fileprivate func nextStep() {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "kyc2vc") as! VCKyc2
         vc.name = name!
-        vc.phoneNum = mPhoneText.text!
+        vc.phoneNum = phone!
         vc.birthday = birthday?.substring(from: birthday!.index(birthday!.startIndex, offsetBy: 2))
+        vc.birthdayAll = birthday
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

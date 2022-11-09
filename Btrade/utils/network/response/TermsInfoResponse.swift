@@ -21,4 +21,11 @@ struct TermsInfoResponse{
         }
         return nil
     }
+    
+    func getArray() -> NSArray?{
+        if let array = baseResponce.data["array"] as? NSArray{
+                return array
+        }
+        return nil
+    }
 }

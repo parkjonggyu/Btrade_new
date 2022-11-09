@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,28 +18,81 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9I-wy-jCz">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="L1J-f8-VCc">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <wkWebViewConfiguration key="configuration">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v7q-2D-nJh">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFV-NI-zJT">
+                                                <rect key="frame" x="0.0" y="0.0" width="30" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="qti-8V-VDK"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비트레이드" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KX3-db-D2h">
+                                                <rect key="frame" x="30" y="0.0" width="334" height="50"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                <color key="textColor" name="C707070"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_gray_close" translatesAutoresizingMaskIntoConstraints="NO" id="3bC-WB-cMl">
+                                                <rect key="frame" x="364" y="0.0" width="20" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="20" id="F49-s5-l6X"/>
+                                                    <constraint firstAttribute="height" constant="50" id="HEW-aT-ULr"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pZH-Sf-q3x">
+                                                <rect key="frame" x="384" y="0.0" width="30" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="84j-Ee-AxW"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xq7-zN-sDy">
+                                        <rect key="frame" x="0.0" y="50" width="414" height="1"/>
+                                        <color key="backgroundColor" name="CD5D5D5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="hqN-WO-Nrp"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9I-wy-jCz">
+                                        <rect key="frame" x="0.0" y="51" width="414" height="767"/>
+                                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <wkWebViewConfiguration key="configuration">
+                                            <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                            <wkPreferences key="preferences"/>
+                                        </wkWebViewConfiguration>
+                                    </wkWebView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="jXn-Ck-nd9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="P9I-wy-jCz" firstAttribute="top" secondItem="jXn-Ck-nd9" secondAttribute="top" id="Bq3-UY-dkg"/>
-                            <constraint firstItem="P9I-wy-jCz" firstAttribute="bottom" secondItem="jXn-Ck-nd9" secondAttribute="bottom" id="E57-fw-ei2"/>
-                            <constraint firstItem="P9I-wy-jCz" firstAttribute="leading" secondItem="jXn-Ck-nd9" secondAttribute="leading" id="Mfx-ye-eII"/>
-                            <constraint firstItem="P9I-wy-jCz" firstAttribute="trailing" secondItem="jXn-Ck-nd9" secondAttribute="trailing" id="qIC-2r-biS"/>
+                            <constraint firstItem="L1J-f8-VCc" firstAttribute="leading" secondItem="jXn-Ck-nd9" secondAttribute="leading" id="1bK-qV-lJK"/>
+                            <constraint firstItem="jXn-Ck-nd9" firstAttribute="bottom" secondItem="L1J-f8-VCc" secondAttribute="bottom" id="FjM-Np-a4a"/>
+                            <constraint firstItem="jXn-Ck-nd9" firstAttribute="trailing" secondItem="L1J-f8-VCc" secondAttribute="trailing" id="Tfl-Yc-5lO"/>
+                            <constraint firstItem="L1J-f8-VCc" firstAttribute="top" secondItem="jXn-Ck-nd9" secondAttribute="top" id="urM-gQ-PAY"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="거래소" image="rectangle.and.pencil.and.ellipsis.rtl" catalog="system" largeContentSizeImage="square.and.arrow.up.circle.fill" id="zgB-n9-VAX">
                         <color key="badgeColor" systemColor="quaternarySystemFillColor"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="backBtn" destination="3bC-WB-cMl" id="URC-JL-5m5"/>
+                        <outlet property="titleText" destination="KX3-db-D2h" id="jjA-ZE-gpC"/>
                         <outlet property="webView" destination="P9I-wy-jCz" id="eZ0-Lh-bc3"/>
                     </connections>
                 </viewController>
@@ -48,8 +102,15 @@
         </scene>
     </scenes>
     <resources>
+        <image name="btn_gray_close" width="41" height="41"/>
         <image name="rectangle.and.pencil.and.ellipsis.rtl" catalog="system" width="128" height="92"/>
         <image name="square.and.arrow.up.circle.fill" catalog="system" width="128" height="121"/>
+        <namedColor name="C707070">
+            <color red="0.43900001049041748" green="0.43900001049041748" blue="0.43900001049041748" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CD5D5D5">
+            <color red="0.83499997854232788" green="0.83499997854232788" blue="0.83499997854232788" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="quaternarySystemFillColor">
             <color red="0.45490196078431372" green="0.45490196078431372" blue="0.50196078431372548" alpha="0.080000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

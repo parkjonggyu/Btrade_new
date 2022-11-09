@@ -43,6 +43,8 @@ class VCMyinfoQuitApplication: VCBase, AuthTimerInterface {
         
         pwText.delegate = self
         authText.delegate = self
+        pwText.background = UIImage(named: "text_field_inactive.png")
+        authText.background = UIImage(named: "text_field_inactive.png")
         
         totalAssetText.text = totalAsset! + " KRW"
         self.authBtn.titleLabel?.text = "인증요청"
@@ -122,7 +124,7 @@ class VCMyinfoQuitApplication: VCBase, AuthTimerInterface {
                         uiVC: self,
                         title: "회원탈퇴",
                         message:"정상적으로 회원 탈퇴하였습니다.",
-                        UIAlertAction(title: "확인", style: .default) { (action) in
+                        BtradeAlertAction(title: "확인", style: .default) { (action) in
                             self.appInfo.deleteCookie()
                             self.stop()
                         })

@@ -128,7 +128,13 @@ extension VCFAQ: PagingMenuViewControllerDataSource {
     }
     
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
-        var width = CGFloat(viewController.view.frame.size.width)
+        let device = DeviceUtils().getSizeByHeight()
+        var addHeight:CGFloat = 0
+        if device == .iPhone8 || device == .iPhoneMini{
+            addHeight = 40
+        }
+        
+        var width = CGFloat(viewController.view.frame.size.width) - addHeight
         width = width / CGFloat(dataSource.count)
         return width
     }
@@ -136,6 +142,14 @@ extension VCFAQ: PagingMenuViewControllerDataSource {
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "FAQMenuCell", for: index) as! FAQMenuCell
         cell.titleLabel.text = dataSource[index].menuTitle
+        
+        if(0 == index){
+            cell.titleLabel.textColor = UIColor(named: "C515151")
+            cell.titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        }else{
+            cell.titleLabel.textColor = UIColor(named: "CA1A1A1")
+            cell.titleLabel.font = UIFont.systemFont(ofSize: 16)
+        }
         return cell
     }
 }
@@ -143,6 +157,18 @@ extension VCFAQ: PagingMenuViewControllerDataSource {
 extension VCFAQ: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
         contentViewController.scroll(to: page, animated: true)
+        
+        for idx in 0 ..< dataSource.count{  // 선택된 셀 폰트 변경
+            if let c = viewController.cellForItem(at:idx) as? FAQMenuCell{
+                if(idx == page){
+                    c.titleLabel.textColor = UIColor(named: "C515151")
+                    c.titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+                }else{
+                    c.titleLabel.textColor = UIColor(named: "CA1A1A1")
+                    c.titleLabel.font = UIFont.systemFont(ofSize: 16)
+                }
+            }
+        }
     }
 }
 

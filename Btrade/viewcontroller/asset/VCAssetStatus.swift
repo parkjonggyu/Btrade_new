@@ -12,8 +12,9 @@ import FirebaseDatabase
 
 class VCAssetStatus:VCBase{
     var vcAsset:VCAsset?
-    var totalBalance:Decimal = Decimal(0)
-    var totalBuy:Decimal = Decimal(0)
+    var totalValuationAmount:Decimal = Decimal(0)
+    var totalBuyAmount:Decimal = Decimal(0)
+    var totalProfit = Decimal(0)
     var mArray:Array<ASSET> = Array<ASSET>()
     var assetHeader:AssetHeader?
     var assetHeaderView:AssetHeaderView?
@@ -36,20 +37,44 @@ class VCAssetStatus:VCBase{
             assetHeaderView?.tradeCanKrwText.text = "0"
             assetHeaderView?.totalProfitKrwText.text = "0"
             assetHeaderView?.totalProfitPerText.text = "0.00"
+            
+            assetHeaderView?.sortBtn1.isUserInteractionEnabled = true
+            assetHeaderView?.sortBtn1.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.sort)))
+            assetHeaderView?.sortBtn2.isUserInteractionEnabled = true
+            assetHeaderView?.sortBtn2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.sort)))
+            
             mList.tableHeaderView = assetHeaderView
         }
     }
     
+    @objc func sort(sender:UITapGestureRecognizer){
+        if let a = assetHeaderView{
+            if(a.sort){
+                a.sort = false
+                mArray = Array<ASSET>(a.oldArray)
+                a.sortBtn1.image = UIImage(named: "check_inactive")
+            }else{
+                a.sort = true
+                a.oldArray = Array<ASSET>(mArray)
+                mArray.sort { item1, item2 in
+                    return DoubleDecimalUtils.doubleValue(item1.balance) ?? 0 > DoubleDecimalUtils.doubleValue(item2.balance) ?? 0
+                }
+                a.sortBtn1.image = UIImage(named: "check_active")
+            }
+            if(mArray.count > 0){mList.reloadData()}
+        }
+        
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if(vcAsset != nil){vcAsset?.setInterface(self)}
-        
         if let b = vcAsset?.statusUpdate{
             if(b){
                 vcAsset?.statusUpdate = false
                 getData()
             }
         }
+        if(vcAsset != nil){vcAsset?.setInterface(self)}
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -59,8 +84,10 @@ class VCAssetStatus:VCBase{
     
     
     fileprivate func getData(){
-        totalBalance = Decimal(0)
-        totalBuy = Decimal(0)
+        totalValuationAmount = Decimal(0)
+        totalBuyAmount = Decimal(0)
+        totalProfit = Decimal(0)
+        mArray.removeAll()
         ApiFactory(apiResult: self, request: HoldingsRequest()).newThread()
     }
     
@@ -68,6 +95,28 @@ class VCAssetStatus:VCBase{
     override func onResult(response: BaseResponse) {
         if let _ = response.request as? HoldingsRequest{
             let response = HoldingsResponse(baseResponce: response)
+            if let json = response.getMarketist(){
+                var marketList:NSArray?
+                do{
+                    marketList = try JSONSerialization.jsonObject(with: Data(json.utf8), options: []) as? NSArray
+                    vcAsset?.marketList = marketList as! Array
+                    print(type(of: marketList))
+                }catch{
+                    print(error.localizedDescription)
+                }
+            }
+            
+            if let json = response.getCoinList(){
+                var coinList:NSArray?
+                do{
+                    coinList = try JSONSerialization.jsonObject(with: Data(json.utf8), options: []) as? NSArray
+                    vcAsset?.coinList = coinList as! Array
+                }catch{
+                    print(error.localizedDescription)
+                }
+            }
+            
+            
             if let json = response.getJson_coin_balance(){
                 var a:NSArray?
                 do{
@@ -82,7 +131,7 @@ class VCAssetStatus:VCBase{
                             let balance = DoubleDecimalUtils.newInstance(toDouble(item["balance"]))
                             let trade_can = DoubleDecimalUtils.newInstance(toDouble(item["trade_can"]))
                             let now_price = DoubleDecimalUtils.newInstance(toDouble(item["now_price"]))
-                            let total_buy = DoubleDecimalUtils.newInstance(toDouble(item["total_buy"]))
+                            let avg_coin_price = DoubleDecimalUtils.newInstance(toDouble(item["avg_coin_price"]))
                             if(balance > 0){
                                 if(coin_code == "BTC"){
                                     total += balance
@@ -90,19 +139,21 @@ class VCAssetStatus:VCBase{
                                 }else{
                                     total +=  (balance * now_price)
                                     
-                                    totalBalance +=  (balance * now_price)
-                                    totalBuy = totalBuy + (total_buy * now_price)
-                                    mArray.append(ASSET(coin_name: coin_name, coin_code: coin_code, balance: balance, now_price: now_price, trade_can: trade_can, total_buy: total_buy))
+                                    totalValuationAmount +=  (balance * now_price)
+                                    totalBuyAmount += (balance * avg_coin_price)
+                                    mArray.append(ASSET(coin_name: coin_name, coin_code: coin_code, balance: balance, now_price: now_price, trade_can: trade_can, avg_coin_price: avg_coin_price))
                                 }
                                 
                             }
                         }
+                        print("totalValuationAmount : " , totalValuationAmount)
+                        print("totalBuyAmount : " , totalBuyAmount)
+                         
+                        totalProfit = totalValuationAmount - totalBuyAmount
+                        print("totalProfit : " , totalProfit)
                         
-                        let result = CoinUtils.fCalcProfitDif(totalBalance, totalBuy, feeString: nil)
-                        let totalProfitPercentage = DoubleDecimalUtils.newInstance(toDouble(result["dif_per_num"]))
-                        let dif_num = DoubleDecimalUtils.newInstance(toDouble(result["dif_num"]))
                         
-                        assetHeader = AssetHeader(total:total, totalBtc:totalBtc, totalProfitPercentage:totalProfitPercentage, dif_num:dif_num)
+                        assetHeader = AssetHeader(total:total, totalBtc:totalBtc)
                         DispatchQueue.main.async{
                             self.reloadData()
                         }
@@ -153,10 +204,10 @@ extension VCAssetStatus: FirebaseInterface, ValueEventListener{
             if let _ = appInfo.krwValue{
                 v.totalKrwText.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(decimal: d.total! * appInfo.krwValue!, scale: 0))
                 v.tradeCanKrwText.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(decimal: d.totalBtc! * appInfo.krwValue!, scale: 0))
-                v.totalProfitKrwText.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(decimal: d.dif_num! * appInfo.krwValue!, scale: 0))
+                v.totalProfitKrwText.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(decimal: totalProfit * appInfo.krwValue!, scale: 0))
             }
         }
-        mList.reloadData()
+        if(mArray.count > 0){mList.reloadData()}
     }
 }
 
@@ -166,7 +217,7 @@ struct ASSET{
     var balance:Decimal?
     var now_price:Decimal?
     var trade_can:Decimal?
-    var total_buy:Decimal?
+    var avg_coin_price:Decimal?
 }
 
 
@@ -174,8 +225,6 @@ struct ASSET{
 struct AssetHeader{
     var total:Decimal?
     var totalBtc:Decimal?
-    var totalProfitPercentage:Decimal?
-    var dif_num:Decimal?
 }
 
 extension VCAssetStatus{
@@ -198,6 +247,12 @@ class AssetHeaderView:UIView{
     @IBOutlet weak var totalProfitKrwText: UILabel!
     @IBOutlet weak var totalProfitPerText: UILabel!
     
+    @IBOutlet weak var sortBtn1: UIImageView!
+    @IBOutlet weak var sortBtn2: UILabel!
+    
+    var oldArray:Array<ASSET> = Array<ASSET>()
+    var sort = false
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -219,6 +274,8 @@ class AssetCell: UITableViewCell{
     @IBOutlet weak var price5Text: UILabel! //valuationAmountkrw 한화 평가금액
     @IBOutlet weak var price6Text: UILabel! // 매수금액
     @IBOutlet weak var price7Text: UILabel! // 한화 매수금액
+    @IBOutlet weak var price8Text: UILabel! // 매수 평균가
+    
     @IBOutlet weak var coinText: UILabel!
     @IBOutlet weak var market1Text: UILabel!
     @IBOutlet weak var market2Text: UILabel!
@@ -272,7 +329,10 @@ extension VCAssetStatus: UITableViewDataSource, UITableViewDelegate {
         if let v = assetHeaderView, let d = assetHeader{
             v.totalBtcText.text = DoubleDecimalUtils.removeLastZero(DoubleDecimalUtils.setMaximumFractionDigits(decimal: d.total!, scale: 8))
             v.tradeCanBtcText.text = DoubleDecimalUtils.removeLastZero(DoubleDecimalUtils.setMaximumFractionDigits(decimal: d.totalBtc!, scale: 8))
-            v.totalProfitPerText.text = DoubleDecimalUtils.setMaximumFractionDigits(decimal: d.totalProfitPercentage!, scale: 2)
+            
+            let per = (totalProfit / totalBuyAmount) * Decimal(100)
+            
+            v.totalProfitPerText.text = DoubleDecimalUtils.setMaximumFractionDigits(decimal: per, scale: 2)
         }
         calcKrwData()
     }
@@ -288,6 +348,16 @@ extension VCAssetStatus: UITableViewDataSource, UITableViewDelegate {
         }
         cell.selectionStyle = .none
         
+        
+//        @IBOutlet weak var price1Text: UILabel! //profitTextView 평가 손익
+//        @IBOutlet weak var price2Text: UILabel! //profitPercentageTextView 수익률
+//        @IBOutlet weak var price3Text: UILabel! //balance. 보유수량
+//        @IBOutlet weak var price4Text: UILabel! //valuationAmount 평가금액
+//        @IBOutlet weak var price5Text: UILabel! //valuationAmountkrw 한화 평가금액
+//        @IBOutlet weak var price6Text: UILabel! // 매수금액
+//        @IBOutlet weak var price7Text: UILabel! // 한화 매수금액
+//        @IBOutlet weak var price8Text: UILabel! // 매수 평균가
+        
         if let item = mArray[indexPath.row] as? ASSET{
             cell.setBtnDelegate(indexPath.row, self)
             
@@ -297,22 +367,33 @@ extension VCAssetStatus: UITableViewDataSource, UITableViewDelegate {
             cell.titleText.attributedText = underLine
             
             cell.coinText.text = item.coin_code
-            cell.price3Text.text = DoubleDecimalUtils.removeLastZero(DoubleDecimalUtils.setMaximumFractionDigits(decimal: item.balance!, scale: 8))
+            cell.price3Text.text = DoubleDecimalUtils.removeLastZero(DoubleDecimalUtils.setMaximumFractionDigits(decimal: item.balance!, scale: 8)) // 보유 수량
+            cell.price8Text.text = DoubleDecimalUtils.removeLastZero(DoubleDecimalUtils.setMaximumFractionDigits(decimal: item.avg_coin_price!, scale: 8)) // 매수 평균가
             
-            cell.price4Text.text = DoubleDecimalUtils.removeLastZero(DoubleDecimalUtils.setMaximumFractionDigits(decimal: item.balance! * item.now_price!, scale: 8))
-            cell.price6Text.text = DoubleDecimalUtils.removeLastZero(DoubleDecimalUtils.setMaximumFractionDigits(decimal: item.total_buy! * item.now_price!, scale: 8))
+            //매수 금액
+            let buyAmount = item.balance! * item.avg_coin_price!
+            cell.price6Text.text = DoubleDecimalUtils.removeLastZero(DoubleDecimalUtils.setMaximumFractionDigits(decimal: buyAmount, scale: 8)) //매수 금액
             
-            let result = CoinUtils.fCalcProfitDif(item.balance! * item.now_price!, item.total_buy! * item.now_price!, feeString: nil)
-            let profit = DoubleDecimalUtils.newInstance(result["dif_num"] as? Double)
-            let profitPer = DoubleDecimalUtils.newInstance(result["dif_per_num"] as? Double)
-            cell.price2Text.text = DoubleDecimalUtils.setMaximumFractionDigits(decimal: profitPer, scale: 2)
+            //평가 금액
+            let valuationAmount = item.balance! * item.now_price!
+            //평가 손익
+            let profit = valuationAmount - buyAmount
+            //평가 수익률
+            var per = Decimal(0)
+            if(buyAmount != Decimal.zero){
+                per = profit / buyAmount * Decimal(100.0)
+            }
+            
+            cell.price4Text.text = DoubleDecimalUtils.removeLastZero(DoubleDecimalUtils.setMaximumFractionDigits(decimal: valuationAmount, scale: 8)) //평가금액
+            cell.price2Text.text = DoubleDecimalUtils.removeLastZero(DoubleDecimalUtils.setMaximumFractionDigits(decimal: per, scale: 2)) //평가수익률
+            
             
             cell.price5Text.text = "0"
             cell.price7Text.text = "0"
             if let marketKrw = appInfo.krwValue{
-                cell.price5Text.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(decimal: item.balance! * item.now_price! * marketKrw, scale: 0))
-                cell.price7Text.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(decimal: item.total_buy! * item.now_price! * marketKrw, scale: 0))
-                cell.price1Text.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(decimal: profit * marketKrw, scale: 0))
+                cell.price5Text.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(decimal: valuationAmount * marketKrw, scale: 0)) //한화 평가금액
+                cell.price7Text.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(decimal: buyAmount * marketKrw, scale: 0))// 한화 매수금액
+                cell.price1Text.text = CoinUtils.currency(DoubleDecimalUtils.setMaximumFractionDigits(decimal: profit * marketKrw, scale: 0)) //평가 손익
                 
             }
         }

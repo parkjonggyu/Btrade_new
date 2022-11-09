@@ -15,6 +15,8 @@ class VCLoginOTPRemove: VCBase {
     override func viewDidLoad() {
         super.viewDidLoad()
         mEditOTP.delegate = self
+        mEditOTP.background = UIImage(named: "text_field_inactive.png")
+        mEditOTP.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
     
     
@@ -70,11 +72,11 @@ class VCLoginOTPRemove: VCBase {
         uiVC: self,
         title: "고객확인제도",
         message:"고객확인 인증 절차를 완료한 후, 모든 거래서비스, 입출금 이용이 가능합니다.",
-        UIAlertAction(title: "고객확인제도 인증", style: .default) { (action) in
+        BtradeAlertAction(title: "고객확인제도 인증", style: .default) { (action) in
             self.appInfo.isKycVisible = true
             self.goMain()
         },
-        UIAlertAction(title: "다음에 하기", style: .destructive) { (action) in
+        BtradeAlertAction(title: "다음에 하기", style: .destructive) { (action) in
             self.goMain()
         })
     }
@@ -82,13 +84,14 @@ class VCLoginOTPRemove: VCBase {
 
 
 extension VCLoginOTPRemove: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let id = textField.restorationIdentifier{
-            if(id == "editotp"){
-                if(textField.text!.count >= 44 && string.count > 0){ return false }
+    @objc func textFieldDidChange(_ sender: UITextField?) {
+        if(sender == mEditOTP){
+            let scale = 44
+            if mEditOTP.text?.count ?? 0 > scale{
+                mEditOTP.text = (mEditOTP.text?.substring(from: 0, to: scale) ?? "")
             }
+            
         }
-        return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

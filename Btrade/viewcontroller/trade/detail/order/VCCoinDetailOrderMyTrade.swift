@@ -199,11 +199,11 @@ class VCCoinDetailOrderMyTrade: VCBase{
                         uiVC: self,
                         title: "고객확인제도",
                         message:"고객확인 인증 절차를 완료한 후, 모든 거래서비스, 입출금 이용이 가능합니다.",
-                        UIAlertAction(title: "고객확인제도 인증", style: .default) { (action) in
+                        BtradeAlertAction(title: "고객확인제도 인증", style: .default) { (action) in
                             self.appInfo.isKycVisible = true
                             UIApplication.shared.windows.first(where: {$0.isKeyWindow})?.rootViewController?.dismiss(animated: true)
                         },
-                        UIAlertAction(title: "다음에 하기", style: .destructive) { (action) in
+                        BtradeAlertAction(title: "다음에 하기", style: .destructive) { (action) in
                         })
                         return
                     }else if(status == "0001" || status == "0003" || status == "0006"){
@@ -324,10 +324,10 @@ extension VCCoinDetailOrderMyTrade{
             uiVC: self,
             title: "주문 취소",
             message:"미체결 거래를 취소하시겠습니까?.",
-            UIAlertAction(title: "확인", style: .default) { (action) in
+            BtradeAlertAction(title: "확인", style: .default) { (action) in
                 self.executeOrder(idx)
             },
-            UIAlertAction(title: "취소", style: .destructive) { (action) in
+            BtradeAlertAction(title: "취소", style: .destructive) { (action) in
             })
         }
     }
@@ -346,11 +346,11 @@ extension VCCoinDetailOrderMyTrade{
                 uiVC: self,
                 title: "고객확인제도",
                 message:"고객확인 인증 절차를 완료한 후, 모든 거래서비스, 입출금 이용이 가능합니다.",
-                UIAlertAction(title: "고객확인제도 인증", style: .default) { (action) in
+                BtradeAlertAction(title: "고객확인제도 인증", style: .default) { (action) in
                     self.appInfo.isKycVisible = true
                     UIApplication.shared.windows.first(where: {$0.isKeyWindow})?.rootViewController?.dismiss(animated: true)
                 },
-                UIAlertAction(title: "다음에 하기", style: .destructive) { (action) in
+                BtradeAlertAction(title: "다음에 하기", style: .destructive) { (action) in
                 })
                 return ""
             }

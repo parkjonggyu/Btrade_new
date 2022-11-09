@@ -17,6 +17,8 @@ class VCFindPW: VCBase{
     override func viewDidLoad() {
         super.viewDidLoad()
         mEditId.delegate = self
+        mEditId.background = UIImage(named: "text_field_inactive.png")
+        mEditId.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
     
     
@@ -53,10 +55,10 @@ class VCFindPW: VCBase{
                     uiVC: self,
                     title: "휴면 계정",
                     message:"현재 회원님의 계정은 휴면상태입니다.",
-                    UIAlertAction(title: "휴면 해제", style: .default) { (action) in
+                    BtradeAlertAction(title: "휴면 해제", style: .default) { (action) in
                         self.goInactive()
                     },
-                    UIAlertAction(title: "확 인", style: .destructive) { (action) in
+                    BtradeAlertAction(title: "확 인", style: .destructive) { (action) in
                         self.prePage()
                     })
                 return
@@ -125,18 +127,18 @@ class VCFindPW: VCBase{
 }
 
 extension VCFindPW: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let id = textField.restorationIdentifier{
-            if(id == "editid"){
-                if(emailCheck(input:(textField.text! + string))){
-                    errormsg.text = ""
-                }else{
-                    errormsg.text = "아이디(이메일) 형식이 올바르지 않습니다."
-                }
-                if((textField.text! + string).count > 40 && string.count > 0){ return false }
+    @objc func textFieldDidChange(_ sender: UITextField?) {
+        if(sender == mEditId){
+            let scale = 40
+            if mEditId.text?.count ?? 0 > scale{
+                mEditId.text = (mEditId.text?.substring(from: 0, to: scale) ?? "")
+            }
+            if(emailCheck(input:(mEditId.text!))){
+                errormsg.text = ""
+            }else{
+                errormsg.text = "아이디(이메일) 형식이 올바르지 않습니다."
             }
         }
-        return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

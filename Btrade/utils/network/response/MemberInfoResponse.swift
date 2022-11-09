@@ -58,6 +58,14 @@ struct MemberInfoResponse{
         return nil
     }
     
+    func getCertify_nick_name() -> String?{
+        if let modelAndView = baseResponce.data["result"] as? NSDictionary{
+            if let state = modelAndView["certify_nick_name"]{
+                return state as? String
+            }
+        }
+        return nil
+    }
     
     func getId() -> String?{
         if let modelAndView = baseResponce.data["result"] as? NSDictionary{
@@ -67,6 +75,7 @@ struct MemberInfoResponse{
         }
         return nil
     }
+    
     func getIdx() -> String?{
         let index = "idx"
         if let modelAndView = baseResponce.data["result"] as? NSDictionary{
@@ -79,6 +88,7 @@ struct MemberInfoResponse{
         }
         return nil
     }
+    
     func getResult_Msg() -> String?{
         let index = "result_msg"
         if let modelAndView = baseResponce.data as? NSDictionary{
@@ -196,8 +206,10 @@ struct MemberInfoResponse{
 
 class MemberInfo:Codable {
     var update:Bool? = false
-    var id:String?
+    var mb_idx:String?
+    var mb_id:String?
     var nick_name:String?
+    var certify_nick_name:String?
     var full_name:String?
     var bankname:String?
     var bankno:String?
@@ -210,8 +222,10 @@ class MemberInfo:Codable {
     var work_nm:String?
     
     func setData(res:MemberInfoResponse){
-        id = res.getId();
+        mb_idx = res.getIdx();
+        mb_id = res.getId();
         nick_name = res.getNick_name()
+        certify_nick_name = res.getNick_name()
         full_name = res.getFull_name()
         bankname = res.getBankName()
         bankno = res.getBankno()

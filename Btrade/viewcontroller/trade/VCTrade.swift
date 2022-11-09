@@ -55,6 +55,7 @@ class VCTrade: VCBase , FirebaseInterface, ValueEventListener, TradeCoin{
         menuViewController.reloadData()
         contentViewController.reloadData()
         
+        searchField.background = UIImage(named: "text_field_inactive.png")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -210,6 +211,7 @@ extension VCTrade{
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? PagingMenuViewController {
             menuViewController = vc
+            menuViewController.cellAlignment = .center
             menuViewController.dataSource = self
             menuViewController.delegate = self
         } else if let vc = segue.destination as? PagingContentViewController {
@@ -252,15 +254,19 @@ extension VCTrade: PagingMenuViewControllerDataSource, PagingMenuViewControllerD
     }
     
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
-        var width = CGFloat(viewController.view.frame.size.width)
+        let device = DeviceUtils().getSizeByHeight()
+        var addHeight:CGFloat = 0
+        if device == .iPhone8 || device == .iPhoneMini{
+            addHeight = 40
+        }
+        
+        var width = CGFloat(viewController.view.frame.size.width) - addHeight
         width = width / CGFloat(dataSource.count)
         return width
     }
     
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "TradeMenuCell", for: index) as! TradeMenuCell
-        cell.titleText.text = dataSource[index].menuTitle
-        
         cell.titleText.text = dataSource[index].menuTitle
         if(0 == index){
             cell.titleText.textColor = UIColor(named: "C515151")

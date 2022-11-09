@@ -10,12 +10,15 @@ import UIKit
 class VCLoginOTP: VCBase {
 
     @IBOutlet weak var mEditOTP: UITextField!
+    @IBOutlet weak var mEditOTPLayout: UIView!
     
     var mId : String = ""
     var mPw : String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         mEditOTP.delegate = self
+        mEditOTP.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        mEditOTP.background = UIImage(named: "text_field_inactive.png")
     }
     
     
@@ -73,11 +76,11 @@ class VCLoginOTP: VCBase {
         uiVC: self,
         title: "고객확인제도",
         message:"고객확인 인증 절차를 완료한 후, 모든 거래서비스, 입출금 이용이 가능합니다.",
-        UIAlertAction(title: "고객확인제도 인증", style: .default) { (action) in
+        BtradeAlertAction(title: "고객확인제도 인증", style: .default) { (action) in
             self.appInfo.isKycVisible = true
             self.goMain()
         },
-        UIAlertAction(title: "다음에 하기", style: .destructive) { (action) in
+        BtradeAlertAction(title: "다음에 하기", style: .destructive) { (action) in
             self.goMain()
         })
     }
@@ -85,24 +88,23 @@ class VCLoginOTP: VCBase {
 
 
 extension VCLoginOTP: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let id = textField.restorationIdentifier{
-            if(id == "editotp"){
-                if(textField.text!.count > 6 && string.count > 0){ return false }
+    @objc func textFieldDidChange(_ sender: UITextField?) {
+        if(sender == mEditOTP){
+            let scale = 6
+            if mEditOTP.text?.count ?? 0 > scale{
+                mEditOTP.text = (mEditOTP.text?.substring(from: 0, to: scale) ?? "")
             }
+            
         }
-        return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if let _ = textField.restorationIdentifier{
-            textField.background = UIImage(named: "text_field_active.png")
-        }
+        mEditOTP.background = UIImage(named: "text_field_active.png")
+        //mEditOTPLayout.backgroundColor = UIColor(named: "CTextActive")
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if let _ = textField.restorationIdentifier{
-            textField.background = UIImage(named: "text_field_inactive.png")
-        }
+            mEditOTP.background = UIImage(named: "text_field_inactive.png")
+            //mEditOTPLayout.backgroundColor = UIColor(named: "CTextDeActive")
     }
 }

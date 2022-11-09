@@ -25,6 +25,7 @@ class VCOtpRegister: VCBase {
     
     @IBOutlet weak var repareRound: UIView!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -102,6 +103,7 @@ class VCOtpRegister: VCBase {
         let code = codeEdit.text!
         if code.count != 6{
             showToast("OTP 인증번호 6자리를 입력하세요.")
+            return
         }
         
         let request = OtpRegisterRequest()

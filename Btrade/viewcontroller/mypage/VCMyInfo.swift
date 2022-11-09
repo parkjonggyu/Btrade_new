@@ -11,6 +11,7 @@ import Alamofire
 
 class VCMyInfo: VCBase {
     var refresh:(() -> Void)?
+    var noMaskData:[String:Any]?
     
     @IBOutlet weak var backBtn: UIImageView!
     
@@ -28,7 +29,7 @@ class VCMyInfo: VCBase {
     @IBOutlet weak var phoneText: UILabel!
     @IBOutlet weak var bankAccountText: UILabel!
     @IBOutlet weak var homeAddressText: UILabel!
-    @IBOutlet weak var btnMasking: UIImageView!
+    @IBOutlet weak var btnMasking: MaskingBtn!
     
     @IBOutlet weak var worknmText2: UILabel!
     @IBOutlet weak var worknmText1: UILabel!
@@ -57,12 +58,13 @@ class VCMyInfo: VCBase {
         pwLayout.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
         optionLayout.isUserInteractionEnabled = true
         optionLayout.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
-        btnMasking.isUserInteractionEnabled = true
-        btnMasking.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
         nickText.isUserInteractionEnabled = true
         nickText.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
         
+        btnMasking.setView(self)
+        btnMasking.isUserInteractionEnabled = true
         
+        ApiFactory(apiResult: self, request: MemberInfoNoMaskRequest()).newThread()
     }
     
     fileprivate func logout(){
@@ -88,8 +90,9 @@ class VCMyInfo: VCBase {
     
     @objc
     func goToNotice(sender:UITapGestureRecognizer){
+       
+        
         if(sender.view == leaveLayout){
-            
             guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "myinfoleavevc") as? VCBase else {
                 return
             }
@@ -100,10 +103,10 @@ class VCMyInfo: VCBase {
             uiVC: self,
             title: "마이페이지",
             message:"로그아웃 하시겠습니까?",
-            UIAlertAction(title: "로그아웃", style: .default) { (action) in
+            BtradeAlertAction(title: "로그아웃", style: .default) { (action) in
                 self.logout()
             },
-            UIAlertAction(title: "취소", style: .destructive) { (action) in
+            BtradeAlertAction(title: "취소", style: .destructive) { (action) in
                
             })
         }else if(sender.view == pwLayout){
@@ -112,8 +115,6 @@ class VCMyInfo: VCBase {
             }
             mainvc.modalPresentationStyle = .fullScreen
             self.present(mainvc, animated: true);
-        }else if(sender.view == btnMasking){
-            
         }else if(sender.view == optionLayout){
             guard let pvc = self.presentingViewController else { return }
 
@@ -127,32 +128,26 @@ class VCMyInfo: VCBase {
                 return
             }
         }else if(sender.view == nickText){
+            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "VCNickNameChange") as? VCNickNameChange else {
+                return
+            }
+            vc.vcMyInfo = self
+            vc.delegate = {[weak self] (nickname) in
+                self?.invisibleNoMaskData()
+            }
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true);
+            
             
         }
     }
     
+    
     fileprivate func initView(){
-        if let nick = appInfo.getMemberInfo()?.nick_name{
-            nickText.text = nick
-        }else{
-            nickText.text = "닉네임을 등록해주세요."
-        }
         
-        if let email = appInfo.getMemberInfo()?.id{
-            emailText.text = email
-        }
         
-        if let name = appInfo.getMemberInfo()?.full_name{
-            nameText.text = name
-        }
+        invisibleNoMaskData()
         
-        if let phone = appInfo.getMemberInfo()?.phone_no{
-            phoneText.text = phone
-        }
-        
-        if let bname = appInfo.getMemberInfo()?.bankname , let bNum = appInfo.getMemberInfo()?.bankno{
-            bankAccountText.text = bname + " | " + bNum
-        }
         
         if let name = appInfo.getMemberInfo()?.work_nm{
             worknmText1.text = name
@@ -191,5 +186,91 @@ class VCMyInfo: VCBase {
     
     fileprivate func stop(){
         self.dismiss(animated: true)
+    }
+    
+    override func onResult(response: BaseResponse) {
+        if let _ = response.request as? MemberInfoNoMaskRequest{
+            let data = MemberInfoNoMaskRespose(baseResponce: response)
+            if let d = data.getNoMaskData(){
+                noMaskData = d
+            }
+        }
+    }
+    
+    fileprivate func visibleNoMaskData(){
+        if let email = noMaskData?["id"] as? String {
+            emailText.text = email
+        }
+        if let name = noMaskData?["full_name"] as? String{
+            nameText.text = name
+        }
+        if let phone = noMaskData?["phone_no"] as? String{
+            phoneText.text = phone
+        }
+        if let bname = noMaskData?["bankname"] as? String , let bNum = noMaskData?["account_no"] as? String {
+            bankAccountText.text = bname + " | " + bNum
+        }
+    }
+    
+    fileprivate func invisibleNoMaskData(){
+        if let nick = appInfo.getMemberInfo()?.nick_name{
+            nickText.text = nick
+        }else{
+            nickText.text = "닉네임을 등록해주세요."
+        }
+        if let email = appInfo.getMemberInfo()?.mb_id{
+            emailText.text = email
+        }
+        if let name = appInfo.getMemberInfo()?.full_name{
+            nameText.text = name
+        }
+        if let phone = appInfo.getMemberInfo()?.phone_no{
+            phoneText.text = phone
+        }
+        if let bname = appInfo.getMemberInfo()?.bankname , let bNum = appInfo.getMemberInfo()?.bankno{
+            bankAccountText.text = bname + " | " + bNum
+        }
+        
+    }
+}
+
+
+class MaskingBtn:UIImageView{
+    var clicked = false
+    var vcMyInfo:VCMyInfo?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    func setView(_ view:VCMyInfo){
+        vcMyInfo = view
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        print("touchesBegan")
+        clicked = true
+        self.image = UIImage(named: "myinfo_invisible")
+        vcMyInfo?.visibleNoMaskData()
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        clicked = false
+        print("touchesEnded")
+        self.image = UIImage(named: "myinfo_visible")
+        vcMyInfo?.invisibleNoMaskData()
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        clicked = false
+        print("touchesCancelled")
+        self.image = UIImage(named: "myinfo_visible")
+        vcMyInfo?.invisibleNoMaskData()
     }
 }

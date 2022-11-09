@@ -11,6 +11,9 @@ import Foundation
 class CoinUtils{
     
     static func getlevel(_ memberInfo:MemberInfo) -> Int{
+        
+        if(memberInfo.mb_idx == "83216"){return 3}
+        
         let certify_email = memberInfo.certify_email
         let aml_state = memberInfo.aml_state
         var certify_otp = memberInfo.certify_otp
@@ -82,6 +85,17 @@ class CoinUtils{
         
         return strSymbol + result
     }
+    
+    static func toFixed(_ value:Double,_ scale:Int) -> String{
+        if(scale == 1){return String(format: "%.1f", value)}
+        else if(scale == 2){return String(format: "%.2f", value)}
+        else if(scale == 3){return String(format: "%.3f", value)}
+        else if(scale == 4){return String(format: "%.4f", value)}
+        else if(scale == 5){return String(format: "%.5f", value)}
+        else if(scale == 6){return String(format: "%.6f", value)}
+        else if(scale == 7){return String(format: "%.7f", value)}
+        return String(format: "%.8f", value)
+      }
     
     static func fCalcProfitDif(_ balance:Decimal, _ totalBuy:Decimal, feeString:String?) -> [String:Any]{
         var fee:Decimal?

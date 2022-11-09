@@ -28,6 +28,9 @@ class VCAsset:VCBase, FirebaseInterface, ValueEventListener{
     var dataSource = Array<(menuTitle: String, vc: VCBase)>()
     
     var firebaseInterface:VCBase?
+    var marketList:Array<[String:Any]>?
+    var coinList:Array<[String:Any]>?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

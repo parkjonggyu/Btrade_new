@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import UIKit
 
 
 class VCQnaAdd: VCBase , UITextViewDelegate{
@@ -16,6 +17,7 @@ class VCQnaAdd: VCBase , UITextViewDelegate{
     @IBOutlet weak var backBtn: UIImageView!
     @IBOutlet weak var bodyText: UITextView!
     @IBOutlet weak var bodyTextSize: UILabel!
+    @IBOutlet weak var underline: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,6 +111,14 @@ class VCQnaAdd: VCBase , UITextViewDelegate{
             }
         }
         return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        underline.backgroundColor = UIColor(named: "CoinSortActive")
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        underline.backgroundColor = UIColor(named: "C707070")
     }
 }
 

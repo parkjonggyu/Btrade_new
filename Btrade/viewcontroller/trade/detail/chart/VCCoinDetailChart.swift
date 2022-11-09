@@ -19,20 +19,17 @@ class VCCoinDetailChart:VCBase,  WKNavigationDelegate{
         super.viewDidLoad()
         webView.uiDelegate = self
         webView.navigationDelegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        
         if let type = VCCoinDetail.coin?.coin_code, let market = VCCoinDetail.MARKETTYPE{
             page = BuildConfig.SERVER_URL + "m/trade/chart.do?coinType=" + type + "&marketType=" + market
         }
         
-        print("page : " + page!)
         let url = URL(string: page!)
         let request = URLRequest(url: url!)
         webView.configuration.preferences.javaScriptEnabled = true
         webView.load(request)
     }
+    
     
     func setCookie(_ url:URL) -> WKWebsiteDataStore{
         let wkDataStore = WKWebsiteDataStore.nonPersistent()

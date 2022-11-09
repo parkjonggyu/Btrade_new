@@ -73,15 +73,11 @@ class VCKyc: VCBase {
             }
             setAllTerms()
         }else if(sender.view == terms1Text || sender.view == terms1go){
-            terms1 = true
             let pushVC = self.storyboard?.instantiateViewController(withIdentifier: "kycagree1_1vc")
             self.navigationController?.pushViewController(pushVC!, animated: true)
-            setAllTerms()
         }else if(sender.view == terms2Text || sender.view == terms2go){
-            terms2 = true
             let pushVC = self.storyboard?.instantiateViewController(withIdentifier: "kycagree1_2vc")
             self.navigationController?.pushViewController(pushVC!, animated: true)
-            setAllTerms()
         }
     }
     
@@ -108,20 +104,16 @@ class VCKyc: VCBase {
             showErrorDialog("약관에 동의해 주세요!")
             return
         }
-        let pushVC = self.storyboard?.instantiateViewController(withIdentifier: "kyc1vc") as! VCKyc1
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "kyc1vc") as! VCKyc1
+
         
+//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "kyc4vc") as! VCKyc4
+
+//        vc.mKyc["krName"] = "박종규"
+//        vc.phoneNum = "01036614023"
+//        vc.birthday = "810526"
+//        vc.birthdayAll = "19810526"
         
-//        let pushVC = self.storyboard?.instantiateViewController(withIdentifier: "kyc4vc") as! VCKyc4
-//        var mKyc = Dictionary<String, Any>()
-//        mKyc["krName"] = "박종규"
-//        mKyc["phone_no"] = "01036614023"
-//        mKyc["yyyymmdd"] = "810526"
-//        mKyc["enFirstName"] = "PARK"
-//        mKyc["enLastName"] = "JONGGYU"
-//        pushVC.mKyc = mKyc
-        
-          
-//        pushVC.phoneNum = "01036614023"
-        self.navigationController?.pushViewController(pushVC, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -25,6 +25,7 @@ class VCKyc4_1: VCBase, AuthTimerInterface{
         }
         
         authEdit.delegate = self
+        authEdit.background = UIImage(named: "text_field_inactive.png")
         bankName.text = (mKyc["bankName"] as! String) + " " + (mKyc["accountNum"] as! String)
         initTimer()
     }
@@ -68,21 +69,32 @@ class VCKyc4_1: VCBase, AuthTimerInterface{
     override func onResult(response: BaseResponse) {
         if let _ = response.request as? KycAccountAuthRequest{
             let data = KycAccountAuthResponse(baseResponce: response)
-            guard let result = data.getResult_cd() else {
+            if let result = data.getResult_cd() {
+                if (result.lowercased() == "y"){
+                    let pushVC = self.storyboard?.instantiateViewController(withIdentifier: "kyccomvc") as? VCKycCom
+                    self.navigationController?.pushViewController(pushVC!, animated: true)
+                    return
+                }
+                
+                if let aml = data.getAml_state(){
+                    if aml.lowercased() == "j" || aml.lowercased() == "w" {
+                        if let msg = data.getResult_Msg() {
+                            showErrorDialog(msg){_ in
+                                self.stop()
+                            }
+                            return
+                        }
+                    }
+                }
+            }
+            
+            guard var msg = data.getResult_Msg() else {
                 self.showErrorDialog("인증에 실패했습니다. 다시 실행해 주세요")
                 return
             }
             
-            if (result == "y"){
-                let pushVC = self.storyboard?.instantiateViewController(withIdentifier: "kyccomvc") as? VCKycCom
-                self.navigationController?.pushViewController(pushVC!, animated: true)
-                return
-            }
-            
-            guard let msg = data.getResult_Msg() else {
-                self.showErrorDialog("인증에 실패했습니다. 다시 실행해 주세요")
-                return
-            }
+            msg = msg.replacingOccurrences(of: "<p>", with: "")
+            msg = msg.replacingOccurrences(of: "</p>", with: "")
             
             self.showErrorDialog(msg)
         }

@@ -14,6 +14,7 @@ target 'Btrade' do
   pod 'ImageSlideshow', '~> 1.9.0'
   pod "ImageSlideshow/Alamofire"
   pod "PagingKit" # add
+  pod "FSCalendar"
 
   target 'BtradeTests' do
     inherit! :search_paths

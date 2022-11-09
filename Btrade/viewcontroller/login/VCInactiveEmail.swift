@@ -40,6 +40,8 @@ class VCInactiveEmail: VCBase, AuthTimerInterface{
         }
         mEmailText.text = email
         mAuthText.delegate = self
+        mAuthText.background = UIImage(named: "text_field_inactive.png")
+        mAuthText.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
     
     override func onResult(response: BaseResponse) {
@@ -143,30 +145,28 @@ class VCInactiveEmail: VCBase, AuthTimerInterface{
             uiVC: self,
             title: "알림",
             message:"인증 시간이 자났습니다. 다시 시도하세요.",
-            UIAlertAction(title: "확인", style: .default) { (action) in
+            BtradeAlertAction(title: "확인", style: .default) { (action) in
                 self.prePage()
             })
     }
 }
 
 extension VCInactiveEmail: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if !AUTH {
-            errormsg.text = "인증요청을 진행해 주세요."
-            return false;
-        }
-        if let id = textField.restorationIdentifier{
-            if(id == "emailauth"){
-                if(authLengthCheck(input:(textField.text! + string))){
-                    errormsg.text = ""
-                }else{
-                    errormsg.text = "인증번호 6자리를 입력하세요."
-                }
-                if((textField.text! + string).count > 6 && string.count > 0){ return false }
+    @objc func textFieldDidChange(_ sender: UITextField?) {
+        if(sender == mAuthText){
+            let scale = 6
+            if mAuthText.text?.count ?? 0 > scale{
+                mAuthText.text = (mAuthText.text?.substring(from: 0, to: scale) ?? "")
+            }
+            
+            if(authLengthCheck(input:(mAuthText.text!))){
+                errormsg.text = ""
+            }else{
+                errormsg.text = "인증번호 6자리를 입력하세요."
             }
         }
-        return true
     }
+    
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if let _ = textField.restorationIdentifier{

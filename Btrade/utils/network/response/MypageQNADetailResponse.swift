@@ -10,9 +10,9 @@ import Foundation
 struct MypageQNADetailResponse{
     let baseResponce: BaseResponse
     
-    func getList() -> Array<Dictionary<String, Any>>?{
-        let index = "replyList"
-        if let code = baseResponce.data[index] as? Array<Dictionary<String, Any>>{
+    func getList() -> Array<[String: Any]>?{
+        let index = "conversationList"
+        if let code = baseResponce.data[index] as? Array<[String: Any]>{
             return code
         }
         return nil
@@ -25,4 +25,6 @@ struct MypageQNADetailResponse{
         }
         return nil
     }
+    
+    
 }

@@ -43,28 +43,37 @@ class Kyc2UploadRequest : BaseRequest{
         map["name"] = data?["krName"]
         map["requestId"] = data?["requestId"]
         if map["rnm_no_div"] as! String == "01"{//주민등록증
-            map["regno_verify"] = (data?["identity1"] as! String) + (data?["identity2"] as! String)
+            map["regno_verify"] = (data?["identity1"] as! String) + "-" + (data?["identity2"] as! String)
             map["issue_date"] = data?["issue_date"]
         }else{//운전면허증
-            map["regno_verify"] = data?["identity1"]
-            map["issue_date"] = data?["issue_date"]
+            map["regno_verify"] = (data?["identity1"] as? String ?? "") + "-" + (data?["identity2"] as? String ?? "")
+            if let s = data?["issue_date"] as? String{
+                map["issue_date"] = s
+                map["license_no"] = s.replacingOccurrences(of: "-", with: "")
+                let temp = s.components(separatedBy: "-")
+                if temp.count == 3{
+                    map["issue_date_yy"] = temp[0]
+                    map["issue_date_mm"] = temp[1]
+                    map["issue_date_dd"] = temp[2]
+                }
+            }
             map["drivecode"] = data?["drivecode"]
         }
         
         map["customer_div"] = "01"
         map["customer_tp_cd"] = "08"
-        map["customer_eng_nm"] = (data?["enFirstName"] as! String) + (data?["enLastName"] as! String).replacingOccurrences(of: " ", with: "")
+        map["customer_eng_nm"] = (data?["enFirstName"] as! String).replacingOccurrences(of: " ", with: "") + (data?["enLastName"] as! String).replacingOccurrences(of: " ", with: "")
         map["customer_sts_cd"] = "01"
         map["agent_yn"] = "N"
         map["agent_rela_div"] = "NA"
         map["reg_user_id"] = "NA"
         map["last_change_user_id"] = "NA"
-        map["rnm_no"] = (data?["identity1"] as! String) + (data?["identity2"] as! String)
+        map["rnm_no"] = (data?["identity1"] as? String ?? "") + (data?["identity2"] as? String ?? "")
         map["country_cd"] = "KR"
         map["virt_acct_use_yn"] = "N"
         let live_yn = "Y"
         map["live_yn"] = live_yn
-        let foreigner_div = "A"
+        let foreigner_div = "Y"
         map["foreigner_div"] = foreigner_div
         if(live_yn == "Y"){
             if(foreigner_div == "A"){

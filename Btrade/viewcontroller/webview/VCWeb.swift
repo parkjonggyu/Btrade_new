@@ -13,7 +13,10 @@ class VCWeb:VCBase,  WKNavigationDelegate, WKScriptMessageHandler{
     
     
     var page:String?
+    var titleString:String?
     weak var smsDelegate:WebResult?
+    @IBOutlet weak var backBtn: UIImageView!
+    @IBOutlet weak var titleText: UILabel!
     
     @IBOutlet weak var webView: WKWebView!
     
@@ -21,6 +24,18 @@ class VCWeb:VCBase,  WKNavigationDelegate, WKScriptMessageHandler{
         super.loadView()
         webView.uiDelegate = self
         webView.navigationDelegate = self
+        if let s = titleString{
+            titleText.text = s
+        }
+        
+        backBtn.isUserInteractionEnabled = true
+        backBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onClickEvent)))
+    }
+    
+    @objc func onClickEvent(sender:UITapGestureRecognizer){
+        if(sender.view == backBtn){
+            stop()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,12 +90,17 @@ class VCWeb:VCBase,  WKNavigationDelegate, WKScriptMessageHandler{
         return nil
     }
     
-    @IBAction func closeClicked(_ sender: Any) {
-        stop()
-    }
-    
     func stop(){
         self.presentingViewController?.dismiss(animated: true)
+    }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let url = navigationAction.request.url, url.scheme != "http" && url.scheme != "https"{
+            UIApplication.shared.open(url)
+            decisionHandler(.cancel)
+        }else{
+            decisionHandler(.allow)
+        }
     }
 }
 

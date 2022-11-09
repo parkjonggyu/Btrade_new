@@ -19,7 +19,7 @@ struct VersionCheckResponse{
     }
     
     func isNewVersion() -> Bool{
-        let map = baseResponce.data["result"] as? [String:String]
+        let map = baseResponce.data["result"] as? NSDictionary
         let version = map?["versionName"] as? String ?? "1.0.0"
         
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
@@ -28,7 +28,7 @@ struct VersionCheckResponse{
     }
     
     func isRequireUpdate() -> Bool{
-        let map = baseResponce.data["result"] as? [String:String]
+        let map = baseResponce.data["result"] as? NSDictionary
         let forceYn = map?["forceYn"] as? String ?? "N"
         if(forceYn == "Y"){
             return true
@@ -41,7 +41,7 @@ struct VersionCheckResponse{
     }
     
     func getFoceYn() -> String?{
-        let map = baseResponce.data["result"] as? [String:String]
+        let map = baseResponce.data["result"] as? NSDictionary
         return map?["forceYn"] as? String
     }
     

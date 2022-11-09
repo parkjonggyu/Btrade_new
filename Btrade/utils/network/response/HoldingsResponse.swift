@@ -21,4 +21,26 @@ struct HoldingsResponse{
         return nil
     }
     
+    
+    func getCoinList() -> String?{
+        let index = "service_coin_list"
+        if let code = baseResponce.data[index] as? String{
+            return code
+        }
+        if let c = baseResponce.data[index] as? Int64{
+            return String(c)
+        }
+        return nil
+    }
+    
+    func getMarketist() -> String?{
+        let index = "marketList"
+        if let code = baseResponce.data[index] as? String{
+            return code
+        }
+        if let c = baseResponce.data[index] as? Int64{
+            return String(c)
+        }
+        return nil
+    }
 }

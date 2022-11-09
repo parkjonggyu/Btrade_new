@@ -25,6 +25,10 @@ class VCInactiveChangePW: VCBase{
         
         mEditPW.delegate = self
         mEditPWCF.delegate = self
+        mEditPW.background = UIImage(named: "text_field_inactive.png")
+        mEditPWCF.background = UIImage(named: "text_field_inactive.png")
+        mEditPW.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        mEditPWCF.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
     
     @IBAction func clickedNext(_ sender: Any) {
@@ -101,25 +105,29 @@ class VCInactiveChangePW: VCBase{
 }
 
 extension VCInactiveChangePW: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let id = textField.restorationIdentifier{
-            if(id == "signuppw"){
-                if(passwordCheck(input:(textField.text! + string))){
-                    errormsg.text = ""
-                }else{
-                    errormsg.text = "패스워드 형식이 올바르지 않습니다.(영문, 숫자, 특수문자 조합)"
-                }
-                if((textField.text! + string).count > 15 && string.count > 0){ return false }
-            }else if(id == "signuppwcf"){
-                if(self.mEditPW.text! == (textField.text! + string)){
-                    errormsg.text = ""
-                }else{
-                    errormsg.text = "패스워드가 같지 않습니다."
-                }
-                if((textField.text! + string).count > 15 && string.count > 0){ return false }
+    @objc func textFieldDidChange(_ sender: UITextField?) {
+        if(sender == mEditPW){
+            let scale = 15
+            if mEditPW.text?.count ?? 0 > scale{
+                mEditPW.text = (mEditPW.text?.substring(from: 0, to: scale) ?? "")
+            }
+            if(passwordCheck(input:(mEditPW.text!))){
+                errormsg.text = ""
+            }else{
+                errormsg.text = "패스워드 형식이 올바르지 않습니다.(영문, 숫자, 특수문자 조합)"
             }
         }
-        return true
+        if(sender == mEditPWCF){
+            let scale = 15
+            if mEditPWCF.text?.count ?? 0 > scale{
+                mEditPWCF.text = (mEditPWCF.text?.substring(from: 0, to: scale) ?? "")
+            }
+            if(self.mEditPW.text! == mEditPWCF.text! ){
+                errormsg.text = ""
+            }else{
+                errormsg.text = "패스워드가 같지 않습니다."
+            }
+        }
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

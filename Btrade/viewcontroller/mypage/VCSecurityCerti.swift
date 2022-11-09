@@ -34,21 +34,22 @@ class VCSecurityCerti: VCBase {
     
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var stepText: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         optionLayout.layer.borderWidth = 2
-        optionLayout.layer.borderColor = UIColor.gray.cgColor
+        optionLayout.layer.borderColor = UIColor(named: "CCACACA")?.cgColor
         optionLayout.layer.cornerRadius = 10
         
         
-        loginBorder1.layer.borderWidth = 2
-        loginBorder1.layer.borderColor = UIColor.gray.cgColor
-        loginBorder2.layer.borderWidth = 2
-        loginBorder2.layer.borderColor = UIColor.gray.cgColor
-        loginBorder3.layer.borderWidth = 2
-        loginBorder3.layer.borderColor = UIColor.gray.cgColor
+        loginBorder1.layer.borderWidth = 1
+        loginBorder1.layer.borderColor = UIColor(named: "CCACACA")?.cgColor
+        loginBorder2.layer.borderWidth = 1
+        loginBorder2.layer.borderColor = UIColor(named: "CCACACA")?.cgColor
+        loginBorder3.layer.borderWidth = 1
+        loginBorder3.layer.borderColor = UIColor(named: "CCACACA")?.cgColor
         
         
         roundLayout.layer.cornerRadius = roundLayout.frame.height / 2
@@ -109,17 +110,21 @@ class VCSecurityCerti: VCBase {
             nickNameText.text = "회원"
         }
         
-        let level = CoinUtils.getlevel(appInfo.getMemberInfo()!);
+        let level = CoinUtils.getlevel(appInfo.getMemberInfo()!)
         if level == 1{
             stepImage.image = UIImage(named: "certi_icon_1.png")
             optionText1.text = "고객확인 인증을 완료하고"
             optionText2.text = "코인 거래와 입출금 이용"
             optionText3.text = "을 시작하세요."
+            optionText3.text = "를 이용할 수 있어요."
+            stepText.text = "1단계"
         }else if level == 2{
             stepImage.image = UIImage(named: "certi_icon_2.png")
             optionText1.text = "OPT 인증을 완료하면"
             optionText2.text = "출금 서비스"
             optionText3.text = "를 이용할 수 있어요."
+            optionText3.text = "를 이용할 수 있어요."
+            stepText.text = "2단계"
             tradeText.text = "가능"
             tradeText.textColor = hexStringToUIColor(hex: "#314A9B")
         }else{
@@ -127,6 +132,7 @@ class VCSecurityCerti: VCBase {
             optionText1.text = "고객확인 인증이 완료되어"
             optionText2.text = "모든 서비스"
             optionText3.text = "를 이용할 수 있어요."
+            stepText.text = "3단계"
             tradeText.text = "가능"
             depositText.text = "가능"
             tradeText.textColor = hexStringToUIColor(hex: "#314A9B")
@@ -137,7 +143,7 @@ class VCSecurityCerti: VCBase {
     @objc func clickedOption(sender:UITapGestureRecognizer){
         let level = CoinUtils.getlevel(appInfo.getMemberInfo()!);
         if level == 1{
-            goOTP()//goKYC()
+           goKYC()
         }else if level == 2{
             goOTP()
         }

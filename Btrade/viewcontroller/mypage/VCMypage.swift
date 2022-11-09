@@ -16,6 +16,7 @@ class VCMypage: VCBase {
     @IBOutlet weak var cornerView: UIImageView!
     
     @IBOutlet weak var myPageEvent: ImageSlideshow!
+    @IBOutlet weak var myPageEventHeight: NSLayoutConstraint!
     
     @IBOutlet weak var allStack: UIStackView!
     @IBOutlet weak var loginBtn: UILabel!
@@ -44,19 +45,22 @@ class VCMypage: VCBase {
     @IBOutlet weak var csMenu3Layout: UIStackView!
     @IBOutlet weak var csMenu2Layout: UIStackView!
     
-    @IBOutlet weak var certifyButton: UIButton!
-    @IBOutlet weak var myInfoBtn: UIButton!
-    let images = [
-        AlamofireSource.init(urlString: "https://www.btrade.co.kr/2.png", placeholder: UIImage(named: "eventtest.png"))!,
-        AlamofireSource.init(urlString: "https://www.btrade.co.kr/2.png", placeholder: UIImage(named: "eventtest.png"))!,
-    ]
+    
+    @IBOutlet weak var myInfoBtn: UIView!
+    @IBOutlet weak var certifyBtn: UIView!
+    
+    
+    @IBOutlet weak var tempText1: UILabel!
+    @IBOutlet weak var tempText2: UILabel!
+    @IBOutlet weak var tempText3: UILabel!
+    
+    
     
     var allList:Array<Notice> = Array<Notice>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("VCMypage - viewDidLoad")
-        myPageEvent.setImageInputs(images)
+        
         myPageEvent.slideshowInterval = 3
         myPageEvent.contentScaleMode = .scaleAspectFill
         myPageEvent.clipsToBounds = true
@@ -78,14 +82,20 @@ class VCMypage: VCBase {
         csMenu2Layout.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
         csMenu3Layout.isUserInteractionEnabled = true
         csMenu3Layout.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
-        certifyButton.isUserInteractionEnabled = true
-        certifyButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
+        certifyBtn.isUserInteractionEnabled = true
+        certifyBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
         myInfoBtn.isUserInteractionEnabled = true
         myInfoBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
         loginBtn.isUserInteractionEnabled = true
         loginBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
         signupBtn.isUserInteractionEnabled = true
         signupBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
+        tempText1.isUserInteractionEnabled = true
+        tempText1.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
+        tempText2.isUserInteractionEnabled = true
+        tempText2.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
+        tempText3.isUserInteractionEnabled = true
+        tempText3.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goToNotice)))
         
         
         
@@ -121,6 +131,7 @@ class VCMypage: VCBase {
             setMemberInfo(appInfo.getMemberInfo()!)
         }
         
+        EventLayout(self).start()
         
         ApiFactory(apiResult: self, request: NoticeSampleRequest()).newThread()
     }
@@ -198,7 +209,7 @@ class VCMypage: VCBase {
         }else if(sender.view == csMenu2Layout){
             guard let url = URL(string: "https://pf.kakao.com/_ixhFxhC/chat") else {return}
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }else if(sender.view == certifyButton){
+        }else if(sender.view == certifyBtn){
             guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "securitycertivc") as? VCSecurityCerti else {
                 return
             }
@@ -227,6 +238,15 @@ class VCMypage: VCBase {
             
             mainvc.modalPresentationStyle = .fullScreen
             self.present(mainvc, animated: true);
+        }else if(sender.view == tempText1){
+            guard let url = URL(string: "https://m.btrade.co.kr/m/account/termOfuse.do?type=1") else {return}
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }else if(sender.view == tempText2){
+            guard let url = URL(string: "https://m.btrade.co.kr/m/account/termOfuse.do?type=2") else {return}
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }else if(sender.view == tempText3){
+            guard let url = URL(string: "https://m.btrade.co.kr/m/account/termOfuse.do?type=3") else {return}
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     
@@ -295,7 +315,7 @@ class VCMypage: VCBase {
                 self.usernameTextView.text = "회원"
             }
             
-            if let id = memberInfo.id{
+            if let id = memberInfo.mb_id{
                 self.emailTextView.text = id
             }else{
                 self.emailTextView.text = ""

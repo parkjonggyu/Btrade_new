@@ -17,6 +17,7 @@ class VCQna: VCBase , SpinnerSelectorInterface, UITextViewDelegate{
     @IBOutlet weak var titleText: UITextField!
     @IBOutlet weak var categorySelectorText: UITextField!
     @IBOutlet weak var bodyTextSize: UILabel!
+    @IBOutlet weak var underline: UILabel!
     
     var bq_category:String = ""
     
@@ -29,6 +30,10 @@ class VCQna: VCBase , SpinnerSelectorInterface, UITextViewDelegate{
         categorySelectorText.delegate = self
         bodyText.delegate = self
         titleText.delegate = self
+        categorySelectorText.background = UIImage(named: "text_field_inactive.png")
+        titleText.background = UIImage(named: "text_field_inactive.png")
+        
+        
     }
     
     @objc func stop1(sender:UITapGestureRecognizer){
@@ -122,6 +127,14 @@ class VCQna: VCBase , SpinnerSelectorInterface, UITextViewDelegate{
             }
         }
         return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        underline.backgroundColor = UIColor(named: "CoinSortActive")
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        underline.backgroundColor = UIColor(named: "C707070")
     }
 }
 

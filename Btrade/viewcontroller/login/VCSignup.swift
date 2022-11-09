@@ -20,6 +20,12 @@ class VCSignup: VCBase {
         mEditId.delegate = self
         mEditPw.delegate = self
         mEditPwCf.delegate = self
+        mEditId.background = UIImage(named: "text_field_inactive.png")
+        mEditPw.background = UIImage(named: "text_field_inactive.png")
+        mEditPwCf.background = UIImage(named: "text_field_inactive.png")
+        mEditId.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        mEditPw.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        mEditPwCf.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
     
     @IBAction func backClicked(_ sender: Any) {
@@ -27,9 +33,19 @@ class VCSignup: VCBase {
     }
     
     func errorCheck() -> Bool{
-        if !emailCheck(input:mEditId.text!) { return false }
-        if !passwordCheck(input:mEditPw.text!) { return false }
-        if mEditPw.text! != mEditPwCf.text! { return false }
+        if !emailCheck(input:mEditId.text!) {
+            errormsg.text = "아이디(이메일) 형식이 올바르지 않습니다."
+            return false
+        }
+        if !passwordCheck(input:mEditPw.text!) {
+            errormsg.text = "패스워드 형식이 올바르지 않습니다.(영문, 숫자, 특수문자 조합)"
+            return false
+        }
+        if mEditPw.text! != mEditPwCf.text! {
+            errormsg.text = "패스워드가 같지 않습니다."
+            return false
+        }
+        errormsg.text = ""
         return true
     }
     
@@ -56,7 +72,7 @@ class VCSignup: VCBase {
                         uiVC: self,
                         title: "알림",
                         message:"이미 가입된 이메일입니다.",
-                        UIAlertAction(title: "확인", style: .default) { (action) in
+                        BtradeAlertAction(title: "확인", style: .default) { (action) in
                             self.prePage()
                         })
                     return
@@ -100,33 +116,42 @@ class VCSignup: VCBase {
 
 
 extension VCSignup: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let id = textField.restorationIdentifier{
-            if(id == "signupid"){
-                if(emailCheck(input:(textField.text! + string))){
-                    errormsg.text = ""
-                }else{
-                    errormsg.text = "아이디(이메일) 형식이 올바르지 않습니다."
-                }
-                if((textField.text! + string).count > 40 && string.count > 0){ return false }
-            }else if(id == "signuppw"){
-                if(passwordCheck(input:(textField.text! + string))){
-                    errormsg.text = ""
-                }else{
-                    errormsg.text = "패스워드 형식이 올바르지 않습니다.(영문, 숫자, 특수문자 조합)"
-                }
-                if((textField.text! + string).count > 15 && string.count > 0){ return false }
-            }else if(id == "signuppwcf"){
-                if(self.mEditPw.text! == (textField.text! + string)){
-                    errormsg.text = ""
-                }else{
-                    errormsg.text = "패스워드가 같지 않습니다."
-                }
-                if((textField.text! + string).count > 15 && string.count > 0){ return false }
+    @objc func textFieldDidChange(_ sender: UITextField?) {
+        if(sender == mEditId){
+            let scale = 40
+            if mEditId.text?.count ?? 0 > scale{
+                mEditId.text = (mEditId.text?.substring(from: 0, to: scale) ?? "")
+            }
+            if(emailCheck(input:(mEditId.text!))){
+                errormsg.text = ""
+            }else{
+                errormsg.text = "아이디(이메일) 형식이 올바르지 않습니다."
             }
         }
-        return true
+        if(sender == mEditPw){
+            let scale = 15
+            if mEditPw.text?.count ?? 0 > scale{
+                mEditPw.text = (mEditPw.text?.substring(from: 0, to: scale) ?? "")
+            }
+            if(passwordCheck(input:(mEditPw.text!))){
+                errormsg.text = ""
+            }else{
+                errormsg.text = "패스워드 형식이 올바르지 않습니다.(영문, 숫자, 특수문자 조합)"
+            }
+        }
+        if(sender == mEditPwCf){
+            let scale = 15
+            if mEditPwCf.text?.count ?? 0 > scale{
+                mEditPwCf.text = (mEditPwCf.text?.substring(from: 0, to: scale) ?? "")
+            }
+            if(self.mEditPw.text! == mEditPwCf.text! ){
+                errormsg.text = ""
+            }else{
+                errormsg.text = "패스워드가 같지 않습니다."
+            }
+        }
     }
+    
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if let _ = textField.restorationIdentifier{

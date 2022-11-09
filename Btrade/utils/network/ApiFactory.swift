@@ -117,6 +117,7 @@ class ApiFactory{
             result.onResult(response: BaseResponse(dictionary: data, request: request));
         }
         vcLoadingEnd()
+        print(request.getURL())
     }
     
     func success(_ data : NSArray){
