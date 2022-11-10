@@ -13,20 +13,12 @@ import WebKit
 class VCQnaDetail: VCBase {
     var vcQnaHistory:VCQnaHistory?
     var qna:QnaItem?
-    var list:Array<[String:Any]>?
-    @IBOutlet weak var bqContentText: WKWebView!
-    @IBOutlet weak var dateText: UILabel!
-    @IBOutlet weak var titleText: UILabel!
-    @IBOutlet weak var cateText: UILabel!
+    var mArray:Array<DetailItem> = Array<DetailItem>()
+    var firstQuestion:[String:Any]?
+    var conversation:[String:Any]?
+    @IBOutlet weak var mList: UITableView!
     @IBOutlet weak var backBtn: UIImageView!
     
-    
-    
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var replyLayout: UIView!
-    @IBOutlet weak var qnaAddText: UILabel!
-    @IBOutlet weak var answerDate: UILabel!
-    @IBOutlet weak var answerContents: WKWebView!
     
     
     override func viewDidLoad() {
@@ -34,16 +26,20 @@ class VCQnaDetail: VCBase {
         
         backBtn.isUserInteractionEnabled = true
         backBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.stop1)))
-        qnaAddText.isUserInteractionEnabled = true
-        qnaAddText.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.goQnaAdd)))
      
+        mList.dataSource = self
+        mList.delegate = self
+        mList.separatorInset.left = 0
+        mList.separatorStyle = .none
         
-        if(qna?.bq_confirm ?? "N" == "Y"){
-            replyLayout.isHidden = true
-        }
         
+        initData()
         setData()
         getData()
+    }
+    
+    fileprivate func initData(){
+        mArray.append(DetailItem(cate: toString(qna?.bq_category ?? ""), date: toString(qna?.reg_date ?? ""), comfirm: toString(qna?.bq_confirm ?? ""), title: toString(qna?.bq_title ?? ""), idx: toString(qna?.bq_idx ?? "")))
     }
     
     fileprivate func getData(){
@@ -58,8 +54,19 @@ class VCQnaDetail: VCBase {
     override func onResult(response: BaseResponse) {
         if let _ = response.request as? MypageQNADetailRequest{
             let data = MypageQNADetailResponse(baseResponce: response)
+            if let first = data.getFirstQuestion(){
+                firstQuestion = first
+            }
+            if let c = data.getConversation(){
+                conversation = c
+            }
+            
+            
             if let list = data.getList(){
-                self.list = list
+                for item in list{
+                    let d = DetailItem(cate: toString(item["type"] ?? ""), date: toString(item["reg_date"] ?? ""), comfirm: toString(item["file_path"] ?? ""), title: toString(item["content"] ?? ""), idx: toString(item["bq_idx"] ?? ""))
+                    mArray.append(d)
+                }
                 setData()
             }
         }
@@ -67,48 +74,7 @@ class VCQnaDetail: VCBase {
     
     fileprivate func setData(){
         DispatchQueue.main.async {
-            if let cate = self.qna?.bq_category{
-                if(cate == "CA01"){self.cateText.text = "[보이스피싱 등 사고 접수 관련]"}
-                else if(cate == "CA02"){self.cateText.text = "[회원가입/탈퇴/로그인 등 계정 관련]"}
-                else if(cate == "CA03"){self.cateText.text = "[입출금 및 거래 관련]"}
-                else if(cate == "CA04"){self.cateText.text = "[레벨 및 정보 변경 관련]"}
-                else if(cate == "CA05"){self.cateText.text = "[홈페이지 관련 문의]"}
-                else if(cate == "CA06"){self.cateText.text = "[기타 문의]"}
-                else {self.cateText.text = ""}
-            }
-            if let title = self.qna?.bq_title{
-                self.titleText.text = title
-            }else{
-                self.titleText.text = ""
-            }
-            if let date = self.qna?.reg_date{
-                self.dateText.text = date
-            }else{
-                self.dateText.text = ""
-            }
-                        
-            if self.list != nil && self.list!.count > 0{
-                if let reply = self.list?[0]{
-                    if var html = reply["content"] as? String{
-                        self.replyLayout.isHidden = false
-                        html = html.replacingOccurrences(of: " 14px", with: " 2.5rem")
-                        html = html.replacingOccurrences(of: " 11pt", with: " 2.5rem")
-                        html = html.replacingOccurrences(of: " 13.333px", with: " 2.5rem")
-                        html = html.replacingOccurrences(of: "line-height:", with: "")
-                        html = html.trimmingCharacters(in: .whitespaces)
-                        html = "<div style=\"font-size: 2.5rem;\">" + html + "</div>"
-                        self.answerContents.loadHTMLString(html, baseURL: nil)
-                        self.answerContents.navigationDelegate = self;
-                    }
-                    
-                    if let date = reply["reg_date"] as? String{
-                        self.answerDate.text = date
-                    }
-                }else{
-                    self.replyLayout.isHidden = true
-                }
-                
-            }
+            self.mList.reloadData()
         }
     }
     
@@ -131,63 +97,152 @@ class VCQnaDetail: VCBase {
             return
         }
     }
-}
-
-extension VCQnaDetail: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        webView.evaluateJavaScript("document.readyState", completionHandler: { (complete, error) in
-            if complete != nil {
-                webView.evaluateJavaScript("document.body.scrollHeight", completionHandler: { (height, error) in
-                    guard let _ = height else {
-                        
-                        return;
-                    }
-                    if self.bqContentText == webView {
-                        let size = (height as! CGFloat) * 0.4
-                        self.bqContentText.translatesAutoresizingMaskIntoConstraints = true
-                        var frame:CGRect = self.bqContentText.frame
-                        frame.size.height = size
-                        frame.size.width = self.bqContentText.frame.size.width - 20
-                        self.bqContentText.frame = frame
-                        self.scrollView.updateContentSize()
-                        return;
-                    }
-                    
-                    if self.answerContents == webView {
-                        let size = (height as! CGFloat) * 0.4
-                        self.answerContents.translatesAutoresizingMaskIntoConstraints = true
-                        var frame:CGRect = self.answerContents.frame
-                        frame.size.height = size
-                        frame.size.width = self.answerContents.frame.size.width - 20
-                        self.answerContents.frame = frame
-                        self.scrollView.updateContentSize()
-                        return;
-                    }
-                    
-                })
-            }
-        })
+    
+    fileprivate func toString(_ data:Any) -> String{
+        if let a = data as? String{
+            return a
+        }
+        if let a = data as? Int64{
+            return String(a)
+        }
+        return ""
     }
 }
 
-extension UIScrollView {
-    func updateContentSize() {
-        let unionCalculatedTotalRect = recursiveUnionInDepthFor(view: self)
-        
-        // 계산된 크기로 컨텐츠 사이즈 설정
-        self.contentSize = CGSize(width: self.frame.width, height: unionCalculatedTotalRect.height/2)
+struct DetailItem{
+    let cate:String?
+    let date:String?
+    let comfirm:String?
+    let title:String?
+    let idx:String?
+}
+
+class QnaDetailCell: UITableViewCell{
+    
+    @IBOutlet weak var layout0: UIStackView!
+    @IBOutlet weak var cateText: UILabel!
+    @IBOutlet weak var bqContentText: UILabel!
+    @IBOutlet weak var dateText: UILabel!
+    @IBOutlet weak var titleText: UILabel!
+    
+    //답변
+    @IBOutlet weak var layout1: UIStackView!
+    @IBOutlet weak var qnaAddText: UILabel!
+    @IBOutlet weak var answerDate: UILabel!
+    @IBOutlet weak var answerContents: UILabel!
+    
+    
+    //추가문의
+    @IBOutlet weak var layout2: UIStackView!
+    @IBOutlet weak var addquestionDate: UILabel!
+    @IBOutlet weak var addquestionText: UILabel!
+    
+    
+    //추가 답변
+    @IBOutlet weak var layout3: UIStackView!
+    @IBOutlet weak var addanswerDate: UILabel!
+    @IBOutlet weak var addanswerText: UILabel!
+    @IBOutlet weak var qnaAddText2: UILabel!
+}
+
+extension VCQnaDetail: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return mArray.count
     }
     
-    private func recursiveUnionInDepthFor(view: UIView) -> CGRect {
-        var totalRect: CGRect = .zero
-        
-        // 모든 자식 View의 컨트롤의 크기를 재귀적으로 호출하며 최종 영역의 크기를 설정
-        for subView in view.subviews {
-            totalRect = totalRect.union(recursiveUnionInDepthFor(view: subView))
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "QnaDetailCell", for: indexPath) as? QnaDetailCell else {
+            return UITableViewCell()
         }
+        cell.selectionStyle = .none
         
-        // 최종 계산 영역의 크기를 반환
-        return totalRect.union(view.frame)
+        if let item = mArray[indexPath.row] as? DetailItem{
+            cell.layout0.isHidden = true
+            cell.layout1.isHidden = true
+            cell.layout2.isHidden = true
+            cell.layout3.isHidden = true
+            if(indexPath.row == 0){
+                cell.layout0.isHidden = false
+                if let cate = item.cate{
+                    if(cate == "CA01"){cell.cateText.text = "[보이스피싱 등 사고 접수 관련]"}
+                    else if(cate == "CA02"){cell.cateText.text = "[회원가입/탈퇴/로그인 등 계정 관련]"}
+                    else if(cate == "CA03"){cell.cateText.text = "[입출금 및 거래 관련]"}
+                    else if(cate == "CA04"){cell.cateText.text = "[레벨 및 정보 변경 관련]"}
+                    else if(cate == "CA05"){cell.cateText.text = "[홈페이지 관련 문의]"}
+                    else if(cate == "CA06"){cell.cateText.text = "[기타 문의]"}
+                    else {cell.cateText.text = ""}
+                }
+                
+                if let date = self.conversation?["reg_date"] as? String{
+                    cell.dateText.text = date
+                }else{
+                    cell.dateText.text = ""
+                }
+                if let title = item.title{
+                    cell.titleText.text = title
+                }else{
+                    cell.titleText.text = ""
+                }
+                
+                if let html = self.firstQuestion?["content"] as? String{
+                    cell.bqContentText.text = html
+                    cell.bqContentText.layoutIfNeeded()
+                }
+                
+                if(item.comfirm == "R"){
+                    if let date = self.conversation?["mod_date"] as? String{
+                        cell.layout1.isHidden = false
+                        cell.answerDate.text = date
+                        cell.answerContents.text = "개인정보 기입으로 반려 처리 되었습니다."
+                        cell.answerContents.layoutIfNeeded()
+                    }else{
+                        cell.answerDate.text = ""
+                    }
+                    
+                }
+            }
+            
+            
+            if(indexPath.row == 1 && item.cate == "answer"){
+                cell.layout1.isHidden = false
+                if let date = item.date{
+                    cell.answerDate.text = date
+                }else{
+                    cell.answerDate.text = ""
+                }
+                if let content = item.title{
+                    cell.answerContents.text = content
+                }else{
+                    cell.answerContents.text = ""
+                }
+            }else if(indexPath.row > 0){
+                if(item.cate == "answer"){
+                    cell.layout3.isHidden = false
+                    if let date = item.date{
+                        cell.addanswerDate.text = date
+                    }else{
+                        cell.addanswerDate.text = ""
+                    }
+                    if let content = item.title{
+                        cell.addanswerText.text = content
+                    }else{
+                        cell.addanswerText.text = ""
+                    }
+                }else{
+                    cell.layout2.isHidden = false
+                    if let date = item.date{
+                        cell.addquestionDate.text = date
+                    }else{
+                        cell.addquestionDate.text = ""
+                    }
+                    if let content = item.title{
+                        cell.addquestionText.text = content
+                    }else{
+                        cell.addquestionText.text = ""
+                    }
+                }
+            }
+        }
+        return cell
     }
 }
-

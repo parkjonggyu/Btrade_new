@@ -26,5 +26,21 @@ struct MypageQNADetailResponse{
         return nil
     }
     
+    func getFirstQuestion() -> [String: Any]?{
+        let index = "firstQuestion"
+        if let code = baseResponce.data[index] as? [String: Any]{
+            return code
+        }
+        return nil
+    }
+    
+    func getConversation() -> [String: Any]?{
+        let index = "conversation"
+        if let code = baseResponce.data[index] as? [String: Any]{
+            return code
+        }
+        return nil
+    }
+    
     
 }
